@@ -5,6 +5,7 @@ import type { IconType } from 'react-icons/lib';
 import { BsMailbox, BsPerson, BsChatSquareText } from 'react-icons/bs';
 import { RiHome3Line } from 'react-icons/ri';
 import { HiOutlineLightBulb } from 'react-icons/hi';
+import React from 'react';
 
 export const Navbar: React.FC = () => {
     const menu_links: { text:string; href:string; icon:IconType }[] = [
