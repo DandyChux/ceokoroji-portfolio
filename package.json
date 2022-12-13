@@ -9,7 +9,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "next": "13.0.2",
+    "next-mdx-remote": "^4.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.18.0"
