@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Logo from '@public/logo.png'
+import Logo from '@public/Logo.png'
 import { NavItem } from './NavItem';
 import type { IconType } from 'react-icons/lib';
 import { BsMailbox, BsPerson, BsChatSquareText } from 'react-icons/bs';
