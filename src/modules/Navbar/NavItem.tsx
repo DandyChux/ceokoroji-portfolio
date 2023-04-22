@@ -1,6 +1,8 @@
+"use client"
+
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import type { IconType } from 'react-icons/lib';
 import { IconContext } from 'react-icons';
 
@@ -13,6 +15,7 @@ export interface INavItem {
 export const NavItem: React.FC<INavItem> = ({ text, href, icon }) => {
     const [isShown, setIsShown] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
     const Icon = icon;
 
     const handleClick = (e: any) => {
@@ -28,7 +31,7 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon }) => {
                         {text}
                     </div>
                 )}
-                <Icon size="3rem" onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`hover:opacity-0 hover:ease-in duration-1500 ${router.pathname === href ? 'text-red-300' : 'text-red-550 hover:text-white'}`} />
+                <Icon size="3rem" onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-red-300' : 'text-red-550 hover:text-white'}`} />
             </Link>
         </IconContext.Provider>
     );

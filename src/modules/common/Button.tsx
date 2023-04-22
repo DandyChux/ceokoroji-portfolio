@@ -1,21 +1,21 @@
 import React from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     border: string;
     color: string;
-    children?: React.ReactNode;
+    children: React.ReactNode;
     height: string;
     width: string;
     onClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({border, color, children, onClick, height, width}: ButtonProps) => {
+const Button: React.FC<ButtonProps> = ({border, color, children, onClick, height, width}) => {
     return (
         <button onClick={onClick} style={{ 
             backgroundColor: color, 
             border: border,
             height: height,
-            width: width
+            width: width,
         }}>
             {children}
         </button>
