@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Logo from '@public/logo.png'
+import Logo from '@public/Logo.png'
 import { NavItem } from './NavItem';
 import type { IconType } from 'react-icons/lib';
 import { BsMailbox, BsPerson, BsChatSquareText } from 'react-icons/bs';
@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
         <nav className="h-full md:h-screen md:w-32 flex flex-col justify-center bg-gray-800 relative">
             <div className="absolute top-0 mt-2.5 w-20 h-20 self-center cursor-pointer" onClick={() => router.push('/')}> 
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`${Logo}`} alt="My logo" />
+                <Image src={`${Logo}`} alt="My logo" fill />
             </div>
             <div className="flex flex-col justify-center">
                 {menu_links.map((link) => (
