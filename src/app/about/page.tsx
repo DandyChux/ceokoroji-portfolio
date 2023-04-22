@@ -12,7 +12,7 @@ const About: NextPage = () => {
                 About Me
             </h1>
             <div className="flex justify-center">
-                <Image src={`${Headshot}`} alt="My headshot" className="float-left" width={350} height={250} />
+                <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} />
                 <article className="text-center p-4 float-right w-1/3">
                     <p>
                         Hi there my name is Chukwuma Okoroji, or Chuck for short. I was born to Nigerian immigrants in Yonkers, NY, but was primarily raised in Tallahassee, FL. I currently reside in Tampa, FL where I attend the preeiment University of South Florida in pursuit of a Bachelors in Information Sciences.
