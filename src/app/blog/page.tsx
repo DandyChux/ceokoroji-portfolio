@@ -2,6 +2,7 @@ import React from 'react'
 import { prisma } from '@server/db'
 
 export default async function Blog() {
+    
     const posts = await prisma.post.findMany();
 
     return (
