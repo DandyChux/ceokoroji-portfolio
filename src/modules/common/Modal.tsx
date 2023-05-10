@@ -9,9 +9,9 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> & {
-    Header: React.FC;
-    Body: React.FC;
-    Footer: React.FC;
+    Header: React.FC<PropsWithChildren>;
+    Body: React.FC<PropsWithChildren>;
+    Footer: React.FC<PropsWithChildren>;
 } = ({ isOpen, onClose, children }) => {
 
     const modalRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,7 @@ const ModalBody: React.FC<PropsWithChildren> = ({ children }) => (
 )
 
 const ModalFooter: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='flex justify-end space-x-4'>{children}</div>
+    <div className='flex border-t pt-3 mt-3 justify-end space-x-4'>{children}</div>
 )
 
 Modal.Header = ModalHeader;
