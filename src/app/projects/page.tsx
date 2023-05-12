@@ -1,5 +1,5 @@
 import { type NextPage } from 'next'
-import ProjectCard from '@modules/Projects/ProjectCard'
+import ProjectCard from '@components/Projects/ProjectCard'
 import React from 'react'
 
 interface Project {

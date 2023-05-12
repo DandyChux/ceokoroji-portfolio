@@ -4,7 +4,7 @@ import clsx from 'clsx';
 type buttonVariant = 'regular' | 'outline' | 'ghost' | 'link';
 type buttonSize = 'sm' | 'md' | 'lg';
 
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: buttonVariant;
     size?: buttonSize;
     children: React.ReactNode;

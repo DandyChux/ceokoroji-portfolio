@@ -1,9 +1,10 @@
 "use client"
 
 import React, { useState } from 'react'
-import Modal from '@modules/common/Modal'
-import Button from '@modules/common/Button'
+import Modal from '@components/common/Modal'
+import Button from '@components/common/Button'
 import Link from 'next/link'
+import ContactForm from '@components/Forms/ContactForm'
 
 export default function Home() {
 
@@ -25,12 +26,10 @@ export default function Home() {
 
             <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                 <Modal.Header>
-                    <h2>Contact Form</h2>
+                    <h2>Leave a message</h2>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
-
-                    </form>
+                    <ContactForm />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button size={'lg'} variant={'outline'} onClick={() => setShowModal(false)}>

@@ -54,11 +54,15 @@ const ModalHeader: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 const ModalBody: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='mb-4'>{children}</div>
+    <div className='mb-4'>
+        {children}
+    </div>
 )
 
 const ModalFooter: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='flex border-t pt-3 mt-3 justify-end space-x-4'>{children}</div>
+    <div className='flex border-t pt-3 mt-3 justify-end space-x-4'>
+        {children}
+    </div>
 )
 
 Modal.Header = ModalHeader;

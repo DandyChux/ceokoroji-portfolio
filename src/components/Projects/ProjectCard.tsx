@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Image from 'next/image';
+import React from 'react';
+// import Image from 'next/image';
 
 interface ProjectCardProps {
     name: string;
@@ -8,7 +8,8 @@ interface ProjectCardProps {
     deployment: string;
 }
 
-const ProjectCard = ({ name, description, documentation, deployment }: ProjectCardProps) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ name, description, documentation, deployment }) => {
+
     return (
         <section className="flex flex-col justify-center p-6 duration-500 border-2 border-gray-900 rounded-lg shadow-xl motion-safe:hover:scale-105">
             <h2 className="text-lg text-red-550">{name}</h2>
