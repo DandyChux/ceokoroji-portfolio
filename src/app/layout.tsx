@@ -19,7 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                                 <div className='flex-auto'>
                                     <Navbar />  
                                 </div>
-                                <div className=' flex flex-col w-full p-4 justify-center items-center overflow-y-auto'>
+                                <div className=' flex flex-col w-full p-4 justify-center items-center overflow-y-auto md:h-screen'>
                                     {children} 
                                     <Alert /> 
                                 </div>
