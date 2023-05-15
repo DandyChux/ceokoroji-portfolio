@@ -12,19 +12,20 @@ const About: NextPage = () => {
                 About Me
             </h1>
             <div className="flex justify-center">
-                <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} />
+                {/* <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} /> */}
                 <article className="text-center p-4 float-right w-1/3">
-                    <p>
-                        Hi there my name is Chukwuma Okoroji, or Chuck for short. I was born to Nigerian immigrants in Yonkers, NY, but was primarily raised in Tallahassee, FL. I currently reside in Tampa, FL where I attend the preeiment University of South Florida in pursuit of a Bachelors in Information Sciences.
+                    <p className='my-4 text-gray-700 text-base font-medium'>
+                        Currently, I work as a Financial Systems Developer at Jabil, where I support the financial systems used by the company&apos;s global finance team. I recently completed my B.S. in Information Science from the University of South Florida.
                     </p>
-                    <p>
-                        From a young age, I was always drawn to technology, often messing around with whatever computer was in the house.I was a very enthusiastic member of the robotics club through my years of elementary as well. As a teenager, I built on that interest through computer science courses taught at my high school.
+
+                    <hr />
+
+                    <p className='my-4 text-gray-700 text-base font-medium'>
+                        Inspiration for my career path came from my natural curiosity and desire to learn. I was always interested in how technology worked and how I could use it to solve problems. I fell in love with the idea of being able to create something from nothing.
                     </p>
-                    <p>
-                        Professionally speaking, I am proficient with a variety of tools and languages. Just like every other engineer, I love my Javascript and over the past year have expanded that to Typescript. I have used frameworks such as Angular, React, and Next.js to build responsive or functional web applications.
-                    </p>
-                    <p>
-                        Though I have far left to go, I am proud of my progress thus far, so please take a look at <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" download="CEOkoroji Resume" className="underline" target="_blank">my resume here</Link> and <Link href="https://www.linkedin.com/in/chukwuma-okoroji-a3a6931bb/" className="underline" target="_blank">my LinkedIn here</Link>.
+
+                    <p className='my-4 text-gray-700 text-base font-medium'>
+                        Blending a vibrant personality and an unwavering work ethic, I craft efficient digital solutions. As a full-stack developer, I strive each day to deliver cutting-edge, user-friendly applications that enhance and experience of users and empower businesses to achieve their goals. I&apos;m driven to work on projects that aim to make a real impact on the lives of their users.
                     </p>
                 </article>
             </div>

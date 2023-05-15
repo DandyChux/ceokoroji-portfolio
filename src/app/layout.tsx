@@ -1,7 +1,7 @@
 "use client"
 
 import React, { type PropsWithChildren, Suspense } from 'react'
-import { Navbar } from '@components/Navbar/Navbar'
+import { Navbar } from '@components/Sidebar/Sidebar'
 import { ViewportProvider } from '@utils/hooks/useViewport'
 import { AlertProvider } from '@utils/contexts/AlertContext'
 import Alert from '@components/Alert'
@@ -19,7 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                                 <div className='flex-auto'>
                                     <Navbar />  
                                 </div>
-                                <div className=' flex flex-col w-full p-4 justify-center items-center'>
+                                <div className=' flex flex-col w-full p-4 justify-center items-center overflow-y-auto'>
                                     {children} 
                                     <Alert /> 
                                 </div>

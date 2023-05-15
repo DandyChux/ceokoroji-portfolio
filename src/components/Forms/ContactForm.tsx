@@ -17,7 +17,11 @@ const schema: ZodType<ContactFormInputs> = z.object({
     message: z.string().max(250, { message: 'Message must be less than 250 characters' })
 })
 
-const ContactForm: React.FC = () => {
+type ContactFormProps = {
+    onSuccess: () => void;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<ContactFormInputs>({
         resolver: zodResolver(schema)
     });
@@ -42,6 +46,7 @@ const ContactForm: React.FC = () => {
         if(res.ok) {
 
             setAlert(prev => ({ ...prev, show: true, message: 'Message sent successfully', type: 'success' }))
+            onSuccess();
 
         } else {
 
@@ -84,7 +89,6 @@ const ContactForm: React.FC = () => {
                 
                 <Button>Submit</Button>
             </form>
-            {/* { alert.show && <Alert /> } */}
         </>
     )
 }
