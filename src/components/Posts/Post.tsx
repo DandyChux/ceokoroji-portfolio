@@ -1,6 +1,6 @@
 import React from 'react'
 import { type Post } from '@prisma/client'
-import { prisma } from '@server/db'
+import { prisma } from '@utils/prisma'
 
 const BlogPost: React.FC<Post> = () => {
 

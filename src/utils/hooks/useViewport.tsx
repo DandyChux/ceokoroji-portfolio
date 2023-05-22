@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, createContext, useContext, type PropsWithChildren } from 'react'
 
 interface IViewportContext {

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { prisma } from "@server/db";
+import { prisma } from "@utils/prisma";
 import { type Post } from "@prisma/client"
 
 export async function GET(req: NextRequest) {

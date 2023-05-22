@@ -1,19 +1,22 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import type { IconType } from 'react-icons/lib';
 import { IconContext } from 'react-icons';
+import { useViewport } from '@utils/hooks/useViewport';
 
 export interface INavItem {
     text: string;
     href: string;
     icon: IconType;
+    setSidebarOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const NavItem: React.FC<INavItem> = ({ text, href, icon }) => {
+export const NavItem: React.FC<INavItem> = ({ text, href, icon, setSidebarOpen }) => {
     const [isShown, setIsShown] = useState(false);
+    const { width } = useViewport();
     const router = useRouter();
     const pathname = usePathname();
     const Icon = icon;
@@ -21,6 +24,7 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon }) => {
     const handleClick = (e: any) => {
         e.preventDefault();
         router.push(href);
+        setSidebarOpen?.(false);
     };
 
     return (
@@ -31,7 +35,9 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon }) => {
                         {text}
                     </div>
                 )}
-                <Icon onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`w-10 h-10 md:w-12 md:h-12 hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-red-300' : 'text-red-550 hover:text-white'}`} />
+                {width > 640 && (
+                    <Icon onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`w-10 h-10 md:w-12 md:h-12 hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-red-300' : 'text-red-550 hover:text-white'}`} />
+                )}
             </Link>
         </IconContext.Provider>
     );

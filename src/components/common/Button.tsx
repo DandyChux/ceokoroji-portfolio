@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import clsx from 'clsx';
+import Loading from './Loading';
 
 type buttonVariant = 'regular' | 'outline' | 'ghost' | 'link';
 type buttonSize = 'sm' | 'md' | 'lg';
@@ -8,6 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: buttonVariant;
     size?: buttonSize;
     children: React.ReactNode;
+    loading?: boolean;
 }
 
 const sizeClasses = {
@@ -23,19 +25,30 @@ const variantClasses = {
     link: 'text-gray-900 hover:underline disabled:no-underline',
 }
 
-const Button: React.FC<ButtonProps> = ({ size='md', variant='regular', children, className, ...props }) => {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, size='md', variant='regular', children, loading, ...props }, ref) => {
+
     return (
-        <button className={clsx(
-            'h-fit w-fit rounded-lg text-xs font-medium transition-all m-2',
-            'disabled:cursor-not-allowed disabled:opacity-50',
-            className,
-            sizeClasses[size],
-            variantClasses[variant],
-        )}
+        <button 
+            ref={ref}
+            className={clsx(
+                'flex justify-center h-fit w-fit rounded-lg text-xs font-medium transition-all m-2',
+                'disabled:cursor-not-allowed disabled:opacity-50',
+                className,
+                sizeClasses[size],
+                variantClasses[variant],
+            )}
         {...props}>
-            {children}
+            {loading && <Loading />}
+            <span className={clsx('transition', {
+                'opacity-0': loading,
+                'opacity-100': !loading,
+            })}>
+                {children}
+            </span>
         </button>
     )
-}
+})
+
+Button.displayName = 'Button';
 
 export default Button;

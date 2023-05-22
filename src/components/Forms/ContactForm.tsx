@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import { z, type ZodType } from 'zod'
 import { useForm } from 'react-hook-form'
 import Button from '@components/common/Button'
@@ -22,6 +23,7 @@ type ContactFormProps = {
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
+    const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<ContactFormInputs>({
         resolver: zodResolver(schema)
     });
@@ -31,7 +33,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     const messageField = watch('message', '');
 
     const submitData = async (data: ContactFormInputs) => {
-        setAlert({ show: true, message: 'Sending message...', type: 'info' })
+        setIsLoading(true);
         const { signal, abort } = new AbortController();
 
         const res = await fetch('/api/contact', {
@@ -45,7 +47,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
 
         if(res.ok) {
 
-            setAlert(prev => ({ ...prev, show: true, message: 'Message sent successfully', type: 'success' }))
+            setAlert(prev => ({ ...prev, show: true, message: 'Message sent successfully', type: 'success' }));
             onSuccess();
 
         } else {
@@ -53,6 +55,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             setAlert(prev => ({ ...prev, show: true, message: 'Something went wrong', type: 'error' }))
 
         }
+
+        setIsLoading(false);
 
         return () => {
 
@@ -87,7 +91,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
                     {errors.message && <span className='text-red-500'>{errors.message.message}</span>}
                 </div>
                 
-                <Button>Submit</Button>
+                <Button loading={isLoading}>Submit</Button>
             </form>
         </>
     )

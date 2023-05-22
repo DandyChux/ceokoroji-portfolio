@@ -49,7 +49,7 @@ const Modal: React.FC<ModalProps> & {
 
 const ModalHeader: React.FC<PropsWithChildren> = ({ children }) => (
     <div className='border-b pb-3 mb-3'>
-        <h2 className='text-2xl font-semibold'>{children}</h2>
+        <h2 className='text-3xl font-semibold'>{children}</h2>
     </div>
 );
 

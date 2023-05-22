@@ -3,17 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "contentlayer build && next build",
     "dev": "next dev",
+    "turbo": "next dev --turbo",
     "lint": "next lint",
     "start": "next start",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@hookform/resolvers": "^3.1.0",
     "@prisma/client": "^4.14.0",
     "@sendgrid/mail": "^7.7.0",
     "clsx": "^1.2.1",
+    "contentlayer": "^0.3.2",
     "framer-motion": "^8.0.2",
     "gray-matter": "^4.0.3",
     "next": "^13.3.1",
@@ -21,6 +24,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
+    "rehype-autolink-headings": "^6.1.1",
+    "rehype-pretty-code": "^0.9.5",
+    "rehype-slug": "^5.1.0",
+    "remark-gfm": "^3.0.1",
+    "shiki": "^0.14.2",
     "zod": "^3.18.0"
   },
   "devDependencies": {

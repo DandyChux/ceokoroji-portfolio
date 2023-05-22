@@ -1,5 +1,10 @@
 import React from 'react'
-import { prisma } from '@server/db'
+import { prisma } from '@utils/prisma'
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Blog',
+}
 
 export default async function Blog() {
     
@@ -7,7 +12,7 @@ export default async function Blog() {
 
     return (
         <>
-            <h1 className='text-2xl md:text-[5rem] leading-normal font-extrabold text-gray-900'>
+            <h1 className='text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold text-gray-900'>
                 Blog
             </h1>
             <ul>

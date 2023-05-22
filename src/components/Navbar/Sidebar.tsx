@@ -9,7 +9,9 @@ import { FiMenu } from 'react-icons/fi'
 import { RiHome3Line } from 'react-icons/ri';
 import { HiOutlineLightBulb } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
-import MobileSidebar from './MobileSidebar';
+import { useViewport } from '@utils/hooks/useViewport';
+import useAppContext from '@utils/hooks/useAppContext';
+import Link from 'next/link';
 
 type MenuLink = {
     text: string;
@@ -17,13 +19,14 @@ type MenuLink = {
     icon: IconType;
 }
 
-export const Navbar: React.FC = () => {
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+export const Sidebar: React.FC = () => {
+    const { isSidebarOpen, toggleSidebar } = useAppContext();
+    const { width } = useViewport();
     const router = useRouter();
 
     const menu_links: MenuLink[] = [
-        { text: "About", href: "/", icon: RiHome3Line },
-        { text: "About Me", href: "/about", icon: BsPerson },
+        { text: "Home", href: "/", icon: RiHome3Line },
+        { text: "About", href: "/about", icon: BsPerson },
         { text: "Projects", href: "/projects", icon: HiOutlineLightBulb },
         { text: "Blog", href: "/blog", icon: BsChatSquareText }
     ];
@@ -36,35 +39,27 @@ export const Navbar: React.FC = () => {
 
     return (
         <>
-            <nav className="hidden md:flex flex-col fixed top-0 left-0 h-full md:h-screen md:w-32 justify-center bg-gray-800">
-                <div className="absolute top-0 mt-2.5 w-20 h-20 self-center cursor-pointer" onClick={() => router.push('/')}> 
+            <div className="hidden flex-auto md:flex flex-col h-full fixed top-0 left-0 md:h-screen md:w-[8rem] justify-center bg-gray-800 z-50">
+                <div className="hidden md:block absolute top-0 mt-2.5 w-20 h-20 self-center cursor-pointer" onClick={() => router.push('/')}> 
                     <Image src={Logo} alt="My logo" fill />
                 </div>
 
-                <menu className="flex flex-col justify-center">
+                <nav className="flex flex-col justify-center">
                     {menu_links.map((link) => (
                         <div key={link.text} className="w-full flex justify-center">
                             <NavItem {...link} />
                         </div>
                     ))}
-                </menu>
+                </nav>
 
-                <menu className='flex flex-col absolute bottom-8 self-center justify-center'>
+                <nav className='flex flex-col absolute bottom-8 self-center justify-center'>
                     {social_links.map((link) => (
                         <div key={link.text} className="w-full flex justify-center">
                             <NavItem {...link} />
                         </div>
                     ))}
-                </menu>
-            </nav>
-
-            <div className='relative mx-4 w-auto'>
-                <button onClick={() => setIsMobileSidebarOpen(true)} className="md:hidden fixed top-0 left-0 mt-2.5 ml-2.5 z-50">
-                    <FiMenu size={30} color="#1f2937" />
-                </button>
+                </nav>
             </div>
-
-            <MobileSidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
         </>
     )
 }

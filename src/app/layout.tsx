@@ -1,11 +1,26 @@
-"use client"
-
 import React, { type PropsWithChildren, Suspense } from 'react'
-import { Navbar } from '@components/Sidebar/Sidebar'
+import { Sidebar } from '@components/Navbar/Sidebar'
 import { ViewportProvider } from '@utils/hooks/useViewport'
 import { AlertProvider } from '@utils/contexts/AlertContext'
+import { AppProvider } from '@utils/contexts/AppContext'
 import Alert from '@components/Alert'
+import Header from '@components/Navbar/Header'
+import type { Metadata } from 'next'
 import "@styles/globals.css"
+
+export const metadata: Metadata = {
+    title: {
+        default: 'Chukwuma Okoroji',
+        template: '%s | Chukwuma Okoroji'
+    },
+    viewport: {
+        width: 'device-width',
+        initialScale: 1
+    },
+    description: 'Chukwuma Okoroji is a software developer based in Tampa, FL. He specializes in building web applications with JavaScript and Python.',
+    keywords: ['Next.js', 'Tailwind', 'React', 'TypeScript', 'JavaScript'],
+    icons: { icon: '/public/Logo.png' }
+}
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 
@@ -13,19 +28,20 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <html>
             <body>
                 <Suspense fallback={<div className='flex flex-col h-screen items-center justify-center mx-auto my-0'>Loading...</div>}>
-                    <ViewportProvider>
-                        <AlertProvider>
-                            <main className='flex relative'>
-                                <div className='flex-auto'>
-                                    <Navbar />  
-                                </div>
-                                <div className=' flex flex-col w-full p-4 justify-center items-center overflow-y-auto md:h-screen'>
-                                    {children} 
-                                    <Alert /> 
-                                </div>
-                            </main>
-                        </AlertProvider>
-                    </ViewportProvider>
+                    <AppProvider>
+                        <ViewportProvider>
+                            <AlertProvider>
+                                <main className='flex flex-col md:flex-nowrap relative h-screen'>
+                                    <Header />
+                                    <Sidebar />  
+                                    <div className='relative flex flex-wrap z-10 md:w-[calc(100vw-8rem)] md:left-[8rem] p-4 items-center justify-center  md:overflow-y-auto md:h-screen'>
+                                        {children}
+                                        <Alert /> 
+                                    </div>
+                                </main>
+                            </AlertProvider>
+                        </ViewportProvider>
+                    </AppProvider>
                 </Suspense>
             </body>
         </html>

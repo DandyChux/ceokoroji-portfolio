@@ -1,3 +1,5 @@
+'use client'
+
 import React, { type SetStateAction, createContext, useState, type PropsWithChildren } from 'react'
 
 export type AlertType = {
