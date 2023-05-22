@@ -1,6 +1,8 @@
 import React from 'react'
 import { prisma } from '@utils/prisma'
+import { allPosts } from 'contentlayer/generated'
 import type { Metadata } from 'next';
+import BlogPost from '@components/Posts/Post';
 
 export const metadata: Metadata = {
     title: 'Blog',
@@ -8,7 +10,8 @@ export const metadata: Metadata = {
 
 export default async function Blog() {
     
-    const posts = await prisma.post.findMany();
+    // const posts = await prisma.post.findMany();
+    const posts = allPosts
 
     return (
         <>
@@ -16,8 +19,15 @@ export default async function Blog() {
                 Blog
             </h1>
             <ul>
-                {posts.map((post) => (
-                    <li key={post.id}>{post.title}</li>
+                {posts.map((post, index) => (
+                    <BlogPost 
+                        key={index} 
+                        title={post.title} 
+                        date={post.date} 
+                        tags={post.tags} 
+                        url={post.url} 
+                        description={post.description} 
+                    />
                 ))}
             </ul>
         </>

@@ -22,6 +22,7 @@ export type Post = {
   body: MDX
   slug: string
   slugAsParams: string
+  url: string
 }  
 
 /** Nested types */
