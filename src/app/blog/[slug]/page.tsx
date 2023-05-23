@@ -46,14 +46,11 @@ const Page = async ({ params }: PageProps) => {
 
     return (
         <>
-            <article>
+            <Link href={'/blog'} className='mr-auto self-start' passHref>
+                <Button size='lg' variant={'ghost'}>Go back</Button>
+            </Link>
+            <article className='w-full text-center'>
                 {/* Link to go back */}
-                <div>
-                    {/* <Button size='md' variant={'link'} onClick={() => router.back}>Go back</Button> */}
-                    <Link href={'/blog'}>
-                        Go back
-                    </Link>
-                </div>
 
                 {/* Display markdown content */}
                 <div>
