@@ -8,7 +8,7 @@
 import { withContentlayer } from "next-contentlayer";
 
 /** @type {import("next").NextConfig} */
-const config = withContentlayer({
+export default withContentlayer({
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
@@ -16,4 +16,3 @@ const config = withContentlayer({
     serverActions: true,
   }
 });
-export default config;

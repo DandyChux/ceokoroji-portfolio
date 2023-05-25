@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { BsArrowLeft } from 'react-icons/bs';
 import { format, parseISO } from 'date-fns'
 import { Mdx } from '@components/Posts/Mdx';
+import { getMDXComponent } from 'next-contentlayer/hooks';
 
 interface PageProps {
     params: {
@@ -57,7 +58,7 @@ const Page = async ({ params }: PageProps) => {
                 {/* Display markdown content */}
                 <div className='mb-8 text-center'>
                     <h1 className='font-bold text-2xl'>{title}</h1>
-                    <time dateTime={post.date} className='font-medium'>{format(parseISO(post.date), 'LLLL d, yyyy')}</time>
+                    <time dateTime={date} className='font-medium'>{format(parseISO(date), 'LLLL d, yyyy')}</time>
                 </div>
 
                 <div>

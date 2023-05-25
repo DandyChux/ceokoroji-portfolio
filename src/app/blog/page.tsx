@@ -1,5 +1,5 @@
 import React from 'react'
-import { prisma } from '@utils/prisma'
+// import { prisma } from '@utils/prisma'
 import { allPosts } from 'contentlayer/generated'
 import type { Metadata } from 'next';
 import BlogCard from '@components/Posts/Post';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function Blog() {
     
     // const posts = await prisma.post.findMany();
-    const posts = allPosts
+    const posts = allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return (
         <>
