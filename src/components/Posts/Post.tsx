@@ -5,12 +5,13 @@ import Link from 'next/link'
 import Pill from '@components/common/Pill'
 import type { Post } from 'contentlayer/generated'
 // import Image from 'next/image'
+import { format, parseISO } from 'date-fns'
 
 const BlogCard: React.FC<Partial<Post>> = ({ title, date, tags, url, description }) => {
 
     
     return (
-        <div className='mx-auto my-4 p-4 border-b-2 rounded-lg motion-safe:hover:scale-105 motion-safe:hover:bg-gray-100 duration-500'>
+        <div className='mx-auto my-4 p-4 border-b-2 max-w-[31.25rem] rounded-lg motion-safe:hover:scale-105 motion-safe:hover:bg-gray-100 duration-500'>
             <div className='group relative mb-4'>
                 <h3 className='mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-red-550'>
                     <Link href={url!}>
@@ -21,8 +22,8 @@ const BlogCard: React.FC<Partial<Post>> = ({ title, date, tags, url, description
                 <p className='mt-5 line-clamp-3 text-sm leading-6 text-gray-600'>{description}</p>
             </div>
             <div className='flex flex-col items-center gap-x-4 text-xs md:text-sm'>
-                <time dateTime={date}>
-                    {date}
+                <time dateTime={date} className='font-medium mb-2'>
+                    {format(parseISO(date!), 'LLLL d, yyyy')}
                 </time>
                 <div className='flex'>
                     {tags?.map((tag, index) => (

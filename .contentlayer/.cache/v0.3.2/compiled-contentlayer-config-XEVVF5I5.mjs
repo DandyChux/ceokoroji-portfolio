@@ -18,7 +18,8 @@ var Post = defineDocumentType(() => ({
       required: true
     },
     description: {
-      type: "string"
+      type: "string",
+      required: true
     },
     published: {
       type: "boolean",
@@ -86,4 +87,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-KI2Z4W7A.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-XEVVF5I5.mjs.map

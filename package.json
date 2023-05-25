@@ -17,6 +17,7 @@
     "@sendgrid/mail": "^7.7.0",
     "clsx": "^1.2.1",
     "contentlayer": "^0.3.2",
+    "date-fns": "^2.30.0",
     "framer-motion": "^8.0.2",
     "gray-matter": "^4.0.3",
     "next": "^13.3.1",

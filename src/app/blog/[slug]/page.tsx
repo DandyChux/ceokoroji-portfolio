@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import Button from '@components/common/Button';
 import Link from 'next/link'
 import { BsArrowLeft } from 'react-icons/bs';
+import { format, parseISO } from 'date-fns'
+import { Mdx } from '@components/Posts/Mdx';
 
 interface PageProps {
     params: {
@@ -52,15 +54,15 @@ const Page = async ({ params }: PageProps) => {
                 </Button>
             </Link>
             <article className='w-full py-8 px-4 mx-auto self-start'>
-                {/* Link to go back */}
-
                 {/* Display markdown content */}
                 <div className='mb-8 text-center'>
-                    <h1>{title}</h1>
-                    <time dateTime={post.date}>{post.date}</time>
+                    <h1 className='font-bold text-2xl'>{title}</h1>
+                    <time dateTime={post.date} className='font-medium'>{format(parseISO(post.date), 'LLLL d, yyyy')}</time>
                 </div>
 
-                {JSON.stringify(post.body.raw)}
+                <div>
+                    <Mdx code={post.body.code} />
+                </div>
             </article>
         </>
     )
