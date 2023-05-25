@@ -29,7 +29,7 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon, setSidebarOpen }
 
     return (
         <IconContext.Provider value={{ style: {padding: '10px'} }}>
-            <Link href={href} target={'_blank'} key={text} onClick={handleClick} className="cursor-pointer relative w-full flex justify-center" passHref>
+            <Link href={href} target='_blank' key={text} onClick={handleClick} className="cursor-pointer relative w-full flex justify-center" passHref>
                 {isShown && (
                     <div className="absolute text-red-550">
                         {text}

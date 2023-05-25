@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Button from '@components/common/Button';
 import Link from 'next/link'
+import { BsArrowLeft } from 'react-icons/bs';
 
 interface PageProps {
     params: {
@@ -25,9 +26,7 @@ export const generateStaticParams = () => {
     }))
 }
 
-export const generateMetadata = (props: PageProps): Metadata => {
-    const { params } = props;
-
+export const generateMetadata = ({ params }: PageProps): Metadata => {
     const post = allPosts.find((post) => post.slugAsParams === params.slug)
 
     if (!post) notFound()
@@ -47,13 +46,16 @@ const Page = async ({ params }: PageProps) => {
     return (
         <>
             <Link href={'/blog'} className='mr-auto self-start' passHref>
-                <Button size='lg' variant={'ghost'}>Go back</Button>
+                <Button size='lg' variant={'ghost'}>
+                    <BsArrowLeft size={25} />
+                    Go back
+                </Button>
             </Link>
-            <article className='w-full text-center'>
+            <article className='w-full py-8 px-4 mx-auto self-start'>
                 {/* Link to go back */}
 
                 {/* Display markdown content */}
-                <div>
+                <div className='mb-8 text-center'>
                     <h1>{title}</h1>
                     <time dateTime={post.date}>{post.date}</time>
                 </div>

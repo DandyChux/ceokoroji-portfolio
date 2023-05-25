@@ -5,14 +5,15 @@
  * This is especially useful for Docker builds.
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
+import { withContentlayer } from "next-contentlayer";
 
 /** @type {import("next").NextConfig} */
-const config = {
+const config = withContentlayer({
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
     appDir: true,
     serverActions: true,
   }
-};
+});
 export default config;

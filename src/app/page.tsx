@@ -19,8 +19,9 @@ export default function Home() {
             <p className='w-2/3 mb-4 md:m-0 md:w-full md:px-32 text-center text-xl md:text-[1.2rem] leading-normal font-medium text-gray-700'>
                 Got an idea? Let&apos;s bring it to life together! I&apos;ve got the full-stack expertise to transform your concept into a highly functional digital solution.
 
-                With a toolkit comprising languages like Python, C#, and Typescript(Javascript), and experience with frameworks like Angular and ASP.NET, I&apos;m your one stop shop for all things web development.
+                With a toolkit comprising languages like Python, C#, and Typescript(Javascript), and experience with frameworks like Angular, Next.js, and ASP.NET, I&apos;m your one stop shop for all things web development.
             </p>
+            
             <div className="flex">
                 <Button size={'lg'} variant={'regular'} onClick={() => setShowModal(true)}>
                     Contact Me

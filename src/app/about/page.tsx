@@ -95,6 +95,7 @@ const About: NextPage = () => {
             <h1 className="text-3xl md:text-[5rem] leading-normal text-center font-extrabold text-gray-900 mb-8">
                 About Me
             </h1>
+            
             <div className="flex justify-center mb-4">
                 {/* <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} /> */}
                 <article className="text-center p-4 md:float-right md:w-1/3">

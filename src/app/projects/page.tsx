@@ -79,6 +79,7 @@ const Projects: NextPage = () => {
             <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-extrabold text-gray-900'>
                 My Projects
             </h1>
+            
             <div className='grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3'>
                 {portfolioProjects.map((project, index) => (
                     <ProjectCard 

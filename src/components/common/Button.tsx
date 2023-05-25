@@ -37,14 +37,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, size='md
                 sizeClasses[size],
                 variantClasses[variant],
             )}
-        {...props}>
-            {loading && <Loading />}
-            <span className={clsx('transition', {
-                'opacity-0': loading,
-                'opacity-100': !loading,
-            })}>
-                {children}
-            </span>
+            {...props}>
+                {loading && <Loading />}
+                <span className={clsx('transition', {
+                    'opacity-0': loading,
+                    'opacity-100': !loading,
+                })}>
+                    {children}
+                </span>
         </button>
     )
 })

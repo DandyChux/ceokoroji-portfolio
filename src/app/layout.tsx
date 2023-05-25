@@ -7,6 +7,7 @@ import Alert from '@components/Alert'
 import Header from '@components/Navbar/Header'
 import type { Metadata } from 'next'
 import "@styles/globals.css"
+import Logo from '@public/Logo.png'
 
 export const metadata: Metadata = {
     title: {
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     },
     description: 'Chukwuma Okoroji is a software developer based in Tampa, FL. He specializes in building web applications with JavaScript and Python.',
     keywords: ['Next.js', 'Tailwind', 'React', 'TypeScript', 'JavaScript'],
-    icons: { icon: '/public/Logo.png' }
+    icons: { icon: Logo.src }
 }
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
