@@ -17,6 +17,12 @@ const Projects: NextPage = () => {
             skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Prisma', 'PostgreSQL'],
         },
         {
+            name: "Todo List API",
+            description: "A REST API for a todo list app. Built with Nest.js + MongoDB. Users can create an account, create todo lists, and add items to their lists. I built this project to learn more about Nest.js and MongoDB. I also wanted to deploy a Nest.js app to a Docker container.",
+            documentation: 'https://github.com/Dandychux/todo-list-api',
+            skills: ['Nest.js', 'MongoDB', 'TypeScript', 'Docker']
+        },
+        {
             name: 'Silvi',
             description: 'Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.',
             documentation: 'https://github.com/SilviProtocol/silvi-core',
