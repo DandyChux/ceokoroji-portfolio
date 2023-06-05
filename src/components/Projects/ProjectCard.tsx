@@ -2,12 +2,17 @@ import React from 'react';
 import Pill from '@components/common/Pill';
 import type { Project } from '@utils/types/project';
 import Link from 'next/link';
-// import Image from 'next/image';
+import Image from 'next/image';
 
-const ProjectCard: React.FC<Project> = ({ name, description, documentation, deployment, skills }) => {
+const ProjectCard: React.FC<Project> = ({ image, name, description, documentation, deployment, skills }) => {
 
     return (
-        <section className="flex flex-col justify-center p-6 duration-500 border-2 border-gray-900 rounded-lg shadow-xl motion-safe:hover:scale-105">
+        <section className="flex flex-col text-center justify-center p-6 duration-500 border-2 border-gray-900 rounded-lg shadow-xl motion-safe:hover:scale-105">
+            {image ? (
+                <div className='relative w-full h-48 mb-4'>
+                    <Image src={image} alt={name} fill className='object-cover' />
+                </div>
+            ) : null}
             <h2 className="text-lg text-red-550">{name}</h2>
             <p className="text-sm text-gray-600">{description}</p>
             <Link

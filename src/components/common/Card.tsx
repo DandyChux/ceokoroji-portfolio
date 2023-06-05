@@ -1,6 +1,6 @@
 "use client"
 
-import React, { type PropsWithChildren, useEffect, useRef, forwardRef } from 'react'
+import React, { useRef } from 'react'
 import clsx from 'clsx'
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> & {
 
     return (
         <div ref={cardRef} className={clsx(
-            'bg-white p-6 rounded-lg shadow-md w-full max-w-lg flex flex-col',
+            'bg-white p-6 rounded-lg shadow-md w-full max-w-lg flex flex-col duration-500 motion-safe:hover:scale-105',
             className
         )}>
             {children}
@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> & {
 
 const CardImg: React.FC<CardProps> = ({ children, className }) => (
     <div className={clsx(
-        'flex flex-grow justify-center mb-4 relative w-full',
+        'flex justify-center mb-4 relative w-full max-h-[50%]',
         className
     )}>
         {children}
@@ -37,7 +37,7 @@ const CardImg: React.FC<CardProps> = ({ children, className }) => (
 
 const CardTitle: React.FC<CardProps> = ({ children, className }) => (
     <div className={clsx(
-        'text-center text-lg font-semibold mb-4 w-full',
+        'text-center text-lg text-red-650 font-semibold mb-4 w-full',
         className
     )}>
         {children}
