@@ -15,7 +15,7 @@ const Alert: React.FC = () => {
         if (alert.show) {
             const timer = setTimeout(() => {
                 setAlert(prev => ({ ...prev, show: false }))
-            }, 5000); // the alert will disappear after 5 seconds
+            }, 2500); // the alert will disappear after 2.5 seconds
 
             return () => clearTimeout(timer);
         }

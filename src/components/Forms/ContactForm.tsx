@@ -69,25 +69,25 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         <>
             <form className='flex flex-col' onSubmit={handleSubmit(submitData)}>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="name" className='capitalize'>Name</label>
+                    <label htmlFor="name" className='mb-2 font-medium'>Name</label>
                     <input type="text" id="name" {...register('name', {
                         required: true,
                     })} />
                     {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
                 </div>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email" className='mb-2 font-medium'>Email</label>
                     <input type="email" id="email" {...register('email', {
                         required: true,
                     })} />
                     {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
                 </div>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="message">Message</label>
-                    <textarea id="message" {...register('message', {
+                    <label htmlFor="message" className='mb-2 font-medium'>Message</label>
+                    <textarea id="message" rows={5} {...register('message', {
                         required: true,
                     })} />
-                    <small>{messageField.length}/250</small>
+                    <small className='font-medium mt-2'>{messageField.length}/250</small>
                     {errors.message && <span className='text-red-500'>{errors.message.message}</span>}
                 </div>
                 
