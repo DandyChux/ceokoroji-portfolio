@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Tab } from "@utils/types/tabs"
 import Tabs from "@components/common/Tabs"
+import Button from "@components/common/Button"
 
 export const metadata: Metadata = {
     title: 'About'
@@ -96,7 +97,7 @@ const About: NextPage = () => {
                 About Me
             </h1>
             
-            <div className="flex justify-center mb-4">
+            <div className="flex flex-col items-center justify-center mb-4">
                 {/* <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} /> */}
                 <article className="text-center p-4 md:float-right md:w-1/3">
                     <p className='my-4 text-gray-700 text-base font-medium'>
@@ -113,6 +114,12 @@ const About: NextPage = () => {
                         Blending a vibrant personality and an unwavering work ethic, I craft efficient digital solutions. As a full-stack developer, I strive each day to deliver cutting-edge, user-friendly applications that enhance and experience of users and empower businesses to achieve their goals. I&apos;m driven to work on projects that aim to make a real impact on the lives of their users.
                     </p>
                 </article>
+
+                <div className='flex'>
+                    <Button variant={'outline'} size='lg'>
+                        <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" target='_blank'>View My Resume</Link>
+                    </Button>
+                </div>
             </div>
 
             <div className='flex flex-col md:w-1/2'>

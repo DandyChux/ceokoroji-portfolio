@@ -109,7 +109,7 @@ export default function Home() {
                     Contact Me
                 </Button>
                 <Button size="lg" variant={'regular'}>
-                    <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" target='_blank'>View My Resume</Link>
+                    <Link href='/about'>Learn More</Link>
                 </Button>
             </div>
 
@@ -125,7 +125,7 @@ export default function Home() {
                     ))}
                 </div>
 
-                <Button size={'lg'} variant={'link'} className='self-end'>
+                <Button size={'lg'} variant={'link'} className='self-end hover:text-red-550'>
                     <Link href='/projects'>See All Projects {'->'}</Link>
                 </Button>
             </section>
