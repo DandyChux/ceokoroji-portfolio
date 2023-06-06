@@ -42,7 +42,7 @@ export default function Home() {
             <h1 className="text-3xl mb-2 w-full text-center md:m-0 md:text-[5rem] leading-normal font-extrabold text-gray-900">
                 Chukwuma Okoroji
             </h1>
-            <h2 className='text-xl mb-2 w-full text-center md:m-0 md:text-[2rem] leading-normal font-semibold text-gray-800'>Your Friendly Neighborhood Software Developer</h2>
+            <h2 className='text-xl text-red-650 mb-2 w-full text-center md:m-0 md:text-[2rem] leading-normal font-semibold'>Your Friendly Neighborhood Software Developer</h2>
             <p className='w-2/3 mb-4 md:m-0 md:w-full md:px-32 text-center text-xl md:text-[1.2rem] leading-normal font-medium text-gray-700'>
                 Got an idea? Let&apos;s bring it to life together! I&apos;ve got the full-stack expertise to transform your concept into a highly functional digital solution.
 
@@ -53,7 +53,7 @@ export default function Home() {
 
             {/* Services Section */}
             <section className='my-4 flex flex-col w-full'>
-                <h1 className='text-3xl mb-2 text-center md:m-0 md:text-[3rem] leading-normal font-semibold text-gray-900'>What I Do</h1>
+                <h1 className='text-3xl mb-2 text-center md:m-0 md:text-[3rem] leading-normal font-semibold text-gray-900'>My Specialities</h1>
 
                 <div className='grid gap-3 pt-3 mt-3 justify-items-center md:grid-cols-3'>
                     <Card>

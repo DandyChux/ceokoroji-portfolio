@@ -14,35 +14,38 @@ const Modal: React.FC<ModalProps> & {
     Footer: React.FC<PropsWithChildren>;
 } = ({ isOpen, onClose, children }) => {
 
-    const modalRef = useRef<HTMLDivElement>(null);
+    const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-                onClose();
-            }
-        };
+        const dialog = modalRef.current;
 
-        if (isOpen) {
-            document.addEventListener('mousedown', handleOutsideClick);
-        } else {
-            document.removeEventListener('mousedown', handleOutsideClick);
+        if (dialog) {
+            dialog.addEventListener('cancel', onClose);
         }
 
-        
         return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
+            if (dialog) {
+                dialog.removeEventListener('cancel', onClose);
+            }
         }
-    }, [isOpen, onClose]);
+    }, [onClose])
+
+    useEffect(() => {
+        
+        if (isOpen) {
+            modalRef.current?.showModal();
+        } else {
+            modalRef.current?.close();
+        }
+
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed z-50 inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
-            <div ref={modalRef} className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
-                {children}
-            </div>
-        </div>
+        <dialog ref={modalRef} className='bg-white p-6 rounded-lg shadow-md w-full max-w-lg'>
+            {children}
+        </dialog>
     )
 
 }
