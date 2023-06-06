@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { BsArrowLeft } from 'react-icons/bs';
 import { format, parseISO } from 'date-fns'
 import { Mdx } from '@components/Posts/Mdx';
-import { getMDXComponent } from 'next-contentlayer/hooks';
 
 interface PageProps {
     params: {
