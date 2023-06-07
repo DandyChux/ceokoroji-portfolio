@@ -7,8 +7,7 @@ import Link from 'next/link'
 import ContactForm from '@components/Forms/ContactForm'
 import Card from '@components/common/Card'
 import ProjectCard from '@components/Projects/ProjectCard'
-import type { Project } from '@utils/types/project'
-
+import type { Project } from '@typings/project'
 
 export default function Home() {
 

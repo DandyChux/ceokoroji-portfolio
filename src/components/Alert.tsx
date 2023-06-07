@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import useAlert from '@utils/hooks/useAlert'
+import useAlert from '@hooks/useAlert'
 
 const Alert: React.FC = () => {
     const { alert, setAlert } = useAlert();

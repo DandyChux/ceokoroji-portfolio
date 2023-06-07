@@ -1,9 +1,9 @@
 import type { Metadata, NextPage } from "next"
 import React from 'react'
-import Headshot from '@public/headshot.jpeg'
+import Headshot from '@public/ceokoroji_headshot.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Tab } from "@utils/types/tabs"
+import type { Tab } from "@typings/tabs"
 import Tabs from "@components/common/Tabs"
 import Button from "@components/common/Button"
 
@@ -98,10 +98,10 @@ const About: NextPage = () => {
             </h1>
             
             <div className="flex flex-col items-center justify-center mb-4">
-                {/* <Image src={Headshot} alt="My headshot" className="float-left" width={350} height={250} /> */}
+                <Image src={Headshot} alt="My headshot" width={350} height={250} />
                 <article className="text-center p-4 md:float-right md:w-1/3">
                     <p className='my-4 text-gray-700 text-base font-medium'>
-                        Currently, I work as a Financial Systems Developer at Jabil, where I support the financial systems used by the company&apos;s global finance team. I recently completed my B.S. in Information Science from the University of South Florida.
+                        I recently graduated from the University of South Florida with a B.S. in Information Science. I am currently working as a Financial Systems Developer at Jabil, where I support the financial systems used by the company&apos;s global finance team. I am also a freelance web developer, where I work with clients to build websites and web applications. I am passionate about using technology to solve problems and make a positive impact on the lives of others.
                     </p>
 
                     <hr />

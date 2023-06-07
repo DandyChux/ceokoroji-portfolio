@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import useAppContext from '@utils/hooks/useAppContext'
+import useAppContext from '@hooks/useAppContext'
 import Logo from '@public/Logo.png'
 import Image from 'next/image'
 import { BsChatSquareText, BsGithub, BsInstagram, BsLinkedin, BsPerson } from 'react-icons/bs'
@@ -9,6 +9,7 @@ import { HiOutlineLightBulb } from 'react-icons/hi'
 import { RiHome3Line } from 'react-icons/ri'
 import type { IconType } from 'react-icons'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type MenuLink = {
     text: string;
@@ -17,6 +18,7 @@ type MenuLink = {
 }
 
 const Header: React.FC = () => {
+    const router = useRouter();
     const { toggleSidebar, isSidebarOpen } = useAppContext();
 
     const menu_links: MenuLink[] = [
@@ -51,7 +53,7 @@ const Header: React.FC = () => {
                 </svg>
             </button>
 
-            <Image src={Logo} alt={'Logo'} height={60} width={60} className='mx-auto my-0' />
+            <Image src={Logo} alt={'Logo'} height={60} width={60} className='mx-auto my-0' onClick={() => router.push('/')} />
 
             <div className={`${isSidebarOpen ? 'flex' : 'hidden'} flex-col w-full`}>
                 <menu className="flex flex-col items-center my-8 text-white">

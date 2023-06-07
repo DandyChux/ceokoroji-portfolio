@@ -1,7 +1,7 @@
 import { type Metadata, type NextPage } from 'next'
 import ProjectCard from '@components/Projects/ProjectCard'
 import React from 'react'
-import type { Project } from '@utils/types/project'
+import type { Project } from '@typings/project'
 
 export const metadata: Metadata = {
     title: 'Projects',

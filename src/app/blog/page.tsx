@@ -23,11 +23,7 @@ export default async function Blog() {
                 {posts.map((post, index) => (
                     <BlogCard 
                         key={index} 
-                        title={post.title} 
-                        date={post.date} 
-                        tags={post.tags} 
-                        url={post.url} 
-                        description={post.description} 
+                        {...post}
                     />
                 ))}
             </ul>
