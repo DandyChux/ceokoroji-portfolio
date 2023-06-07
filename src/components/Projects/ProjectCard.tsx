@@ -1,6 +1,6 @@
 import React from 'react';
 import Pill from '@components/common/Pill';
-import type { Project } from '@utils/types/project';
+import type { Project } from '@typings/project';
 import Link from 'next/link';
 import Image from 'next/image';
 

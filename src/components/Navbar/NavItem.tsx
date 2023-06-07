@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import type { IconType } from 'react-icons/lib';
 import { IconContext } from 'react-icons';
-import { useViewport } from '@utils/hooks/useViewport';
+import { useViewport } from '@hooks/useViewport';
 
 export interface INavItem {
     text: string;

@@ -9,8 +9,8 @@ import { FiMenu } from 'react-icons/fi'
 import { RiHome3Line } from 'react-icons/ri';
 import { HiOutlineLightBulb } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
-import { useViewport } from '@utils/hooks/useViewport';
-import useAppContext from '@utils/hooks/useAppContext';
+import { useViewport } from '@hooks/useViewport';
+import useAppContext from '@hooks/useAppContext';
 import Link from 'next/link';
 
 type MenuLink = {

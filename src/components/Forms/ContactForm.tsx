@@ -4,7 +4,7 @@ import { z, type ZodType } from 'zod'
 import { useForm } from 'react-hook-form'
 import Button from '@components/common/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import useAlert from '@utils/hooks/useAlert'
+import useAlert from '@hooks/useAlert'
 
 export type ContactFormInputs = {
     name: string;
