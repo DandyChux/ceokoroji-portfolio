@@ -117,7 +117,7 @@ const About: NextPage = () => {
 
                 <div className='flex'>
                     <Button variant={'outline'} size='lg'>
-                        <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" target='_blank'>View My Resume</Link>
+                        <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" target='_blank' rel='noopener'>View My Resume</Link>
                     </Button>
                 </div>
             </div>
