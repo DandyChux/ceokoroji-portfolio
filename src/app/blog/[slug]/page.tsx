@@ -68,7 +68,7 @@ const Page = async ({ params }: PageProps) => {
                     </small>
                 </div>
 
-                <div className='lg:max-w-[50%]'>
+                <div className='lg:max-w-[75%]'>
                     <Mdx code={post.body.code} />
                 </div>
             </article>

@@ -4,7 +4,7 @@ import React from 'react'
 import useAppContext from '@hooks/useAppContext'
 import Logo from '@public/Logo.png'
 import Image from 'next/image'
-import { BsChatSquareText, BsGithub, BsInstagram, BsLinkedin, BsPerson } from 'react-icons/bs'
+import { BsEnvelopeAt, BsGithub, BsInstagram, BsLinkedin, BsPencil, BsPerson } from 'react-icons/bs'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import { RiHome3Line } from 'react-icons/ri'
 import type { IconType } from 'react-icons'
@@ -25,7 +25,8 @@ const Header: React.FC = () => {
         { text: "Home", href: "/", icon: RiHome3Line },
         { text: "About", href: "/about", icon: BsPerson },
         { text: "Projects", href: "/projects", icon: HiOutlineLightBulb },
-        { text: "Blog", href: "/blog", icon: BsChatSquareText }
+        { text: "Blog", href: "/blog", icon: BsPencil },
+        { text: "Contact", href: "/contact", icon: BsEnvelopeAt }
     ];
 
     const social_links: MenuLink[] = [
@@ -66,7 +67,7 @@ const Header: React.FC = () => {
 
                 <menu className='flex justify-center my-2 gap-4'>
                     {social_links.map((link, index) => (
-                        <Link key={index} target='_blank' href={link.href} passHref>
+                        <Link key={index} target='_blank' rel='noopener' href={link.href} className='flex-shrink' passHref>
                             <link.icon size={30} color='#d90429' />
                         </Link>
                     ))}

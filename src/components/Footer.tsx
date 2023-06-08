@@ -28,13 +28,13 @@ const Footer: React.FC = () => {
                     <div className="text-center md:text-left">
                         <h4 className="text-lg text-center text-red-550 font-semibold">Follow me</h4>
                         <menu className="flex flex-col md:flex-row md:gap-4 justify-center md:justify-start mt-2">
-                            <Link href="https://linkedin.com/in/chukwuma-okoroji/" target={'_blank'} className='text-gray-300 hover:text-white hover:underline'>
+                            <Link href="https://linkedin.com/in/chukwuma-okoroji/" target={'_blank'} rel='noopener' className='text-gray-300 hover:text-white hover:underline'>
                                 LinkedIn
                             </Link>
-                            <Link href="https://github.com/dandychux/" target={'_blank'} className='text-gray-300 hover:text-white hover:underline'>
+                            <Link href="https://github.com/dandychux/" target={'_blank'} rel='noopener' className='text-gray-300 hover:text-white hover:underline'>
                                 GitHub
                             </Link>
-                            <Link href="https://instagram.com/the_ceokoroji/" target={'_blank'} className='text-gray-300 hover:text-white hover:underline'>
+                            <Link href="https://instagram.com/the_ceokoroji/" target={'_blank'} rel='noopener' className='text-gray-300 hover:text-white hover:underline'>
                                 Instagram
                             </Link>
                         </menu>

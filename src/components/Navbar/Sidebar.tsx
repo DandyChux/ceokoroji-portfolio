@@ -4,13 +4,10 @@ import Image from 'next/image';
 import Logo from '@public/Logo.png'
 import { NavItem } from './NavItem';
 import type { IconType } from 'react-icons/lib';
-import { BsPerson, BsChatSquareText, BsGithub, BsLinkedin, BsInstagram } from 'react-icons/bs';
-import { FiMenu } from 'react-icons/fi'
+import { BsPerson, BsPencil, BsGithub, BsLinkedin, BsInstagram, BsEnvelopeAt } from 'react-icons/bs';
 import { RiHome3Line } from 'react-icons/ri';
 import { HiOutlineLightBulb } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
-import { useViewport } from '@hooks/useViewport';
-import useAppContext from '@hooks/useAppContext';
 import Link from 'next/link';
 
 type MenuLink = {
@@ -20,15 +17,14 @@ type MenuLink = {
 }
 
 export const Sidebar: React.FC = () => {
-    const { isSidebarOpen, toggleSidebar } = useAppContext();
-    const { width } = useViewport();
     const router = useRouter();
 
     const menu_links: MenuLink[] = [
         { text: "Home", href: "/", icon: RiHome3Line },
         { text: "About", href: "/about", icon: BsPerson },
         { text: "Projects", href: "/projects", icon: HiOutlineLightBulb },
-        { text: "Blog", href: "/blog", icon: BsChatSquareText }
+        { text: "Blog", href: "/blog", icon: BsPencil },
+        { text: "Contact", href: "/contact", icon: BsEnvelopeAt}
     ];
 
     const social_links: MenuLink[] = [
