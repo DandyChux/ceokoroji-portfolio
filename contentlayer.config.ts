@@ -28,8 +28,14 @@ export const Post = defineDocumentType(() => ({
         tags: {
             type: 'list',
             of: {
-                type: 'string',
-            }
+                type: 'enum',
+                options: ['AI & Machine Learning', 'Cybersecurity', 'Software Development', 'Tech Industry News', 'Gadgets & Hardware', 'Web Development', 'Mobile Tech', 'Emerging Tech', 'Programming', 'SEO', 'AR & VR', 'Album Reviews', 'Artist Spotlights', 'Music Industry News', 'Music Theory', 'Concerts & Live Shows', 'Hip-Hop/Rap', 'R&B', 'Team Profiles', 'Match Analysis', 'Player Profiles', 'Sports News', 'Commentary & Opinions', 'Training', 'Game Reviews', 'Gaming News', 'Game Design', 'eSports', 'Game Guides', 'Indie Games']
+            },
+        },
+        category: {
+            type: 'enum',
+            options: ['General', 'Tech', 'Life', 'Sports', 'Music', 'Games', 'Movies', 'Books', 'Food', 'Travel'],
+            default: 'General',
         }
     },
     computedFields: {

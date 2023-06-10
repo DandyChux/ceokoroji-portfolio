@@ -17,7 +17,8 @@ export type Post = {
   date: IsoDateTimeString
   description: string
   published: boolean
-  tags?: string[] | undefined
+  tags?: ('AI & Machine Learning' | 'Cybersecurity' | 'Software Development' | 'Tech Industry News' | 'Gadgets & Hardware' | 'Web Development' | 'Mobile Tech' | 'Emerging Tech' | 'Programming' | 'SEO' | 'AR & VR' | 'Album Reviews' | 'Artist Spotlights' | 'Music Industry News' | 'Music Theory' | 'Concerts & Live Shows' | 'Hip-Hop/Rap' | 'R&B' | 'Team Profiles' | 'Match Analysis' | 'Player Profiles' | 'Sports News' | 'Commentary & Opinions' | 'Training' | 'Game Reviews' | 'Gaming News' | 'Game Design' | 'eSports' | 'Game Guides' | 'Indie Games')[] | undefined
+  category: 'General' | 'Tech' | 'Life' | 'Sports' | 'Music' | 'Games' | 'Movies' | 'Books' | 'Food' | 'Travel'
   /** MDX file body */
   body: MDX
   slug: string
