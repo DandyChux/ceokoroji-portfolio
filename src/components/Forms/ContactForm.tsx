@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import Button from '@components/common/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import useAlert from '@hooks/useAlert'
+import { Input } from '@components/common/Input'
+import { Textarea } from '@components/common/Textarea'
 
 export type ContactFormInputs = {
     name: string;
@@ -70,21 +72,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             <form className='flex flex-col' onSubmit={handleSubmit(submitData)}>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
                     <label htmlFor="name" className='mb-2 font-medium'>Name</label>
-                    <input type="text" id="name" {...register('name', {
+                    <Input type="text" id="name" className='bg-[#ffffff]' {...register('name', {
                         required: true,
                     })} />
                     {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
                 </div>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
                     <label htmlFor="email" className='mb-2 font-medium'>Email</label>
-                    <input type="email" id="email" {...register('email', {
+                    <Input type="email" id="email" className='bg-[#ffffff]' {...register('email', {
                         required: true,
                     })} />
                     {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
                 </div>
                 <div className='flex flex-col my-[0.75rem] mx-0'>
                     <label htmlFor="message" className='mb-2 font-medium'>Message</label>
-                    <textarea id="message" rows={5} {...register('message', {
+                    <Textarea id="message" rows={5} className='bg-[#ffffff]' {...register('message', {
                         required: true,
                     })} />
                     <small className='font-medium mt-2'>{messageField.length}/250</small>
