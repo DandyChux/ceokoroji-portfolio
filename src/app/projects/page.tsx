@@ -17,6 +17,13 @@ const Projects: NextPage = () => {
             skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Prisma', 'PostgreSQL'],
         },
         {
+            name: 'BlackStack Software Solutions',
+            description: 'A website for my freelance software development LLC. Built with Next.js + TailwindCSS. I wanted to build a website that was simple and easy to navigate. Currently still in development.',
+            documentation: 'https://github.com/blackstack-software-solutions/blackstack-site',
+            deployment: 'https://blackstacksolutions.com',
+            skills: ['Next.js', 'TailwindCSS', 'TypeScript']
+        },
+        {
             name: "Todo List API",
             description: "A REST API for a todo list app. Built with Nest.js + MongoDB. Users can create an account, create todo lists, and add items to their lists. I built this project to learn more about Nest.js and MongoDB. I also wanted to deploy a Nest.js app to a Docker container.",
             documentation: 'https://github.com/Dandychux/todo-list-api',

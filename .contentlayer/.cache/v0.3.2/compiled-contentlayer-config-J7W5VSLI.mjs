@@ -1,5 +1,8 @@
 // contentlayer.config.ts
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import { prisma } from "@utils/prisma";
+import { defineDocumentType } from "contentlayer/source-files";
+import { makeSource } from "contentlayer/source-remote-files";
+import { writeFile } from "fs/promises";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -53,9 +56,33 @@ var Post = defineDocumentType(() => ({
     }
   }
 }));
+var syncContentFromDatabase = async (contentDir) => {
+  let wasCancelled = false;
+  let syncInterval;
+  const syncRun = async () => {
+    const posts = await prisma.post.findMany();
+    for (const post of posts) {
+      const filePath = `${contentDir}/${post.slug}.mdx`;
+      await writeFile(filePath, post.content);
+    }
+  };
+  const syncLoop = async () => {
+    await syncRun();
+    if (wasCancelled)
+      return;
+    syncInterval = setTimeout(syncLoop, 1e3 * 60);
+  };
+  await syncLoop();
+  return () => {
+    wasCancelled = true;
+    clearTimeout(syncInterval);
+  };
+};
 var contentlayer_config_default = makeSource({
+  syncFiles: syncContentFromDatabase,
   contentDirPath: "posts",
   documentTypes: [Post],
+  disableImportAliasWarning: true,
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
@@ -93,4 +120,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-JWK22NQI.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-J7W5VSLI.mjs.map

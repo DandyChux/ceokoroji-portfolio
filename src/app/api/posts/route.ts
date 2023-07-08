@@ -10,3 +10,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ data : res })
     
 }
+
+export async function POST(req: NextRequest) {
+    const { title, description, content } = req.json()
+}

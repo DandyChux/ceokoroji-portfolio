@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from 'react'
+"use client"
+import React from 'react'
 import { z, type ZodType } from 'zod'
 import { useForm } from 'react-hook-form'
 import Button from '@components/common/Button'
@@ -11,7 +11,7 @@ import { Textarea } from '@components/common/Textarea'
 export type ContactFormInputs = {
     name: string;
     email: string;
-    message: string; 
+    message: string;
 }
 
 const schema: ZodType<ContactFormInputs> = z.object({
@@ -25,8 +25,7 @@ type ContactFormProps = {
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<ContactFormInputs>({
+    const { register, handleSubmit, watch, formState: { errors, isLoading } } = useForm<ContactFormInputs>({
         resolver: zodResolver(schema)
     });
 
@@ -35,7 +34,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     const messageField = watch('message', '');
 
     const submitData = async (data: ContactFormInputs) => {
-        setIsLoading(true);
         const { signal, abort } = new AbortController();
 
         const res = await fetch('/api/contact', {
@@ -57,8 +55,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
             setAlert(prev => ({ ...prev, show: true, message: 'Something went wrong', type: 'error' }))
 
         }
-
-        setIsLoading(false);
 
         return () => {
 
