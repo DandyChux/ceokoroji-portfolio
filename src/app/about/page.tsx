@@ -28,7 +28,7 @@ const About: NextPage = () => {
         },
         {
             category: 'Tools',
-            list: ['Docker', 'VS Code', 'Git', 'Postman', 'Figma']
+            list: ['Docker', 'VS Code', 'Git', 'Postman', 'Figma', 'Wordpress']
         }
     ]
 
@@ -112,7 +112,7 @@ const About: NextPage = () => {
                         </p>
 
                         <p className='my-4 text-gray-700 text-base font-medium'>
-                            Blending a vibrant personality and an unwavering work ethic, I craft efficient digital solutions. As a full-stack developer, I strive each day to deliver cutting-edge, user-friendly applications that enhance and experience of users and empower businesses to achieve their goals. I&apos;m driven to work on projects that aim to make a real impact on the lives of their users.
+                            Blending a vibrant personality and an unwavering work ethic, I craft efficient digital solutions. As a full-stack developer, I strive each day to deliver cutting-edge, user-friendly applications that enhance the experiences of users and empower businesses to achieve their goals. I&apos;m driven to work on projects that aim to make a real impact on the lives of their users.
                         </p>
                     </article>
                 </div>

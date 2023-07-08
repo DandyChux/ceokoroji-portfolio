@@ -1,8 +1,11 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { defineDocumentType } from 'contentlayer/source-files'
+import { makeSource } from 'contentlayer/source-remote-files'
+import { writeFile } from 'fs/promises'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
+import { prisma } from '@utils/prisma'
 
 export const Post = defineDocumentType(() => ({
     name: 'Post',
@@ -54,9 +57,41 @@ export const Post = defineDocumentType(() => ({
     },
 }))
 
+const syncContentFromDatabase = async (contentDir: string) => {
+    let wasCancelled = false;
+    let syncInterval: string | number | NodeJS.Timeout | undefined
+
+    const syncRun = async () => {
+        const posts = await prisma.post.findMany()
+
+        for (const post of posts) {
+            const filePath = `${contentDir}/${post.slug}.mdx`
+            await writeFile(filePath, post.content)
+        }
+    }
+
+    const syncLoop = async () => {
+        await syncRun()
+
+        if (wasCancelled) return
+
+        syncInterval = setTimeout(syncLoop, 1000 * 60)
+    }
+
+    // Block until the first loop is done
+    await syncLoop()
+
+    return () => {
+        wasCancelled = true
+        clearTimeout(syncInterval)
+    }
+}
+
 export default makeSource({
+    syncFiles: syncContentFromDatabase,
     contentDirPath: 'posts',
     documentTypes: [Post],
+    disableImportAliasWarning: true,
     mdx: {
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
