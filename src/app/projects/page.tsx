@@ -14,14 +14,21 @@ const Projects: NextPage = () => {
             name: 'Portfolio',
             description: 'This website! My most ambitious project to date, I wanted to build a portfolio that was both visually appealing and functional. I also wanted to use this project as an opportunity to build a full-stack type-safe application with Next.js and TypeScript. Next, I plan to add a blog to this site.',
             documentation: 'https://github.com/DandyChux/ceokoroji-portfolio',
-            skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Prisma', 'PostgreSQL'],
+            skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'PostgreSQL'],
         },
         {
             name: 'BlackStack Software Solutions',
             description: 'A website for my freelance software development LLC. Built with Next.js + TailwindCSS. I wanted to build a website that was simple and easy to navigate. Currently still in development.',
             documentation: 'https://github.com/blackstack-software-solutions/blackstack-site',
             deployment: 'https://blackstacksolutions.com',
-            skills: ['Next.js', 'TailwindCSS', 'TypeScript']
+            skills: ['Next.js', 'TRPC', 'TailwindCSS', 'TypeScript', 'AWS S3', 'PostgreSQL', 'Supabase']
+        },
+        {
+            name: 'Silvi',
+            description: 'Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.',
+            documentation: 'https://github.com/SilviProtocol/silvi-open',
+            deployment: 'https://app.silvi.earth/',
+            skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Django', 'Python']
         },
         {
             name: "Todo List API",
@@ -30,11 +37,11 @@ const Projects: NextPage = () => {
             skills: ['Nest.js', 'MongoDB', 'TypeScript', 'Docker']
         },
         {
-            name: 'Silvi',
-            description: 'Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.',
-            documentation: 'https://github.com/SilviProtocol/silvi-core',
-            // deployment: 'https://silvi.vercel.app/',
-            skills: ['Next.js', 'TypeScript', 'React Bootstrap', 'Django']
+            name: "Bookstore API",
+            description: "A REST API for a bookstore. It allows a user to create an account, add books to their cart, and checkout. I built this project with Express.js + PostgreSQL hosted on Supabase. This was a great opportunity to delve into severless environments and learn more about Supabase.",
+            documentation: 'https://github.com/Dandychux/bookstore-api',
+            // deployment: 'https://bookstore-api.vercel.app/',
+            skills: ['Express.js', 'PostgreSQL', 'Supabase', 'TypeScript']
         },
         {
             name: 'CyberBridge Initiative',
@@ -49,6 +56,13 @@ const Projects: NextPage = () => {
             documentation: 'https://github.com/DandyChux/charter-site',
             deployment: 'https://charter-site.vercel.app/',
             skills: ['Next.js', 'TypeScript', 'React Bootstrap']
+        },
+        {
+            name: 'React to-do list',
+            description: 'My first React project! A simple to-do list app. The focus of this project was to learn the basics of React state management.',
+            documentation: 'https://github.com/DandyChux/task-app',
+            deployment: 'https://dandychux-react-task-app.netlify.app/',
+            skills: ['React', 'JavaScript', 'CSS']
         },
         {
             name: 'Fancy Carpet Calculator',
@@ -70,13 +84,6 @@ const Projects: NextPage = () => {
             documentation: 'https://github.com/DandyChux/Magic-8-Ball',
             deployment: 'https://dandychux-magic8ball.netlify.app/',
             skills: ['HTML', 'CSS', 'JS']
-        },
-        {
-            name: 'React to-do list',
-            description: 'My first React project! A simple to-do list app. The focus of this project was to learn the basics of React state management.',
-            documentation: 'https://github.com/DandyChux/task-app',
-            deployment: 'https://dandychux-react-task-app.netlify.app/',
-            skills: ['React']
         },
         {
             name: 'API Photo Gallery',
