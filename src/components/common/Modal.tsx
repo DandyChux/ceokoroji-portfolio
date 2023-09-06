@@ -1,18 +1,33 @@
 "use client"
 
-import React, { type PropsWithChildren, useEffect, useRef } from 'react'
+import React, { useContext, createContext, useEffect, useRef } from 'react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
 
-interface ModalProps {
+const ModalContext = createContext<{ onClose: () => void; } | undefined>(undefined)
+
+const useModalContext = () => {
+    const context = useContext(ModalContext);
+
+    if (!context) {
+        throw new Error('useModalContext must be used within a ModalProvider')
+    }
+
+    return context;
+}
+
+interface ModalProps extends React.HTMLAttributes<HTMLDialogElement> {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> & {
-    Header: React.FC<PropsWithChildren>;
-    Body: React.FC<PropsWithChildren>;
-    Footer: React.FC<PropsWithChildren>;
-} = ({ isOpen, onClose, children }) => {
+    Header: React.FC<ModalChildProps>;
+    Title: React.FC<ModalChildProps>;
+    Body: React.FC<ModalChildProps>;
+    Footer: React.FC<ModalChildProps>;
+} = ({ isOpen, onClose, children, className }) => {
 
     const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -32,10 +47,10 @@ const Modal: React.FC<ModalProps> & {
 
     useEffect(() => {
         
-        if (isOpen) {
-            modalRef.current?.showModal();
-        } else {
-            modalRef.current?.close();
+        if (isOpen && modalRef.current && !modalRef.current.open) {
+            modalRef.current.showModal();
+        } else if (!isOpen && modalRef.current && modalRef.current.open) {
+            modalRef.current.close();
         }
 
     }, [isOpen]);
@@ -43,32 +58,48 @@ const Modal: React.FC<ModalProps> & {
     if (!isOpen) return null;
 
     return (
-        <dialog ref={modalRef} className='bg-white p-6 rounded-lg shadow-md w-full max-w-lg'>
-            {children}
-        </dialog>
+        <ModalContext.Provider value={{ onClose }}>    
+            <dialog ref={modalRef} className={clsx('bg-white p-6 rounded-lg shadow-md w-full max-w-lg', className)}>
+                {children}
+            </dialog>
+        </ModalContext.Provider>
     )
 
 }
 
-const ModalHeader: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='border-b pb-3 mb-3'>
-        <h2 className='text-3xl font-semibold'>{children}</h2>
-    </div>
-);
+interface ModalChildProps extends React.HTMLAttributes<HTMLDivElement> {
+    children: React.ReactNode;
+}
 
-const ModalBody: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='mb-4'>
+const ModalHeader: React.FC<ModalChildProps> = ({ children, className }) => {
+    const { onClose } = useModalContext();
+
+    return (
+        <div className={clsx('flex justify-between items-center border-b mb-3', className)}>
+            {children}
+            <XMarkIcon className='h-6 w-6' onClick={onClose} />
+        </div>
+    )
+};
+
+const ModalTitle: React.FC<ModalChildProps> = ({ children, className }) => (
+    <h2 className={clsx('text-xl font-semibold', className)}>{children}</h2>
+)
+
+const ModalBody: React.FC<ModalChildProps> = ({ children, className }) => (
+    <div className={clsx('mb-4 overflow-y-auto', className)}>
         {children}
     </div>
 )
 
-const ModalFooter: React.FC<PropsWithChildren> = ({ children }) => (
-    <div className='flex border-t pt-3 mt-3 justify-end space-x-4'>
+const ModalFooter: React.FC<ModalChildProps> = ({ children, className }) => (
+    <div className={clsx('flex border-t pt-3 mt-3 justify-end space-x-4', className)}>
         {children}
     </div>
 )
 
 Modal.Header = ModalHeader;
+Modal.Title = ModalTitle;
 Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
 

@@ -8,6 +8,7 @@ import Header from '@components/Navbar/Header'
 import type { Metadata } from 'next'
 import "@styles/globals.css"
 import Logo from '@public/Logo.png'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
     title: {
@@ -44,6 +45,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                         </ViewportProvider>
                     </AppProvider>
                 </Suspense>
+                <Analytics />
             </body>
         </html>
     )

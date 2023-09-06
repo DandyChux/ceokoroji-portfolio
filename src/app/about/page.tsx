@@ -20,7 +20,7 @@ const About: NextPage = () => {
         },
         {
             category: 'Frontend',
-            list: ['HTML', 'CSS', 'Angular', 'Solid.js', 'React', 'Next.js', 'TailwindCSS', 'Bootstrap']
+            list: ['HTML', 'CSS/SCSS', 'TailwindCSS', 'Angular', 'Solid.js', 'React', 'Next.js', 'Svelte', 'Astro']
         },
         {
             category: 'Backend',
@@ -28,7 +28,7 @@ const About: NextPage = () => {
         },
         {
             category: 'Tools',
-            list: ['Docker', 'VS Code', 'Git', 'Postman', 'Figma', 'Wordpress']
+            list: ['Docker', 'VS Code', 'Git', 'Postman', 'Figma', 'Wordpress', 'Notion', 'Curve']
         }
     ]
 
