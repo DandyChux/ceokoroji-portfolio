@@ -27,7 +27,7 @@ export async function PUT(req: NextRequest) {
             id: parseInt(id),
         },
         data: {
-            updatedAt: new Date(),
+            date: new Date(),
             content: body.content
         }
     })
