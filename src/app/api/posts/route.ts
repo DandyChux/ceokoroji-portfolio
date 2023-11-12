@@ -12,5 +12,5 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    const { title, description, content } = req.json()
+    const { title, description, content } = await req.json()
 }

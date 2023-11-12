@@ -42,7 +42,6 @@ const Page = async ({
             setHasMore(posts.length > 10);
         }
         
-        // const posts = await prisma.post.findMany();
         const posts = allPosts
             .filter(post => post.title.toLowerCase().includes(searchQuery.toLowerCase()))
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

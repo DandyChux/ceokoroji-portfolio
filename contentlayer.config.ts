@@ -5,7 +5,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import { prisma } from '@utils/prisma'
+import { prisma } from './src/utils/prisma'
 
 export const Post = defineDocumentType(() => ({
     name: 'Post',
