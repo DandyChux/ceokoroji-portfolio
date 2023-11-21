@@ -2,7 +2,7 @@
 import React from 'react'
 import { z, type ZodType } from 'zod'
 import { useForm } from 'react-hook-form'
-import Button from '@components/common/Button'
+import { Button } from '@components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import useAlert from '@hooks/useAlert'
 import { Input } from '@components/common/Input'

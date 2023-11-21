@@ -2,12 +2,12 @@ import React from 'react'
 import { allPosts } from 'contentlayer/generated'
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Button from '@components/common/Button';
+import { Button } from '@components/ui/button';
 import Link from 'next/link'
 import { BsArrowLeft } from 'react-icons/bs';
 import { format, parseISO } from 'date-fns'
 import { Mdx } from '@components/Posts/Mdx';
-import readingTime from '@utils/reading-time';
+import readingTime from '@lib/reading-time';
 
 interface PageProps {
     params: {

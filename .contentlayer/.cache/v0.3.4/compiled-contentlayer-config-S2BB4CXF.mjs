@@ -62,7 +62,7 @@ for (let key of Object.keys(_serverEnv.data)) {
 }
 var env2 = { ..._serverEnv.data, ...env };
 
-// src/utils/prisma.ts
+// src/lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
 var globalForPrisma = global;
 var prisma = globalForPrisma.prisma ?? new PrismaClient({
@@ -185,4 +185,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-IKMIOL4J.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-S2BB4CXF.mjs.map

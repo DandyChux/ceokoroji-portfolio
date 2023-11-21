@@ -34,28 +34,26 @@ export const Sidebar: React.FC = () => {
     ];
 
     return (
-        <>
-            <div className="hidden flex-auto md:flex flex-col h-full fixed top-0 left-0 md:h-screen md:w-[8rem] justify-center bg-gray-800 z-50">
-                <div className="hidden md:block absolute top-0 mt-2.5 w-20 h-20 self-center cursor-pointer" onClick={() => router.push('/')}> 
-                    <Image src={Logo} alt="My logo" fill />
-                </div>
-
-                <nav className="flex flex-col justify-center">
-                    {menu_links.map((link) => (
-                        <div key={link.text} className="w-full flex justify-center">
-                            <NavItem {...link} />
-                        </div>
-                    ))}
-                </nav>
-
-                <nav className='flex flex-col absolute bottom-8 self-center justify-center'>
-                    {social_links.map((link) => (
-                        <div key={link.text} className="w-full flex justify-center">
-                            <NavItem {...link} />
-                        </div>
-                    ))}
-                </nav>
+        <div className="hidden flex-auto md:flex flex-col h-full fixed top-0 left-0 md:h-screen md:w-[8rem] justify-center bg-primary z-20">
+            <div className="hidden md:block absolute top-0 mt-2.5 w-20 h-20 self-center cursor-pointer" onClick={() => router.push('/')}> 
+                <Image src={Logo} alt="My logo" fill />
             </div>
-        </>
+
+            <nav className="flex flex-col justify-center">
+                {menu_links.map((link) => (
+                    <div key={link.text} className="w-full flex justify-center text-primary-foreground">
+                        <NavItem {...link} />
+                    </div>
+                ))}
+            </nav>
+
+            <nav className='flex flex-col absolute bottom-8 self-center justify-center'>
+                {social_links.map((link) => (
+                    <div key={link.text} className="w-full flex justify-center text-primary-foreground">
+                        <NavItem {...link} />
+                    </div>
+                ))}
+            </nav>
+        </div>
     )
 }

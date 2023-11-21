@@ -46,7 +46,7 @@
         "./src/styles/*"
       ],
       "@utils/*": [
-        "./src/utils/*"
+        "src/lib/*"
       ],
       "@env/*": [
         "./src/env/*"

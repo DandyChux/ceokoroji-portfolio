@@ -27,7 +27,7 @@ const Projects: NextPage = () => {
             name: 'Silvi',
             description: 'Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.',
             documentation: 'https://github.com/SilviProtocol/silvi-open',
-            deployment: 'https://app.silvi.earth/',
+            deployment: 'https://silvi.earth/',
             skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Django', 'Python']
         },
         {
@@ -44,18 +44,18 @@ const Projects: NextPage = () => {
             skills: ['Express.js', 'PostgreSQL', 'Supabase', 'TypeScript']
         },
         {
+            name: 'On Point Charter',
+            description: 'On Point Charter is a boating business that offers private charters. This website was built with Next.js + Tailwind. I wanted to build a website that was simple and easy to navigate. Currently still in development.',
+            documentation: 'https://github.com/DandyChux/charter-site',
+            deployment: 'https://charter-site.vercel.app/',
+            skills: ['Next.js', 'TypeScript', 'TailwindCSS']
+        },
+        {
             name: 'CyberBridge Initiative',
             description: 'A website for a fictional non-profit organization. Built with Vite + React for a class project.',
             documentation: 'https://github.com/DandyChux/LIS-4365-charity-project',
             deployment: 'https://cyberbridgeinitiative.netlify.app',
-            skills: ['React', 'Vite', 'TypeScript', 'React Bootstrap']
-        },
-        {
-            name: 'On Point Charter',
-            description: 'A website for a boat chartering company. Built with Next.js + React Bootstrap',
-            documentation: 'https://github.com/DandyChux/charter-site',
-            deployment: 'https://charter-site.vercel.app/',
-            skills: ['Next.js', 'TypeScript', 'React Bootstrap']
+            skills: ['React', 'Vite', 'TypeScript', 'TailwindCSS']
         },
         {
             name: 'React to-do list',
@@ -96,7 +96,7 @@ const Projects: NextPage = () => {
 
     return (
         <>
-            <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-extrabold text-gray-900'>
+            <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-extrabold'>
                 My Projects
             </h1>
             
@@ -104,12 +104,7 @@ const Projects: NextPage = () => {
                 {portfolioProjects.map((project, index) => (
                     <ProjectCard 
                         key={index}
-                        image={project.image}
-                        name={project.name}
-                        description={project.description}
-                        documentation={project.documentation}
-                        deployment={project.deployment}
-                        skills={project.skills}
+                        {...project}
                     />
                 ))}
             </div>
