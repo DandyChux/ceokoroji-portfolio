@@ -4,7 +4,7 @@ import Headshot from '@public/ceokoroji_headshot.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Tab } from "@typings/tabs"
-import Tabs from "@components/common/Tabs"
+import { CustomTabs as Tabs } from '@components/common/custom-tabs'
 import { Button } from "@components/ui/button"
 import { Separator } from "@components/ui/separator"
 
@@ -94,13 +94,20 @@ const About: NextPage = () => {
 
     return (
         <>
-            <h1 className="text-3xl md:text-[5rem] leading-normal text-center font-extrabold text-gray-900 mb-8">
+            <h1>
                 About Me
             </h1>
             
             <div className="flex flex-col items-center justify-center mb-4">
                 <div className='flex flex-wrap justify-center mb-4'>
-                    <Image src={Headshot} alt="My headshot" width={350} height={250} className='rounded-sm border border-gray-200 shadow-lg shadow-gray-300' />
+                    <Image 
+                        src={Headshot} 
+                        alt="My headshot" 
+                        priority
+                        width={350} 
+                        height={250}
+                        className='rounded-sm border border-gray-200 shadow-lg shadow-gray-300' 
+                    />
                     <article className="text-center p-4 md:float-right md:w-1/3">
                         <p className='my-4 text-base font-medium'>
                             I recently graduated from the University of South Florida with a B.S. in Information Science. I am currently working as a Financial Systems Developer at Jabil, where I support the financial systems used by the company&apos;s global finance team. I am also a freelance web developer, where I work with clients to build websites and web applications. I am passionate about using technology to solve problems and make a positive impact on the lives of others.

@@ -7,7 +7,7 @@ interface TabProps {
     tabData: Tab[];
 }
 
-const Tabs: React.FC<TabProps> = ({ tabData }) => {
+export const CustomTabs: React.FC<TabProps> = ({ tabData }) => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -18,7 +18,7 @@ const Tabs: React.FC<TabProps> = ({ tabData }) => {
                         key={index}
                         className={`py-2 border-b-4 transition-colors duration-300 ${
                             index === activeTabIndex
-                            ? 'border-red-550'
+                            ? 'border-accent'
                             : 'border-transparent hover:border-gray-300'
                         }`}
                         onClick={() => setActiveTabIndex(index)}>
@@ -33,5 +33,3 @@ const Tabs: React.FC<TabProps> = ({ tabData }) => {
         </div>
     )
 }
-
-export default Tabs

@@ -73,4 +73,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1 {
+    @apply text-3xl md:text-[5rem] leading-normal text-center font-extrabold mb-8;
+  }
 }
