@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import Button from '@components/common/Button'
+import { Button } from '@components/ui/button'
 import Link from 'next/link'
 import Tabs from '@components/common/Tabs'
 import Pill from '@components/common/Pill'

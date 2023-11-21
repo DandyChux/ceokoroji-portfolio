@@ -6,14 +6,14 @@ import Pill from '@components/common/Pill'
 import type { Post } from 'contentlayer/generated'
 // import Image from 'next/image'
 import { format, parseISO } from 'date-fns'
-import readingTime from '@utils/reading-time'
+import readingTime from '@lib/reading-time'
 
 const BlogCard: React.FC<Partial<Post>> = ({ title, date, tags, url, description, body }) => {
 
     
     return (
-        <div className='mx-auto my-4 p-4 border-b-2 max-w-[31.25rem] rounded-lg motion-safe:hover:scale-105 motion-safe:hover:bg-gray-100 duration-500'>
-            <div className='group relative mb-4'>
+        <div className='relative mx-auto my-4 p-4 border-b-2 max-w-[31.25rem] rounded-lg motion-safe:hover:scale-105 motion-safe:hover:bg-gray-100 duration-500'>
+            <div className='group mb-4'>
                 <h3 className='mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-red-650'>
                     <Link href={url!}>
                         <span className='absolute inset-0' />

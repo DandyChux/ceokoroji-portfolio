@@ -31,12 +31,12 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon, setSidebarOpen }
         <IconContext.Provider value={{ style: {padding: '10px'} }}>
             <Link href={href} target='_blank' rel='noopener' key={text} onClick={handleClick} className="cursor-pointer relative w-full flex justify-center" passHref>
                 {isShown && (
-                    <div className="absolute text-red-550">
+                    <div className="absolute text-accent">
                         {text}
                     </div>
                 )}
                 {width > 640 && (
-                    <Icon onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`w-10 h-10 md:w-12 md:h-12 hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-red-300' : 'text-red-550 hover:text-white'}`} />
+                    <Icon onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`w-10 h-10 md:w-12 md:h-12 hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-accent' : 'text-primary-foreground'}`} />
                 )}
             </Link>
         </IconContext.Provider>

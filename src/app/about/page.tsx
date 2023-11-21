@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Tab } from "@typings/tabs"
 import Tabs from "@components/common/Tabs"
-import Button from "@components/common/Button"
+import { Button } from "@components/ui/button"
+import { Separator } from "@components/ui/separator"
 
 export const metadata: Metadata = {
     title: 'About'
@@ -99,27 +100,29 @@ const About: NextPage = () => {
             
             <div className="flex flex-col items-center justify-center mb-4">
                 <div className='flex flex-wrap justify-center mb-4'>
-                    <Image src={Headshot} alt="My headshot" width={350} height={250} className='rounded-sm border border-gray-200 shadow-lg shadow-gray-400' />
+                    <Image src={Headshot} alt="My headshot" width={350} height={250} className='rounded-sm border border-gray-200 shadow-lg shadow-gray-300' />
                     <article className="text-center p-4 md:float-right md:w-1/3">
-                        <p className='my-4 text-gray-700 text-base font-medium'>
+                        <p className='my-4 text-base font-medium'>
                             I recently graduated from the University of South Florida with a B.S. in Information Science. I am currently working as a Financial Systems Developer at Jabil, where I support the financial systems used by the company&apos;s global finance team. I am also a freelance web developer, where I work with clients to build websites and web applications. I am passionate about using technology to solve problems and make a positive impact on the lives of others.
                         </p>
 
-                        <hr />
+                        <Separator />
 
-                        <p className='my-4 text-gray-700 text-base font-medium'>
+                        <p className='my-4 text-base font-medium'>
                             Inspiration for my career path came from my natural curiosity and desire to learn. I was always interested in how technology worked and how I could use it to solve problems. I fell in love with the idea of being able to create something from nothing.
                         </p>
 
-                        <p className='my-4 text-gray-700 text-base font-medium'>
+                        <p className='my-4 text-base font-medium'>
                             Blending a vibrant personality and an unwavering work ethic, I craft efficient digital solutions. As a full-stack developer, I strive each day to deliver cutting-edge, user-friendly applications that enhance the experiences of users and empower businesses to achieve their goals. I&apos;m driven to work on projects that aim to make a real impact on the lives of their users.
                         </p>
                     </article>
                 </div>
 
                 <div className='flex'>
-                    <Button variant={'outline'} size='lg'>
-                        <Link href="https://www.icloud.com/iclouddrive/01eLKZZdNlzIHTcMJ8NmpYsGw#CEOkoroji%5FResume" target='_blank' rel='noopener'>View My Resume</Link>
+                    <Button size='lg' asChild>
+                        <Link href="https://www.icloud.com/iclouddrive/021WM8LjzMTKtuzq8kJuVjEXw#CEOkoroji%5FSWE%5FResume" target='_blank' rel='noopener'>
+                            View My Resume
+                        </Link>
                     </Button>
                 </div>
             </div>

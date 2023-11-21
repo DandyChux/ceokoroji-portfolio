@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Input } from './Input'
-import { useDebounce } from '@utils/debounce'
+import { useDebounce } from '@lib/debounce'
 import Loading from './Loading'
 
 const Search = () => {
