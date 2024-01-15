@@ -17,7 +17,7 @@ const About: NextPage = () => {
     const skills = [
         {
             category: 'Languages',
-            list: ['JavaScript', 'TypeScript', 'Python', 'C#']
+            list: ['JavaScript', 'TypeScript', 'Python', 'Rust', 'C#']
         },
         {
             category: 'Frontend',

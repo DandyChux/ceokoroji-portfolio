@@ -31,10 +31,31 @@ const Projects: NextPage = () => {
             skills: ['Next.js', 'TypeScript', 'TailwindCSS', 'Django', 'Python']
         },
         {
+            name: "Feedback App",
+            description: "A simple feedback app built with Yew + Rust on the frontend and Actix + PostgreSQL on the backend. I built this project to deepen my understanding of Rust and to learn more about its web development capabilities. I also wanted to experiment with WASM in a production environment.",
+            documentation: 'https://github.com/DandyChux/rust-fullstack-feedback',
+            deployment: 'https://rust-feedback-app.onrender.com',
+            skills: ['Rust', 'Yew', 'Actix', 'PostgreSQL', 'WASM', 'Docker']
+        },
+        {
             name: "Todo List API",
             description: "A REST API for a todo list app. Built with Nest.js + MongoDB. Users can create an account, create todo lists, and add items to their lists. I built this project to learn more about Nest.js and MongoDB. I also wanted to deploy a Nest.js app to a Docker container.",
             documentation: 'https://github.com/Dandychux/todo-list-api',
             skills: ['Nest.js', 'MongoDB', 'TypeScript', 'Docker']
+        },
+        {
+            name: "CLI Calculator",
+            description: "A simple calculator built with Rust. This was my first Rust project and I wanted to build something that would allow me to learn the basics of the language. I also wanted to experiment with building a CLI app.",
+            documentation: "https://github.com/DandyChux/cli_calculator",
+            // deployment: ''
+            skills: ['Rust']
+        },
+        {
+            name: "Number Guessing Game",
+            description: "A simple number guessing game built with Rust. I wanted to build a project with Rust where I could experiment with some of the language's features.",
+            documentation: 'https://github.com/DandyChux/guessing_game',
+            // deployment: '',
+            skills: ['Rust']
         },
         {
             name: "Bookstore API",
