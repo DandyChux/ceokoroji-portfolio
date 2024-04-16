@@ -1,7 +1,7 @@
 import mail from '@sendgrid/mail';
 import { NextResponse, type NextRequest } from "next/server";
+import { env } from "~/env.mjs";
 import { type ContactFormInputs } from "~components/Forms/ContactForm";
-import { env } from "~env/server.mjs";
 
 mail.setApiKey(env.SENDGRID_API_KEY);
 
