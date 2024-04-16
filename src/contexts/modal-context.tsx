@@ -1,23 +1,15 @@
 "use client"
 
-import React, { 
-    createContext, 
-    type ReactNode, 
-    useContext, 
-    useState, 
-    useCallback,
-    useEffect
+import React, {
+    createContext, useCallback, useContext, useEffect, useState, type ReactNode
 } from 'react';
-import ReactDOM from 'react-dom'
-import { 
+import ReactDOM from 'react-dom';
+import { Button } from '~components/ui/button';
+import {
     Modal,
-    ModalBody,
-    ModalFooter,
-    ModalDescription,
-    ModalHeader,
+    ModalBody, ModalDescription, ModalFooter, ModalHeader,
     ModalTitle
-} from '@components/ui/modal';
-import { Button } from '@components/ui/button';
+} from '~components/ui/modal';
 
 export interface ModalOptions {
     title: string;

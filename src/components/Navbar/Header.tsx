@@ -1,15 +1,15 @@
 'use client'
 
-import React from 'react'
-import useAppContext from '@hooks/useAppContext'
-import Logo from '@public/Logo.png'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React from 'react'
+import type { IconType } from 'react-icons'
 import { BsEnvelopeAt, BsGithub, BsInstagram, BsLinkedin, BsPencil, BsPerson } from 'react-icons/bs'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import { RiHome3Line } from 'react-icons/ri'
-import type { IconType } from 'react-icons'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import useAppContext from '~hooks/useAppContext'
+import Logo from '~public/Logo.png'
 
 type MenuLink = {
     text: string;
@@ -36,8 +36,8 @@ const Header: React.FC = () => {
     ];
 
     return (
-        <header className='sticky top-0 flex flex-wrap w-full items-center justify-between p-4 bg-gray-800 bg-opacity-100 z-50 md:hidden'>
-            <button onClick={toggleSidebar} className='md:hidden top-0 left-0 mt-2.5 ml-2.5 mb-2.5 z-10'>
+        <header className='sticky top-0 flex flex-wrap w-full items-center justify-between p-4 bg-secondary text-secondary-foreground z-20 xl:hidden'>
+            <button onClick={toggleSidebar} className='top-0 left-0 mt-2.5 ml-2.5 mb-2.5 z-10'>
                 <svg
                     className={`fill-white h-5 w-5 ${isSidebarOpen ? "hidden" : "block"}`}
                     viewBox="0 0 20 20"

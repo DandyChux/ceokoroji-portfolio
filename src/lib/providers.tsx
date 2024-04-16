@@ -1,11 +1,11 @@
 "use client"
 
-import React, { type PropsWithChildren, useState } from 'react'
-import { ViewportProvider } from '@hooks/useViewport'
-import { AlertProvider } from '@contexts/AlertContext'
-import { AppProvider } from '@contexts/AppContext'
-import { ModalProvider } from '@contexts/ModalContext'
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import React, { useState, type PropsWithChildren } from 'react'
+import { AlertProvider } from '~/contexts/alert-context'
+import { AppProvider } from '~/contexts/app-context'
+import { ModalProvider } from '~/contexts/modal-context'
+import { ViewportProvider } from '~hooks/useViewport'
 
 export const Providers: React.FC<PropsWithChildren> = ({ children }) => {
     const [queryClient] = useState(() => new QueryClient({}))

@@ -1,14 +1,14 @@
 "use client"
 
-import React, { useState } from 'react'
-import z, { type ZodType } from 'zod'
-import { useForm } from 'react-hook-form'
-import { Button } from '@components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import useAlert from '@hooks/useAlert'
-import { type ContactFormInputs } from '@components/Forms/ContactForm'
-import { Input } from '@components/common/Input'
-import { Textarea } from '@components/common/Textarea'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import z, { type ZodType } from 'zod'
+import { type ContactFormInputs } from '~components/Forms/ContactForm'
+import { Button } from '~components/ui/button'
+import { Input } from '~components/ui/input'
+import { Textarea } from '~components/ui/textarea'
+import useAlert from '~hooks/useAlert'
 
 const schema: ZodType<ContactFormInputs> = z.object({
     name: z.string().nonempty({ message: 'Name is required' }),
@@ -62,8 +62,8 @@ export default function Contact() {
 
     return (
         <div className='flex flex-col items-center w-full py-8 px-4 md:px-32 mx-auto self-start'>
-            <h1 className='text-3xl mb-2 text-center md:m-0 md:text-[3rem] leading-normal font-semibold text-gray-900'>Contact Me</h1>
-            <p className='text-gray-700 text-center font-medium md:text-left'>
+            <h1 className='text-3xl mb-2 text-center md:m-0 md:text-[3rem] leading-normal font-semibold'>Contact Me</h1>
+            <p className='text-center font-medium md:text-left'>
                 I&apos;m currently available for freelance work. If you have a project that you want to get started, think you need my help with something, or just fancy saying hey, then get in touch.
             </p>
 

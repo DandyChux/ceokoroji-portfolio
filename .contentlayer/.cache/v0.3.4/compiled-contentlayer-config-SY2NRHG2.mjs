@@ -7,7 +7,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
-// src/env/schema.mjs
+// src/env/env.mjs
 import { z } from "zod";
 var serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
@@ -185,4 +185,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-S2BB4CXF.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-SY2NRHG2.mjs.map

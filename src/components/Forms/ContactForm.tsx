@@ -1,12 +1,12 @@
 "use client"
-import React from 'react'
-import { z, type ZodType } from 'zod'
-import { useForm } from 'react-hook-form'
-import { Button } from '@components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import useAlert from '@hooks/useAlert'
-import { Input } from '@components/common/Input'
-import { Textarea } from '@components/common/Textarea'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z, type ZodType } from 'zod'
+import { Button } from '~components/ui/button'
+import { Input } from '~components/ui/input'
+import { Textarea } from '~components/ui/textarea'
+import useAlert from '~hooks/useAlert'
 
 export type ContactFormInputs = {
     name: string;

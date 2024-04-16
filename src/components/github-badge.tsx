@@ -1,16 +1,15 @@
 "use client"
 
-import { Badge } from "./ui/badge";
-import { useQuery } from "@tanstack/react-query";
 import { StarIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { Badge } from "./ui/badge";
 
 interface GithubBageProps {
     repo: string;
 }
 
 export const GithubBadge: React.FC<GithubBageProps> = ({ repo }) => {
-    console.log(repo)
     const { data } = useQuery({
         queryKey: ['repo-stars', repo],
         queryFn: () => fetch(`https://api.github.com/repos/DandyChux/${repo}`).then(res => res.json())

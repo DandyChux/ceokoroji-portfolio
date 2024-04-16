@@ -1,25 +1,19 @@
 "use client"
 
-import React, { MouseEventHandler, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
-import type { IconType } from 'react-icons/lib';
-import { IconContext } from 'react-icons';
-import { useViewport } from '@hooks/useViewport';
+import { usePathname, useRouter } from 'next/navigation';
+import React from 'react';
+import { cn } from '~lib/utils';
 
-export interface INavItem {
+export interface INavItem extends React.HTMLAttributes<HTMLAnchorElement> {
     text: string;
     href: string;
-    icon: IconType;
     setSidebarOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const NavItem: React.FC<INavItem> = ({ text, href, icon, setSidebarOpen }) => {
-    const [isShown, setIsShown] = useState(false);
-    const { width } = useViewport();
+export const NavItem: React.FC<INavItem> = ({ text, href, setSidebarOpen, className }) => {
     const router = useRouter();
     const pathname = usePathname();
-    const Icon = icon;
 
     const handleClick = (e: any) => {
         e.preventDefault();
@@ -28,17 +22,10 @@ export const NavItem: React.FC<INavItem> = ({ text, href, icon, setSidebarOpen }
     };
 
     return (
-        <IconContext.Provider value={{ style: {padding: '10px'} }}>
-            <Link href={href} target='_blank' rel='noopener' key={text} onClick={handleClick} className="cursor-pointer relative w-full flex justify-center" passHref>
-                {isShown && (
-                    <div className="absolute text-accent">
-                        {text}
-                    </div>
-                )}
-                {width > 640 && (
-                    <Icon onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)} className={`w-10 h-10 md:w-12 md:h-12 hover:opacity-0 hover:ease-in duration-1500 ${pathname === href ? 'text-accent' : 'text-primary-foreground'}`} />
-                )}
-            </Link>
-        </IconContext.Provider>
+        <Link href={href} target='_blank' rel='noopener' key={text} onClick={handleClick} className={cn("cursor-pointer relative flex justify-center uppercase py-2 border border-transparent hover:border-border hover:rounded-md", className, {
+            'border-border rounded-md before:content-["•"] before:absolute before:text-accent before:text-lg before:-top-2 before:font-bold': pathname === href,
+        })} passHref>
+            {text}
+        </Link>
     );
 }

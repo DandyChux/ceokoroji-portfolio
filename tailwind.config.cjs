@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ["class", "media"],
   content: [
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
@@ -10,11 +10,18 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      // screens: {
+      //   "3xl": "1920px",
+      //   "4xl": "2560px",
+      // },
     },
     extend: {
+      screens: {
+        "3xl": "1920px",
+        "4xl": "2560px",
+        "5xl": "3840px",
+        "6xl": "4096px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -49,6 +56,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontFamily: {
+        monda: ["Monda", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+        plexMono: ["IBM Plex Mono", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useEffect, useRef } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
-import { useModalContext } from '@contexts/ModalContext'
+import React, { useEffect, useRef } from 'react'
+import { useModalContext } from '~/contexts/modal-context'
 
 interface ModalProps extends React.HTMLAttributes<HTMLDialogElement> {
     children: React.ReactNode;

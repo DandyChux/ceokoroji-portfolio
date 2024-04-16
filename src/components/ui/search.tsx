@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { Input } from './Input'
-import { useDebounce } from '@lib/debounce'
-import Loading from './Loading'
+import { useCallback, useEffect, useState, useTransition } from 'react'
+import { useDebounce } from '~lib/debounce'
+import Loading from '../common/Loading'
+import { Input } from '../ui/input'
+
 
 const Search = () => {
     const [searchText, setSearchText] = useState<string>('')

@@ -1,14 +1,14 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
-// import { prisma } from '@utils/prisma'
-import { allPosts, type Post } from 'contentlayer/generated'
+import { useState } from 'react';
+// import { prisma } from '~lib/prisma'
+import { allPosts, type Post } from 'contentlayer/generated';
 // import type { Metadata } from 'next';
 import Head from 'next/head';
-import BlogCard from '@components/Posts/Post';
-import Search from '@components/common/Search';
-import InfiniteScroll from '@components/common/InfiniteScroll';
-import Filter from '@components/common/Filter';
+import InfiniteScroll from '~/components/common/infinite-scroll';
+import Filter from '~/components/filter';
+import BlogCard from '~/components/Posts/blog-card';
+import Search from '~/components/ui/search';
 
 // export const metadata: Metadata = {
 //     title: 'Blog',
@@ -48,17 +48,25 @@ const Page = async ({
 
 
         return (
-            <>
+            <div className='flex flex-col h-full'>
                 <Head>
                     <title>Blog</title>
                 </Head>
-                <h1 className='text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold text-gray-900'>
+                <h1 className='text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold'>
                     Blog
                 </h1>
 
                 <div className='flex flex-col w-full md:px-40'>
-                    <Search />
-                    <Filter posts={allPosts} categories={categories} onFilter={handleFilter} />
+                    <div className='relative flex items-center mb-4'>
+                        <Search />
+
+                        <Filter 
+                            posts={allPosts} 
+                            categories={categories} 
+                            onFilter={handleFilter} 
+                            className='absolute right-2 top-10'
+                        />
+                    </div>
 
                     <InfiniteScroll 
                         data={posts}
@@ -67,19 +75,10 @@ const Page = async ({
                         loading={false}
                         renderItem={(post) => <BlogCard {...post} />}
                     />
-
-                    {/* <ul>
-                        {posts.map((post, index) => (
-                            <BlogCard 
-                                key={index} 
-                                {...post}
-                            />
-                        ))}
-                    </ul> */}
                 </div>
                 
                 
-            </>
+            </div>
         )
 
 }

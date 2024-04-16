@@ -1,11 +1,11 @@
-import React from 'react'
-import Image from 'next/image'
-import { Button } from '@components/ui/button'
-import Link from 'next/link'
-import { CustomTabs as Tabs } from '@components/common/custom-tabs'
-import Pill from '@components/common/Pill'
-import { useMDXComponent } from 'next-contentlayer/hooks'
 import clsx from 'clsx'
+import { useMDXComponent } from 'next-contentlayer/hooks'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import { CustomTabs as Tabs } from '~components/common/custom-tabs'
+import Pill from '~components/common/Pill'
+import { Button } from '~components/ui/button'
 
 const components = {
     Image,

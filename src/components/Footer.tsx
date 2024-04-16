@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState } from 'react'
-import { Button } from './ui/button'
-import ContactForm from './Forms/ContactForm'
 import Link from 'next/link'
-import { useModal } from '@contexts/ModalContext'
+import React from 'react'
+import { useModal } from '~/contexts/modal-context'
+import ContactForm from './Forms/ContactForm'
+import { Button } from './ui/button'
 
 const Footer: React.FC = () => {
     const { openModal, closeModal } = useModal();

@@ -21,34 +21,34 @@
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@*": [
+      "~/*": [
         "./src/*"
       ],
-      "@public/*": [
+      "~public/*": [
         "./public/*"
       ],
-      "@hooks/*": [
+      "~hooks/*": [
         "./src/hooks/*"
       ],
-      "@typings/*": [
+      "~typings/*": [
         "src/typings/*"
       ],
-      "@contexts/*": [
+      "~contexts/*": [
         "./src/contexts/*"
       ],
-      "@posts/*": [
+      "~posts/*": [
         "./posts/*"
       ],
-      "@components/*": [
+      "~components/*": [
         "src/components/*"
       ],
-      "@styles/*": [
+      "~styles/*": [
         "./src/styles/*"
       ],
-      "@utils/*": [
+      "~lib/*": [
         "src/lib/*"
       ],
-      "@env/*": [
+      "~env/*": [
         "./src/env/*"
       ],
       "contentlayer/generated": ["./.contentlayer/generated"],
