@@ -9,7 +9,6 @@ import {
     TabsTrigger
 } from "~/components/ui/tabs"
 import { Button } from "~components/ui/button"
-import Headshot from '~public/ceokoroji_headshot.png'
 
 export const metadata: Metadata = {
     title: 'About'
@@ -51,7 +50,7 @@ const About: NextPage = () => {
             
             <div className="flex flex-wrap items-center mb-4">
                 <Image 
-                    src={Headshot} 
+                    src={'/ceokoroji_headshot.png'} 
                     alt="My headshot" 
                     priority
                     width={350} 

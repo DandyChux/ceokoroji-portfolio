@@ -58,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
                 </span>
             </div>
 
-            <nav className="flex flex-col justify-center px-10 xl:px-16 2xl:px-28 gap-8 mt-auto">
+            <nav className="flex flex-col justify-center px-10 xl:px-16 2xl:px-20 gap-8 mt-auto">
                 {menu_links.map((link) => (
                     <NavItem 
                         key={link.text} 

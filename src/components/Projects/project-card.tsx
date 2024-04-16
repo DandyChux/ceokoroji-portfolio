@@ -38,7 +38,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ image, name, description, doc
             <CardHeader>
                 <div className='relative w-full mx-auto mb-4 h-[10rem]'>
                     {image ? (
-                        <Image src={image} alt={name} fill />
+                        <Image src={image} alt={name} fill className='aspect-square' />
                     ) : <Skeleton className='w-full h-full' />}
                 </div>
 

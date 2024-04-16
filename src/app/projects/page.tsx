@@ -1,5 +1,7 @@
 import { type Metadata, type NextPage } from 'next'
 import ProjectCard from '~/components/Projects/project-card'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
+import { Separator } from '~/components/ui/separator'
 import type { Project } from '~typings/project'
 
 export const metadata: Metadata = {
@@ -147,11 +149,62 @@ const Projects: NextPage = () => {
 
     return (
         <div className='flex flex-col h-full'>
-            <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-extrabold'>
-                My Projects
+            <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-semibold'>
+                Projects
             </h1>
+
+            <span className='text-lg w-full text-center leading-normal font-medium mt-4'>Specializations</span>
+            <div className='grid grid-cols-auto md:inline-flex items-center justify-center w-full py-4 gap-4'>
+                <Card className='flex-1 rounded-none'>
+                    <CardHeader className='px-0'>
+                        <Separator className='w-[40%]' />
+                    </CardHeader>
+                    <CardContent className='flex flex-col items-center gap-2'>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />
+                            </svg>
+                        </div>
+                        <CardTitle>
+                            Web Development
+                        </CardTitle>
+                    </CardContent>
+                </Card>
+
+                <Card className='flex-1 rounded-none'>
+                    <CardHeader className='px-0'>
+                        <Separator className='w-[40%]' />
+                    </CardHeader>
+                    <CardContent className='flex flex-col items-center gap-2'>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
+                            </svg>
+                        </div>
+                        <CardTitle>
+                            API Development
+                        </CardTitle>
+                    </CardContent>
+                </Card>
+
+                <Card className='flex-1 rounded-none'>
+                    <CardHeader className='px-0'>
+                        <Separator className='w-[40%]' />
+                    </CardHeader>
+                    <CardContent className='flex flex-col items-center gap-2'>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
+                            </svg>
+                        </div>
+                        <CardTitle>
+                            Mobile Development
+                        </CardTitle>
+                    </CardContent>
+                </Card>
+            </div>
             
-            <div className='grid gap-3 pt-3 mt-3 md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4'>
+            <div className='grid gap-3 pt-3 mt-3 md:grid-cols-2 3xl:grid-cols-3'>
                 {portfolioProjects.map((project, index) => (
                     <ProjectCard 
                         key={index}
