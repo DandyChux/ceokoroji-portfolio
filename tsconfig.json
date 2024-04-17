@@ -66,7 +66,7 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts", 
-    ".contentlayer/generated",
+    ".contentlayer/**/*.{ts, js, mjs, cjs}",
     "next.config.mjs",
   ],
   "exclude": [
