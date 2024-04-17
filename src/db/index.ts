@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { Client } from 'pg';
 import { env } from '../env.mjs';
 import * as schema from './schema';
@@ -15,6 +15,10 @@ export const pgClient = new Client({
     connectionString
 })
 
-export const db = drizzle(pgClient, { schema });
+export const drizzleDB = drizzle(pgClient, { schema });
 
-await migrate(db, { migrationsFolder: 'drizzle' });
+(async () => {
+    await pgClient.connect();
+
+    await migrate(drizzleDB, { migrationsFolder: 'drizzle' });
+})();

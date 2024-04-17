@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from 'react';
-// import { prisma } from '~lib/prisma'
 import { allPosts, type Post } from 'contentlayer/generated';
+import { useState } from 'react';
 // import type { Metadata } from 'next';
 import Head from 'next/head';
 import InfiniteScroll from '~/components/common/infinite-scroll';

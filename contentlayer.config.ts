@@ -5,7 +5,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import { prisma } from './src/lib/prisma'
+import { drizzleDB } from '~/db'
 
 export const Post = defineDocumentType(() => ({
     name: 'Post',
@@ -62,7 +62,7 @@ const syncContentFromDatabase = async (contentDir: string) => {
     let syncInterval: string | number | NodeJS.Timeout | undefined
 
     const syncRun = async () => {
-        const posts = await prisma.post.findMany()
+        const posts = await drizzleDB.query.posts.findMany();
 
         for (const post of posts) {
             const filePath = `${contentDir}/${post.slug}.mdx`

@@ -56,6 +56,8 @@ const About: NextPage = () => {
                     width={350} 
                     height={250}
                     className='rounded-sm border flex-1 lg:order-2' 
+                    placeholder='blur'
+                    blurDataURL="/Logo.png"
                 />
 
                 <article className="text-center py-4 2xl:px-20 lg:order-1 flex-1 h-full">
