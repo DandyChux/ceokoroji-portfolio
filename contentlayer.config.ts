@@ -5,7 +5,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import { drizzleDB } from '~/db'
+import { drizzleDB } from './src/db'
 
 export const Post = defineDocumentType(() => ({
     name: 'Post',
