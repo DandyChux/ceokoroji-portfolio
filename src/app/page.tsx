@@ -1,26 +1,12 @@
-"use client"
-
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProjectCard from '~/components/Projects/project-card'
-import { useModal } from '~/contexts/modal-context'
-import ContactForm from '~components/Forms/ContactForm'
 import { Button } from '~components/ui/button'
 import HeroCode from '~public/home_hero-code.svg'
 import type { Project } from '~typings/project'
 
 export default function Home() {
-
-    const { openModal, closeModal }  = useModal();
-
-    const handleModalOpen = () => {
-        openModal({
-            content: <ContactForm onSuccess={() => closeModal()} />,
-            title: 'Contact Me',
-            description: 'Send me a message and I will get back to you as soon as possible.',
-        })
-    }
 
     const featuredProjects: Project[] = [
         {

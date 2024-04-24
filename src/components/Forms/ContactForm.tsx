@@ -1,12 +1,23 @@
 "use client"
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z, type ZodType } from 'zod'
+import { cn } from '~/lib/utils'
 import { Button } from '~components/ui/button'
 import { Input } from '~components/ui/input'
 import { Textarea } from '~components/ui/textarea'
 import useAlert from '~hooks/useAlert'
+import { 
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    FormDescription
+} from '../ui/form'
 
 export type ContactFormInputs = {
     name: string;
@@ -20,18 +31,18 @@ const schema: ZodType<ContactFormInputs> = z.object({
     message: z.string().max(250, { message: 'Message must be less than 250 characters' })
 })
 
-type ContactFormProps = {
+interface ContactFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
     onSuccess?: () => void;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
-    const { register, handleSubmit, watch, formState: { errors, isLoading } } = useForm<ContactFormInputs>({
+const ContactForm: React.FC<ContactFormProps> = ({ onSuccess, className }) => {
+    const form = useForm<ContactFormInputs>({
         resolver: zodResolver(schema)
     });
 
     const { setAlert } = useAlert();
 
-    const messageField = watch('message', '');
+    const messageField = form.watch('message', '');
 
     const submitData = async (data: ContactFormInputs) => {
         const { signal, abort } = new AbortController();
@@ -64,34 +75,72 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     }
 
     return (
-        <>
-            <form className='flex flex-col' onSubmit={handleSubmit(submitData)}>
-                <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="name" className='mb-2 font-medium'>Name</label>
-                    <Input type="text" id="name" className='bg-[#ffffff]' {...register('name', {
-                        required: true,
-                    })} />
-                    {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
-                </div>
-                <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="email" className='mb-2 font-medium'>Email</label>
-                    <Input type="email" id="email" className='bg-[#ffffff]' {...register('email', {
-                        required: true,
-                    })} />
-                    {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
-                </div>
-                <div className='flex flex-col my-[0.75rem] mx-0'>
-                    <label htmlFor="message" className='mb-2 font-medium'>Message</label>
-                    <Textarea id="message" rows={5} className='bg-[#ffffff]' {...register('message', {
-                        required: true,
-                    })} />
-                    <small className='font-medium mt-2'>{messageField.length}/250</small>
-                    {errors.message && <span className='text-red-500'>{errors.message.message}</span>}
-                </div>
+        <Form {...form}>
+            <form className={cn('flex flex-col w-full gap-4', className)} onSubmit={form.handleSubmit(submitData)}>
+                <FormField 
+                    control={form.control}
+                    name="name"
+                    render={ ({ field }) => (
+                        <FormItem>
+                            {/* <FormLabel htmlFor="name">Name</FormLabel> */}
+                            <FormControl>
+                                <Input
+                                    type='text'
+                                    placeholder='Full Name'
+                                    required
+                                    className='bg-input'
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    ) }
+                />
+                <FormField 
+                    control={form.control}
+                    name="email"
+                    render={ ({ field }) => (
+                        <FormItem>
+                            {/* <FormLabel htmlFor="email">Email</FormLabel> */}
+                            <FormControl>
+                                <Input
+                                    type='email'
+                                    placeholder='Email Address'
+                                    required
+                                    className='bg-input'
+                                    inputMode='email'
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    ) }
+                />
+                <FormField 
+                    control={form.control}
+                    name="message"
+                    render={ ({ field }) => (
+                        <FormItem>
+                            {/* <FormLabel htmlFor="message">Message</FormLabel> */}
+                            <FormControl>
+                                <Textarea
+                                    rows={10}
+                                    placeholder='Message'
+                                    className='bg-input'
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormDescription>
+                                {messageField.length}/250
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    ) }
+                />
                 
-                <Button loading={isLoading}>Submit</Button>
+                <Button size='lg' loading={form.formState.isLoading} disabled={!form.formState.isValid}>Submit</Button>
             </form>
-        </>
+        </Form>
     )
 }
 
