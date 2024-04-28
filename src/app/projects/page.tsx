@@ -1,4 +1,5 @@
 import { type Metadata, type NextPage } from 'next'
+import Image from 'next/image'
 import ProjectCard from '~/components/Projects/project-card'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Separator } from '~/components/ui/separator'
@@ -148,14 +149,14 @@ const Projects: NextPage = () => {
     ]
 
     return (
-        <div className='flex flex-col h-full'>
+        <div className='relative flex flex-col h-full'>
             <h1 className='text-3xl mt-3 md:text-[5rem] w-full text-center leading-normal font-semibold'>
                 Projects
             </h1>
 
             <span className='text-lg w-full text-center leading-normal font-medium mt-4'>Specializations</span>
-            <div className='grid grid-cols-auto md:inline-flex items-center justify-center w-full py-4 gap-4'>
-                <Card className='flex-1 rounded-none'>
+            <div className='grid grid-cols-auto md:inline-flex items-center justify-center w-full 2xl:w-1/2 mx-auto py-4 gap-4'>
+                <Card className='flex-1 rounded-none py-4'>
                     <CardHeader className='px-0'>
                         <Separator className='w-[40%]' />
                     </CardHeader>
@@ -171,7 +172,7 @@ const Projects: NextPage = () => {
                     </CardContent>
                 </Card>
 
-                <Card className='flex-1 rounded-none'>
+                <Card className='flex-1 rounded-none py-4'>
                     <CardHeader className='px-0'>
                         <Separator className='w-[40%]' />
                     </CardHeader>
@@ -187,7 +188,7 @@ const Projects: NextPage = () => {
                     </CardContent>
                 </Card>
 
-                <Card className='flex-1 rounded-none'>
+                <Card className='flex-1 rounded-none py-4'>
                     <CardHeader className='px-0'>
                         <Separator className='w-[40%]' />
                     </CardHeader>
@@ -212,6 +213,14 @@ const Projects: NextPage = () => {
                     />
                 ))}
             </div>
+
+            {/* Cricle vectors */}
+            <div
+                className='fixed left-0 -translate-x-14 2xl:translate-x-[25.5rem] bottom-24 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80'
+            />
+            <div
+                className='fixed right-0 translate-x-14 2xl:translate-x-12 top-24 2xl:top-52 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80'
+            />
         </div>
     )
 

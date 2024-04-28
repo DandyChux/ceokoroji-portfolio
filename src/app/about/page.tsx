@@ -71,19 +71,19 @@ const About: NextPage = () => {
         Your friendly neighborhood developer
       </h3>
 
-      <div className="mb-4 flex flex-wrap items-center">
+      <div className="mb-4 flex flex-col xl:flex-row xl:flex-wrap items-center">
         <Image
           src={"/ceokoroji_headshot.png"}
           alt="My headshot"
           priority
           width={350}
           height={250}
-          className="flex-1 rounded-sm border lg:order-2"
+          className="xl:flex-[1_1_30%] rounded-sm border lg:order-2"
           placeholder="blur"
           blurDataURL="/Logo.png"
         />
 
-        <article className="h-full flex-1 py-4 text-center lg:order-1 2xl:px-20">
+        <article className="xl:h-auto xl:flex-[1_1_70%] py-4 indent-12 2xl:order-1 2xl:px-20">
           <p className="font-base my-4 text-base lg:text-lg 2xl:text-xl">
             I recently graduated from the University of South Florida with a
             B.S. in Information Science. I am currently working as a Financial

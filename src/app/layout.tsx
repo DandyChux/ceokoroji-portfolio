@@ -27,6 +27,9 @@ export const viewport: Viewport = {
     initialScale: 1
 }
 
+// export const revalidate = 0
+// export const dynamic = 'force-dynamic'
+
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     const headersList = headers()
     const header_url = headersList.get('x-url') || ''
@@ -36,7 +39,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
             <body className='flex flex-col xl:flex-row relative h-[100dvh]'>
                 <Providers>
                     <Header />
-                    <Sidebar />  
+                    <Sidebar className='z-10' />  
                     <Suspense 
                         fallback={<div className='relative flex flex-[1_1_70%] 3xl:flex-[1_1_80%] p-12 items-center justify-center lg:overflow-y-auto lg:h-[100dvh]'><Loading /></div>}
                     >

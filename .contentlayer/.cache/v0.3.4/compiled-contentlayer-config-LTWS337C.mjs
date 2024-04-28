@@ -76,17 +76,14 @@ __export(schema_exports, {
   categories: () => categories,
   insertPostSchema: () => insertPostSchema,
   posts: () => posts,
-  prismaMigrations: () => prismaMigrations,
   selectPostSchema: () => selectPostSchema
 });
 import {
   boolean,
-  integer,
   pgEnum,
   pgTable,
   text,
-  timestamp,
-  varchar
+  timestamp
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 var categories = pgEnum("categories", [
@@ -101,19 +98,6 @@ var categories = pgEnum("categories", [
   "Food",
   "Travel"
 ]);
-var prismaMigrations = pgTable("_prisma_migrations", {
-  id: varchar("id", { length: 36 }).primaryKey().notNull(),
-  checksum: varchar("checksum", { length: 64 }).notNull(),
-  finishedAt: timestamp("finished_at", { withTimezone: true, mode: "string" }),
-  migrationName: varchar("migration_name", { length: 255 }).notNull(),
-  logs: text("logs"),
-  rolledBackAt: timestamp("rolled_back_at", {
-    withTimezone: true,
-    mode: "string"
-  }),
-  startedAt: timestamp("started_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
-  appliedStepsCount: integer("applied_steps_count").default(0).notNull()
-});
 var posts = pgTable("posts", {
   id: text("id").primaryKey().notNull(),
   title: text("title").notNull(),
@@ -258,4 +242,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-AIRSGSBD.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-LTWS337C.mjs.map

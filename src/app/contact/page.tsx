@@ -1,4 +1,8 @@
+import { Metadata } from "next";
 import ContactForm from "~/components/Forms/ContactForm";
+
+// export const dynamic = 'force-dynamic'
+// export const revalidate = 0
 
 export const metadata: Metadata = {
     title: 'Contact',

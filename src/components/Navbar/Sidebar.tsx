@@ -7,7 +7,7 @@ import type { IconType } from 'react-icons/lib';
 import { RiHome3Line } from 'react-icons/ri';
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { cn } from "~lib/utils";
-import { NavItem } from './NavItem';
+import { NavItem } from './nav-item';
 
 type MenuLink = {
     text: string;

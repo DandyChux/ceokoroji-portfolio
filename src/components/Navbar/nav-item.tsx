@@ -22,10 +22,10 @@ export const NavItem: React.FC<INavItem> = ({ text, href, setSidebarOpen, classN
     };
 
     return (
-        <Link href={href} target='_blank' rel='noopener' key={text} onClick={handleClick} className={cn("cursor-pointer relative flex justify-center uppercase py-2 border border-transparent hover:border-border hover:rounded-md", className, {
+        <a href={href} target='_blank' rel='noreferrer' key={text} onClick={handleClick} className={cn("cursor-pointer relative flex justify-center uppercase py-2 border border-transparent hover:border-border hover:rounded-md", className, {
             'border-border rounded-md before:content-["•"] before:absolute before:text-accent before:text-lg before:-top-2 before:font-bold': pathname === href,
-        })} passHref>
+        })}>
             {text}
-        </Link>
+        </a>
     );
 }

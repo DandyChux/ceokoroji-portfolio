@@ -138,7 +138,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess, className }) => {
                     ) }
                 />
                 
-                <Button size='lg' loading={form.formState.isLoading} disabled={!form.formState.isValid}>Submit</Button>
+                <Button 
+                    size='lg' 
+                    loading={form.formState.isLoading} 
+                    disabled={!form.formState.isValid}
+                    className="self-center"
+                    variant={'accent'}
+                >
+                    Submit
+                </Button>
             </form>
         </Form>
     )
