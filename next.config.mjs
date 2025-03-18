@@ -10,10 +10,6 @@ import { withContentlayer } from "next-contentlayer";
 
 /** @type {import("next").NextConfig} */
 export default withContentlayer({
-  reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    appDir: true,
-    serverActions: true,
-  }
+	reactStrictMode: true,
+	swcMinify: true
 });
