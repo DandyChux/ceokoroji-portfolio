@@ -1,14 +1,15 @@
 # Chukwuma Okoroji Portfolio - Refactored
 
-A modern portfolio website built with Svelte 5 + Bun (frontend) and Rust + Actix-web (backend).
+A modern portfolio website built with Svelte + Bun (frontend) and Rust + Actix-web (backend).
 
 ## Tech Stack
 
 ### Frontend
-- **Framework**: Svelte 5 + SvelteKit
+- **Framework**: Svelte 5 (with svelte-spa-router)
 - **Runtime**: Bun
 - **Styling**: Tailwind CSS v4
 - **Language**: TypeScript
+- **Build Tool**: Vite
 
 ### Backend
 - **Language**: Rust
@@ -72,6 +73,8 @@ The frontend will start on `http://localhost:5173`.
    bun run build
    ```
 
+The built files will be in the `dist/` directory.
+
 ## API Endpoints
 
 - `GET /api/posts` - Get all blog posts
@@ -81,13 +84,22 @@ The frontend will start on `http://localhost:5173`.
 
 ## Features
 
-- ✅ Server-side rendering with SvelteKit
+- ✅ Client-side routing with svelte-spa-router
 - ✅ Type-safe API with TypeScript and Rust
 - ✅ Contact form with email integration
 - ✅ Blog post management
 - ✅ Project showcase
 - ✅ Responsive design with Tailwind CSS
 - ✅ Dark mode support
+
+## Architecture
+
+The frontend is a **single-page application (SPA)** built with plain Svelte 5 and Vite, without SvelteKit. This provides a clean separation between the frontend and backend:
+
+- **Frontend**: Handles UI and client-side routing
+- **Backend**: Rust API server handles all data and business logic
+
+This architecture makes it easy to deploy the frontend as static files and the backend as a standalone service.
 
 ## License
 

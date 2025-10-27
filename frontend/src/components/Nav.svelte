@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { location } from 'svelte-spa-router';
 
 	const navItems = [
 		{ href: '/', label: 'Home' },
@@ -11,9 +11,9 @@
 
 	function isActive(href: string): boolean {
 		if (href === '/') {
-			return $page.url.pathname === '/';
+			return $location === '/';
 		}
-		return $page.url.pathname.startsWith(href);
+		return $location.startsWith(href);
 	}
 </script>
 
@@ -27,7 +27,7 @@
 			{#each navItems as item}
 				<li>
 					<a
-						href={item.href}
+						href="#{item.href}"
 						class="hover:text-accent transition-colors {isActive(item.href)
 							? 'text-accent font-semibold'
 							: 'text-foreground'}"
