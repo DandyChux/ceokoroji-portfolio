@@ -1,75 +1,28 @@
 {
-  "compilerOptions": {
-    "target": "es2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "baseUrl": ".",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "noUncheckedIndexedAccess": true,
-    "paths": {
-      "~/*": [
-        "./src/*"
-      ],
-      "~public/*": [
-        "./public/*"
-      ],
-      "~hooks/*": [
-        "./src/hooks/*"
-      ],
-      "~typings/*": [
-        "src/typings/*"
-      ],
-      "~contexts/*": [
-        "./src/contexts/*"
-      ],
-      "~posts/*": [
-        "./posts/*"
-      ],
-      "~components/*": [
-        "src/components/*"
-      ],
-      "~styles/*": [
-        "./src/styles/*"
-      ],
-      "~lib/*": [
-        "src/lib/*"
-      ],
-      "~env/*": [
-        "./src/env/*"
-      ],
-      "contentlayer/generated": ["./.contentlayer/generated"],
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.mjs",
-    ".next/types/**/*.ts", 
-    ".contentlayer/**/*.{ts, js, mjs, cjs}",
-    "next.config.mjs",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"files": [],
+	"references": [
+		{
+			"path": "./tsconfig.app.json"
+		},
+		{
+			"path": "./tsconfig.node.json"
+		}
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"$": [
+				"./src"
+			],
+			"$lib": [
+				"./src/lib"
+			],
+			"$lib/*": [
+				"./src/lib/*"
+			],
+			"$components/*": [
+				"./src/components/*"
+			]
+		}
+	}
 }
