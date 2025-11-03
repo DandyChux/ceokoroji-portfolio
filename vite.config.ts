@@ -1,15 +1,10 @@
 import tailwindcss from '@tailwindcss/vite';
+import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import path from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
-	plugins: [tailwindcss(), svelte()],
-	resolve: {
-		alias: {
-			$: path.resolve("./src"),
-			$lib: path.resolve("./src/lib")
-		}
+	plugins: [tailwindcss(), sveltekit()],
+	server: {
+		port: 3000
 	}
 });

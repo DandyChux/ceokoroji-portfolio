@@ -1,0 +1,96 @@
+<script lang="ts">
+	import { ArrowUpRight } from "@lucide/svelte";
+	import type { HTMLAttributes } from "svelte/elements";
+	import { cn } from "$lib/utils";
+	import type { Project } from "$routes/projects/schema";
+	import GithubBadge from "./github-badge.svelte";
+	import Image from "./ui/image.svelte";
+	import Badge from "./ui/badge/badge.svelte";
+	import Skeleton from "./ui/skeleton/skeleton.svelte";
+	import {
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle,
+	} from "./ui/card";
+	import Button from "./ui/button/button.svelte";
+
+	interface Props extends HTMLAttributes<HTMLDivElement>, Project {
+		class?: string;
+	}
+
+	let {
+		image,
+		name,
+		description,
+		documentation,
+		deployment,
+		skills,
+		class: className,
+		...restProps
+	}: Props = $props();
+</script>
+
+<Card
+	class={cn(
+		"relative flex flex-col group w-full max-w-[50rem] text-center justify-between p-4 duration-500 border-2 border-secondary rounded-lg shadow-xl motion-safe:hover:scale-105",
+		className,
+	)}
+	{...restProps}
+>
+	{#if deployment}
+		<ArrowUpRight
+			class="w-4 h-4 self-end group-hover:text-accent transition-all duration-500"
+		/>
+		<Button
+			variant="link"
+			class="text-sm underline decoration-dotted underline-offset-2"
+			href={deployment}
+			target="_blank"
+			rel="noreferrer"
+			aria-label="View Deployment"
+		>
+			<span class="absolute inset-0"></span>
+		</Button>
+	{/if}
+
+	<CardHeader>
+		<div class="relative w-full mx-auto mb-4 h-[10rem]">
+			{#if image}
+				<Image
+					src={image}
+					alt={name}
+					className="w-full h-full object-cover aspect-square"
+				/>
+			{:else}
+				<Skeleton class="w-full h-full" />
+			{/if}
+		</div>
+
+		<CardTitle class="font-normal text-lg 2xl:text-xl">{name}</CardTitle>
+		<CardDescription class="font-light text-sm text-muted"
+			>{description}</CardDescription
+		>
+	</CardHeader>
+
+	<CardContent>
+		<Button
+			variant="link"
+			class="relative text-sm underline decoration-dotted underline-offset-2"
+			href={documentation}
+			target="_blank"
+			rel="noreferrer"
+		>
+			<GithubBadge repo={documentation.split("/").pop() ?? ""} />
+		</Button>
+
+		<menu>
+			{#each skills ?? [] as skill, index (index)}
+				<Badge>
+					{skill}
+				</Badge>
+			{/each}
+		</menu>
+	</CardContent>
+</Card>
