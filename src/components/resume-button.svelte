@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { Button } from "$components/ui/button";
+	import { Button, buttonVariants } from "$components/ui/button";
 	import { ArrowDown } from "@lucide/svelte";
+	import { cn } from "$lib/utils";
+	import { page } from "$app/state";
 
-	let pathname = "/";
-	onMount(() => {
-		if (typeof window !== "undefined") {
-			pathname = window.location.pathname;
-		}
-	});
+	type Props = {
+		class?: string;
+	};
 
-	$: btnText = pathname === "/" ? "Download CV" : "View My Resume";
+	let { class: className }: Props = $props();
+
+	let btnText = page.url.pathname === "/" ? "Download CV" : "View My Resume";
 
 	function handleClick() {
 		// Call Plausible if available (plausible.js exposes a global function)
@@ -18,7 +19,7 @@
 			if (typeof (window as any).plausible === "function") {
 				(window as any).plausible("Resume Downloaded", {
 					props: {
-						btnLocation: pathname,
+						btnLocation: page.url.pathname,
 						btnText,
 					},
 				});
@@ -32,12 +33,16 @@
 
 <Button
 	variant="link"
-	href="/Chukwuma_Okoroji.pdf"
+	href="https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/files/CEOkoroji_Resume.pdf"
 	rel="noopener noreferrer"
 	target="_blank"
 	download
 	on:click={handleClick}
 	aria-label={btnText}
+	class={buttonVariants({
+		variant: "accent",
+		class: cn("w-full", className),
+	})}
 >
 	{btnText}
 	<ArrowDown className="ml-2 size-4" />

@@ -9,6 +9,6 @@ pub struct ContactForm {
     #[validate(email(message = "Invalid email address"))]
     pub email: String,
 
-    #[validate(length(max = 250, message = "Message must be less than 250 characters"))]
+    #[validate(length(max = 500, message = "Message must be less than 500 characters"))]
     pub message: String,
 }

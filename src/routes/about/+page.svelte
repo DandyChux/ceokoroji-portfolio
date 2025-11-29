@@ -69,29 +69,25 @@
 	] as const;
 </script>
 
+<svelte:head>
+	<title>About | Chukwuma Okoroji</title>
+</svelte:head>
+
 <div class="flex h-full flex-col">
 	<h1 class="mb-2 self-start text-2xl font-medium xl:text-3xl">About Me</h1>
 	<h3 class="mb-8 self-start text-xl font-normal capitalize xl:text-2xl">
 		Your friendly neighborhood developer
 	</h3>
 
-	<div class="mb-4 flex flex-col items-center xl:flex-row xl:flex-wrap">
-		<div
-			class="relative aspect-square mb-4 lg:order-2 xl:flex-[1_1_30%] rounded-sm border border-border"
-		>
-			<Image
-				src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/ceokoroji_headshot.png"}
-				alt="My headshot"
-				priority
-				fill
-				class="absolute object-cover w-full h-full"
-			/>
-		</div>
+	<div class="mb-4 flex flex-col items-center xl:flex-row">
+		<enhanced:img
+			src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/images/ceokoroji_full-shot.webp"}
+			alt="Full body image"
+			class="xl:order-2 xl:w-1/4 h-auto rounded-lg border mb-4"
+		/>
 
-		<article
-			class="py-4 indent-12 xl:h-auto xl:flex-[1_1_70%] 2xl:order-1 2xl:px-20"
-		>
-			<p class="font-base my-4 text-base lg:text-lg 2xl:text-xl">
+		<article class="py-4 indent-12 xl:w-3/4 xl:h-auto 2xl:px-20 space-y-4">
+			<p class="font-base text-base lg:text-lg 2xl:text-xl">
 				I recently graduated from the University of South Florida with a
 				B.S. in Information Science. I am currently working as a
 				Financial Systems Developer at Jabil, where I support the
@@ -102,14 +98,14 @@
 				impact on the lives of others.
 			</p>
 
-			<p class="font-base my-4 text-base lg:text-lg 2xl:text-xl">
+			<p class="font-base text-base lg:text-lg 2xl:text-xl">
 				Inspiration for my career path came from my natural curiosity
 				and desire to learn. I was always interested in how technology
 				worked and how I could use it to solve problems. I fell in love
 				with the idea of being able to create something from nothing.
 			</p>
 
-			<p class="font-base my-4 text-base lg:text-lg 2xl:text-xl">
+			<p class="font-base text-base lg:text-lg 2xl:text-xl">
 				Blending a vibrant personality and an unwavering work ethic, I
 				craft efficient digital solutions. As a full-stack developer, I
 				strive each day to deliver cutting-edge, user-friendly
@@ -118,11 +114,9 @@
 				projects that aim to make a real impact on the lives of their
 				users.
 			</p>
-		</article>
-	</div>
 
-	<div class="flex w-full pt-10">
-		<ResumeButton />
+			<ResumeButton class="w-auto indent-0" />
+		</article>
 	</div>
 
 	<div class="flex flex-col items-center pt-10">

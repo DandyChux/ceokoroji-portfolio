@@ -1,8 +1,8 @@
 <script lang="ts" module>
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
-	import * as Sidebar from "$components/ui/sidebar";
 	import type { Component } from "svelte";
+	import logoSrc from "$lib/assets/ceokoroji-logo.webp";
 	import {
 		House,
 		Mail,
@@ -12,7 +12,12 @@
 		BrainCog,
 		Github,
 		Instagram,
+		Menu,
+		X,
 	} from "@lucide/svelte";
+	import * as Sheet from "$components/ui/sheet";
+	import Button, { buttonVariants } from "./ui/button/button.svelte";
+	import Logo from "./logo.svelte";
 
 	type MenuLink = {
 		label: string;
@@ -22,7 +27,7 @@
 
 	export const navLinks: MenuLink[] = [
 		{ href: "/", label: "Home", icon: House },
-		{ href: "/about", label: "About", icon: User },
+		{ href: "/about", label: "About Me", icon: User },
 		{ href: "/projects", label: "Projects", icon: BrainCog },
 		{ href: "/blog", label: "Blog", icon: Pencil },
 		{ href: "/contact", label: "Contact", icon: Mail },
@@ -54,16 +59,29 @@
 	}
 </script>
 
-<nav class="bg-card border-b border-border px-6 py-4 xl:hidden">
-	<div class="max-w-7xl mx-auto flex items-center justify-between">
-		<a href="/" class="text-2xl font-bold text-accent"> CO </a>
-
-		<ul class="flex space-x-6">
-			{#each navLinks as link}
-				<li>
+<div
+	class="sticky top-0 flex flex-wrap w-full items-center justify-between p-4 bg-transparent text-secondary-foreground z-10 xl:hidden"
+	role="navigation"
+>
+	<Sheet.Root>
+		<Sheet.Trigger
+			class={buttonVariants({ variant: "outline", size: "icon" })}
+		>
+			<Menu class="size-8" />
+		</Sheet.Trigger>
+		<Sheet.Content>
+			<Sheet.Header>
+				<Sheet.Title class="capitalize">
+					{page.url.pathname === "/"
+						? "Home"
+						: page.url.pathname.split("/").pop()}
+				</Sheet.Title>
+			</Sheet.Header>
+			<nav class="flex flex-col items-center justify-center">
+				{#each navLinks as link, index (index)}
 					<a
 						href={link.href}
-						class="hover:text-accent transition-colors {isActive(
+						class="hover:text-accent transition-colors w-full border-b border-border/20 py-2 px-4 {isActive(
 							link.href,
 						)
 							? 'text-accent font-semibold'
@@ -71,8 +89,25 @@
 					>
 						{link.label}
 					</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
-</nav>
+				{/each}
+			</nav>
+		</Sheet.Content>
+	</Sheet.Root>
+	<!-- <enhanced:img
+		src={logoSrc}
+		alt="Logo"
+		width="100"
+		height="100"
+		class="mx-auto"
+	/> -->
+	<Button
+		variant="link"
+		href="/admin/login"
+		class={buttonVariants({
+			variant: "ghost",
+			class: "relative size-auto mx-auto",
+		})}
+	>
+		<enhanced:img src={logoSrc} alt="Logo" width="100" height="100" />
+	</Button>
+</div>

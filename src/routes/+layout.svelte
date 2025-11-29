@@ -1,12 +1,15 @@
 <script lang="ts">
 	import "../app.css";
-	import favicon from "$lib/assets/favicon.svg";
+	import favicon from "$lib/assets/ceokoroji-logo.ico";
 	import { page } from "$app/state";
 	import Nav from "$components/navbar.svelte";
 	import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";
 	import AppSidebar from "$components/app-sidebar.svelte";
+	import { ModeWatcher } from "mode-watcher";
 	import * as Sidebar from "$components/ui/sidebar";
 	import { browser } from "$app/environment";
+	import Logo from "$components/logo.svelte";
+	import { Toaster } from "svelte-sonner";
 
 	const queryClient = new QueryClient({
 		defaultOptions: {
@@ -18,6 +21,8 @@
 	});
 
 	let { children } = $props();
+
+	const isAdminRoute = $derived(page.url.pathname.startsWith("/admin"));
 </script>
 
 <svelte:head>
@@ -27,17 +32,26 @@
 	<title>Chukwuma Okoroji</title>
 </svelte:head>
 
-<Sidebar.Provider>
-	<QueryClientProvider client={queryClient}>
-		<div class="flex h-[100dvh] w-screen">
-			<Nav />
-			<AppSidebar />
-			<Sidebar.Trigger class="text-accent hidden xl:flex" />
-			<main
-				class="flex h-full w-full flex-col overflow-y-auto px-4 lg:px-8 2xl:px-16"
-			>
-				{@render children()}
-			</main>
-		</div>
-	</QueryClientProvider>
-</Sidebar.Provider>
+<QueryClientProvider client={queryClient}>
+	<ModeWatcher />
+	<Toaster richColors />
+
+	{#if isAdminRoute}
+		<!-- Admin routes: minimal wrapper, let admin layout handle everything -->
+		{@render children()}
+	{:else}
+		<!-- Public routes: full sidebar layout -->
+		<Sidebar.Provider>
+			<div class="flex flex-col xl:flex-row h-[100dvh] w-screen">
+				<Nav />
+				<AppSidebar />
+				<main
+					class="relative flex flex-col size-full overflow-y-auto p-4 lg:p-6 2xl:p-8"
+				>
+					{@render children()}
+					<Logo />
+				</main>
+			</div>
+		</Sidebar.Provider>
+	{/if}
+</QueryClientProvider>

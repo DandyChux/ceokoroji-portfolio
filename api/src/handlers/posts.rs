@@ -1,5 +1,5 @@
 use actix_web::{
-    HttpResponse, Responder,
+    HttpResponse, delete, get, post, put,
     web::{self, Data},
 };
 use serde_json::json;
@@ -8,56 +8,74 @@ use uuid::Uuid;
 
 use crate::{
     AppState,
-    schemas::post::{NewPost, Post},
+    error::{AppError, AppResult},
+    schemas::post::{NewPost, Post, UpdatePost},
 };
 
-pub async fn get_posts(app_state: web::Data<AppState>) -> impl Responder {
+#[get("")]
+pub async fn get_posts(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
     let result = sqlx::query_as::<_, Post>(
-        "SELECT id, title, date, description, published, tags, category::text as category, content, slug FROM posts"
+        "SELECT id, title, date, description, published, tags, category, content, slug FROM posts WHERE published = true ORDER BY date DESC"
     )
     .fetch_all(pool)
     .await;
 
     match result {
-        Ok(posts) => HttpResponse::Ok().json(json!({ "data": posts })),
+        Ok(posts) => Ok(HttpResponse::Ok().json(posts)),
+        Err(e) => Err(AppError::Internal("Failed to fetch posts".to_string())),
+    }
+}
+
+#[get("/admin")]
+pub async fn get_all_posts(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let result = sqlx::query_as::<_, Post>(
+        "SELECT id, title, date, description, published, tags, category, content, slug FROM posts ORDER BY date DESC"
+    )
+    .fetch_all(pool)
+    .await;
+
+    match result {
+        Ok(posts) => Ok(HttpResponse::Ok().json(posts)),
         Err(e) => {
             error!("Failed to fetch posts: {:?}", e);
-            HttpResponse::InternalServerError().json(json!({ "error": "Failed to fetch posts" }))
+            Err(AppError::Internal("Failed to fetch posts".to_string()))
         }
     }
 }
 
-pub async fn get_post_by_id(
+#[get("/{slug}")]
+pub async fn get_post_by_slug(
     app_state: web::Data<AppState>,
-    id: web::Path<String>,
-) -> impl Responder {
+    slug: web::Path<String>,
+) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
     let result = sqlx::query_as::<_, Post>(
-        "SELECT id, title, date, description, published, tags, category::text as category, content, slug FROM posts WHERE id = $1"
+        "SELECT id, title, date, description, published, tags, category, content, slug FROM posts WHERE slug = $1"
     )
-    .bind(id.as_str())
+    .bind(slug.as_str())
     .fetch_one(pool)
     .await;
 
     match result {
-        Ok(post) => HttpResponse::Ok().json(post),
-        Err(sqlx::Error::RowNotFound) => {
-            HttpResponse::NotFound().json(json!({ "error": "Post not found" }))
-        }
+        Ok(post) => Ok(HttpResponse::Ok().json(post)),
+        Err(sqlx::Error::RowNotFound) => Err(AppError::NotFound("Post not found".to_string())),
         Err(e) => {
             error!("Failed to fetch post: {:?}", e);
-            HttpResponse::InternalServerError().json(json!({ "error": "Failed to fetch post" }))
+            Err(AppError::Internal("Failed to fetch post".to_string()))
         }
     }
 }
 
+#[post("")]
 pub async fn create_post(
     app_state: web::Data<AppState>,
     new_post: web::Json<NewPost>,
-) -> impl Responder {
+) -> AppResult<HttpResponse> {
     let id = Uuid::new_v4().to_string();
     let category = new_post
         .category
@@ -67,8 +85,8 @@ pub async fn create_post(
 
     let result = sqlx::query_as::<_, Post>(
         "INSERT INTO posts (id, title, description, content, tags, category, slug, published)
-         VALUES ($1, $2, $3, $4, $5, $6::categories, $7, false)
-         RETURNING id, title, date, description, published, tags, category::text as category, content, slug"
+         VALUES ($1, $2, $3, $4, $5, $6, $7, false)
+         RETURNING id, title, date, description, published, tags, category, content, slug",
     )
     .bind(&id)
     .bind(&new_post.title)
@@ -81,10 +99,105 @@ pub async fn create_post(
     .await;
 
     match result {
-        Ok(post) => HttpResponse::Created().json(post),
+        Ok(post) => Ok(HttpResponse::Created().json(post)),
         Err(e) => {
             error!("Failed to create post: {:?}", e);
-            HttpResponse::InternalServerError().json(json!({ "error": "Failed to create post" }))
+            Err(AppError::Internal("Failed to create post".to_string()))
+        }
+    }
+}
+
+#[put("/{slug}")]
+pub async fn update_post(
+    app_state: web::Data<AppState>,
+    slug: web::Path<String>,
+    update_data: web::Json<UpdatePost>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    // Build dynamic UPDATE query based on provided fields
+    let mut query = String::from("UPDATE posts SET updated_at = NOW()");
+    let mut bind_count = 1;
+
+    if update_data.title.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", title = ${}", bind_count));
+    }
+    if update_data.description.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", description = ${}", bind_count));
+    }
+    if update_data.content.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", content = ${}", bind_count));
+    }
+    if update_data.tags.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", tags = ${}", bind_count));
+    }
+    if update_data.category.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", category = ${}", bind_count));
+    }
+    if update_data.published.is_some() {
+        bind_count += 1;
+        query.push_str(&format!(", published = ${}", bind_count));
+    }
+
+    query.push_str(&format!(" WHERE slug = $1 RETURNING id, title, date, description, published, tags, category, content, slug"));
+
+    let mut query_builder = sqlx::query_as::<_, Post>(&query);
+    query_builder = query_builder.bind(slug.as_str());
+
+    if let Some(title) = &update_data.title {
+        query_builder = query_builder.bind(title);
+    }
+    if let Some(description) = &update_data.description {
+        query_builder = query_builder.bind(description);
+    }
+    if let Some(content) = &update_data.content {
+        query_builder = query_builder.bind(content);
+    }
+    if let Some(tags) = &update_data.tags {
+        query_builder = query_builder.bind(tags);
+    }
+    if let Some(category) = &update_data.category {
+        query_builder = query_builder.bind(category);
+    }
+    if let Some(published) = update_data.published {
+        query_builder = query_builder.bind(published);
+    }
+
+    match query_builder.fetch_one(pool).await {
+        Ok(post) => Ok(HttpResponse::Ok().json(post)),
+        Err(sqlx::Error::RowNotFound) => Err(AppError::NotFound("Post not found".to_string())),
+        Err(e) => Err(AppError::Internal("Failed to update post".to_string())),
+    }
+}
+
+#[delete("/{slug}")]
+pub async fn delete_post(
+    app_state: web::Data<AppState>,
+    slug: web::Path<String>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let result = sqlx::query("DELETE FROM posts WHERE slug = $1")
+        .bind(slug.as_str())
+        .execute(pool)
+        .await;
+
+    match result {
+        Ok(result) => {
+            if result.rows_affected() == 0 {
+                Err(AppError::NotFound("Post not found".to_string()))
+            } else {
+                Ok(HttpResponse::Ok().json(json!({ "message": "Post deleted successfully" })))
+            }
+        }
+        Err(e) => {
+            error!("Failed to delete post: {:?}", e);
+            Err(AppError::Internal("Failed to delete post".to_string()))
         }
     }
 }

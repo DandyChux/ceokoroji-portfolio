@@ -4,7 +4,6 @@
 	import { cn } from "$lib/utils";
 	import type { Project } from "$routes/projects/schema";
 	import GithubBadge from "./github-badge.svelte";
-	import Image from "./ui/image.svelte";
 	import Badge from "./ui/badge/badge.svelte";
 	import Skeleton from "./ui/skeleton/skeleton.svelte";
 	import {
@@ -14,7 +13,6 @@
 		CardHeader,
 		CardTitle,
 	} from "./ui/card";
-	import Button from "./ui/button/button.svelte";
 
 	interface Props extends HTMLAttributes<HTMLDivElement>, Project {
 		class?: string;
@@ -43,8 +41,7 @@
 		<ArrowUpRight
 			class="w-4 h-4 self-end group-hover:text-accent transition-all duration-500"
 		/>
-		<Button
-			variant="link"
+		<a
 			class="text-sm underline decoration-dotted underline-offset-2"
 			href={deployment}
 			target="_blank"
@@ -52,16 +49,16 @@
 			aria-label="View Deployment"
 		>
 			<span class="absolute inset-0"></span>
-		</Button>
+		</a>
 	{/if}
 
 	<CardHeader>
 		<div class="relative w-full mx-auto mb-4 h-[10rem]">
 			{#if image}
-				<Image
+				<enhanced:img
 					src={image}
 					alt={name}
-					className="w-full h-full object-cover aspect-square"
+					class="w-auto h-full mx-auto"
 				/>
 			{:else}
 				<Skeleton class="w-full h-full" />
@@ -69,25 +66,24 @@
 		</div>
 
 		<CardTitle class="font-normal text-lg 2xl:text-xl">{name}</CardTitle>
-		<CardDescription class="font-light text-sm text-muted"
-			>{description}</CardDescription
-		>
+		<CardDescription class="font-light text-sm text-muted">
+			{description}
+		</CardDescription>
 	</CardHeader>
 
 	<CardContent>
-		<Button
-			variant="link"
+		<a
 			class="relative text-sm underline decoration-dotted underline-offset-2"
 			href={documentation}
 			target="_blank"
 			rel="noreferrer"
 		>
 			<GithubBadge repo={documentation.split("/").pop() ?? ""} />
-		</Button>
+		</a>
 
-		<menu>
+		<menu class="flex flex-wrap justify-center gap-2 pt-4">
 			{#each skills ?? [] as skill, index (index)}
-				<Badge>
+				<Badge class="rounded-md">
 					{skill}
 				</Badge>
 			{/each}

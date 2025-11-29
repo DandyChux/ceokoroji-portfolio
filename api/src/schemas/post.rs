@@ -24,3 +24,13 @@ pub struct NewPost {
     pub category: Option<String>,
     pub slug: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct UpdatePost {
+    pub title: Option<String>,
+    pub description: Option<String>,
+    pub content: Option<String>,
+    pub tags: Option<Vec<String>>,
+    pub category: Option<String>,
+    pub published: Option<bool>,
+}

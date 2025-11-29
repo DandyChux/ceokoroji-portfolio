@@ -86,13 +86,23 @@
 		</div>
 	{/if}
 
-	<img
-		bind:this={imgEl}
-		{src}
-		{alt}
-		class="{className} {status !== 'loaded' ? 'invisible' : ''}"
-		on:load={() => (status = "loaded")}
-		on:error={() => (status = "error")}
-		{...$$restProps}
-	/>
+	{#if status === "loaded"}
+		<img
+			bind:this={imgEl}
+			{src}
+			{alt}
+			class="{className} {status !== 'loaded' ? 'invisible' : ''}"
+			on:load={() => (status = "loaded")}
+			on:error={() => (status = "error")}
+			{...$$restProps}
+		/>
+	{/if}
+
+	{#if status === "error"}
+		<div class="absolute inset-0">
+			<slot name="error">
+				<Skeleton class="w-full h-full object-cover aspect-square" />
+			</slot>
+		</div>
+	{/if}
 </div>

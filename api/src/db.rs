@@ -1,11 +1,7 @@
-use crate::config::ENV_CONFIG;
+use crate::error::AppResult;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
-use crate::error::AppResult;
-
-pub async fn create_pool() -> AppResult<PgPool> {
-    let database_url = &ENV_CONFIG.database_url;
-
+pub async fn create_pool(database_url: &str) -> AppResult<PgPool> {
     PgPoolOptions::new()
         .max_connections(5)
         .connect(database_url)

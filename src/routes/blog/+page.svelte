@@ -1,67 +1,85 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import type { Post } from "./schema";
+	import PostView from "$components/post-view.svelte";
+	import { page } from "$app/state";
+	import type { PageData } from "./$types";
 	import { createQuery } from "@tanstack/svelte-query";
+	import * as Alert from "$components/ui/alert";
+	import Spinner from "$components/ui/spinner/spinner.svelte";
+	import { cn } from "$lib/utils";
+	import { useSidebar } from "$components/ui/sidebar";
 
-	let posts = $state<Post[]>([]);
+	let { data }: { data: PageData } = $props();
 
-	const API_URL = import.meta.env.VITE_API_URL;
+	const sidebarState = $derived(useSidebar());
 
-	const query = createQuery(() => ({
+	const postsQuery = createQuery<Post[]>(() => ({
 		queryKey: ["posts"],
 		queryFn: async () => {
-			const response = await fetch(`${API_URL}/posts`);
-			if (response.ok) {
-				const data = await response.json();
-				posts = data.data || [];
-			} else {
-				throw new Error("Failed to fetch posts");
+			const response = await fetch(`${data.apiUrl}/posts`);
+
+			if (!response.ok) {
+				throw new Error(
+					`Failed to fetch posts: ${response.status} ${response.statusText}`,
+				);
 			}
+
+			const result = await response.json();
+			return result;
 		},
+		staleTime: 1000 * 60 * 5, // 5 minutes
+		refetchOnWindowFocus: true, // Refetch when user returns to tab
 	}));
+
+	const searchQuery = $derived(page.url.searchParams.get("search") || "");
 </script>
 
-<div class="flex flex-col min-h-screen p-12">
-	<div class="w-full max-w-4xl mx-auto">
-		<h1 class="text-4xl lg:text-6xl mb-8 font-semibold">Blog</h1>
+<svelte:head>
+	<title>Blog | Chukwuma Okoroji</title>
+</svelte:head>
 
-		{#if query.isLoading}
-			<p class="text-muted">Loading posts...</p>
-		{:else if query.isError}
-			<div class="p-4 rounded-lg bg-red-100 text-destructive">
-				{query.error.message}
-			</div>
-		{:else if posts.length === 0}
-			<p class="text-muted">No posts yet. Check back soon!</p>
-		{:else}
-			<div class="space-y-6">
-				{#each posts.filter((p) => p.published) as post}
-					<article
-						class="border border-border rounded-lg p-6 hover:shadow-lg transition-shadow"
-					>
-						<h2 class="text-2xl font-semibold mb-2">
-							<a
-								href="/blog/{post.slug}"
-								class="hover:text-accent">{post.title}</a
-							>
-						</h2>
-						<p class="text-sm text-muted mb-3">
-							{new Date(post.date).toLocaleDateString()} • {post.category}
-						</p>
-						<p class="text-lg">{post.description}</p>
-						<a
-							href="/blog/{post.slug}"
-							class="text-accent hover:underline mt-4 inline-block"
-						>
-							Read more →
-						</a>
-					</article>
-				{/each}
-			</div>
-		{/if}
+<div class="relative flex flex-col h-full">
+	<h1
+		class="text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold"
+	>
+		Blog
+	</h1>
 
-		<div class="mt-8">
-			<a href="/" class="text-accent hover:underline">← Back to Home</a>
-		</div>
-	</div>
+	{#if postsQuery.isPending}
+		<Alert.Root>
+			<Spinner />
+			<Alert.Title>Loading posts...</Alert.Title>
+		</Alert.Root>
+	{:else if postsQuery.isError}
+		<Alert.Root variant="destructive">
+			<Alert.Title>Error loading posts</Alert.Title>
+			<Alert.Description>
+				{postsQuery.error.message}
+			</Alert.Description>
+		</Alert.Root>
+	{:else if !postsQuery.data?.length}
+		<Alert.Root>
+			<Alert.Title>No posts found</Alert.Title>
+			<Alert.Description>
+				There are no posts matching your search query.
+			</Alert.Description>
+		</Alert.Root>
+	{:else}
+		<PostView {searchQuery} posts={postsQuery.data} />
+	{/if}
+
+	<!-- Circle vectors -->
+	<!-- svelte-ignore element_invalid_self_closing_tag -->
+	<div
+		class={cn(
+			"fixed left-0 -translate-x-14 2xl:translate-x-[calc(var(--sidebar-width)-50px)] bottom-24 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80 duration-300 ease-in-out",
+			{
+				"2xl:translate-x-0": !sidebarState.open,
+			},
+		)}
+	/>
+	<!-- svelte-ignore element_invalid_self_closing_tag -->
+	<div
+		class="fixed right-0 translate-x-14 2xl:translate-x-12 top-24 2xl:top-52 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80"
+	/>
 </div>

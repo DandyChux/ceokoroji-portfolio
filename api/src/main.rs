@@ -2,32 +2,62 @@ mod config;
 mod db;
 mod error;
 mod handlers;
+mod middleware;
+mod rate_limiter;
 mod routes;
 mod schemas;
 
 use crate::config::Config;
 use crate::db::create_pool;
+use crate::error::{AppError, AppResult};
 use actix_cors::Cors;
+use actix_session::SessionMiddleware;
+use actix_session::storage::CookieSessionStore;
+use actix_web::cookie::{Key, SameSite};
 use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, http::header, web};
-use config::ENV_CONFIG;
+use rate_limiter::{RateLimiter, RateLimiterConfig};
 use sqlx::PgPool;
-use tracing::error;
+use tracing::{error, info};
 
 #[derive(Clone)]
 pub struct AppState {
     db: PgPool,
     env: Config,
+    rate_limiter: RateLimiter,
 }
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> AppResult<()> {
+    // Load .env file
+    dotenvy::from_filename(".env.local")
+        .ok()
+        .expect("Failed to load .env_local file");
+
+    // Set default RUST_LOG if not set
+    if std::env::var_os("RUST_LOG").is_none() {
+        unsafe {
+            std::env::set_var(
+                "RUST_LOG",
+                "debug,actix_web=info,actix_server=info,sqlx=info",
+            )
+        };
+    }
+
     // Initialize tracing
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
+        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+        .with_target(true)
+        .with_line_number(true)
         .init();
 
-    let pool = match create_pool().await {
+    // Load env config
+    let config = Config::init().map_err(|e| {
+        error!("Configuration error: {}", e);
+        e
+    })?;
+
+    let pool = match create_pool(&config.database_url).await {
         Ok(pool) => pool,
         Err(err) => {
             error!("Failed to create database pool: {}", err);
@@ -35,13 +65,40 @@ async fn main() -> std::io::Result<()> {
         }
     };
 
+    // Crate rate limiter
+    let rate_limiter = RateLimiter::new(RateLimiterConfig {
+        max_requests: 10,
+        window_secs: 60,
+    });
+
+    // Create application state
     let app_state = AppState {
         db: pool,
-        env: ENV_CONFIG.clone(),
+        env: config.clone(),
+        rate_limiter,
     };
+
+    // Run migrations
+    sqlx::migrate!().run(&app_state.db).await.map_err(|e| {
+        error!("Failed to run migrations: {}", e);
+        AppError::from(e)
+    })?;
+
+    info!("Database migrations completed");
+
+    let host = config.server_host.clone();
+    let port = config.port;
+
+    // Create session key from config
+    let secret_key = Key::from(config.session_secret_key.as_bytes());
+
+    info!("Starting HTTP server at http://{}:{}", host, port);
 
     // Build the application router
     HttpServer::new(move || {
+        let allowed_origins = config.allowed_origins.clone();
+        let api_version = config.api_version.clone();
+
         let cors = Cors::default()
             .allowed_methods(vec!["GET", "POST", "PATCH", "DELETE"])
             .allowed_headers(vec![
@@ -49,15 +106,33 @@ async fn main() -> std::io::Result<()> {
                 header::AUTHORIZATION,
                 header::ACCEPT,
             ])
+            .allowed_origin_fn(move |origin, _req_head| {
+                let allowed = allowed_origins.contains(&origin.to_str().unwrap().to_string());
+                if !allowed {
+                    info!("Blocked CORS request from {:?}", origin);
+                }
+
+                allowed
+            })
             .supports_credentials();
 
         App::new()
             .app_data(web::Data::new(app_state.clone()))
-            .configure(routes::init)
+            .wrap(actix_web::middleware::NormalizePath::trim())
+            .wrap(
+                SessionMiddleware::builder(CookieSessionStore::default(), secret_key.clone())
+                    .cookie_name("admin_session".to_owned())
+                    .cookie_secure(false)
+                    .cookie_http_only(true)
+                    .cookie_same_site(SameSite::Lax)
+                    .build(),
+            )
             .wrap(cors)
             .wrap(Logger::default())
+            .configure(|cfg| routes::init(cfg, api_version))
     })
-    .bind((ENV_CONFIG.server_host.clone(), ENV_CONFIG.port))?
+    .bind((host, port))?
     .run()
     .await
+    .map_err(AppError::from)
 }

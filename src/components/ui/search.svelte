@@ -4,7 +4,7 @@
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import Spinner from "./spinner/spinner.svelte";
-	import { debounce } from "$lib/utils";
+	import { debounce } from "$lib/utils/debounce.svelte";
 
 	let searchText = $state("");
 	let searchParams = $derived(page.url.searchParams);
@@ -12,29 +12,17 @@
 	let isSearching = $state(false);
 	let pathname = $derived(page.url.pathname);
 
-	// Create debounced search text
-	let debouncedValue = debounce(searchText, 500);
-
 	// Initialize search text from URL params on mount
 	onMount(() => {
 		const initialSearch = searchParams.get("search");
 		if (initialSearch) {
 			searchText = initialSearch;
 		}
+		mounted = true;
 	});
 
-	// Set mounted state after first debounced value
-	$effect(() => {
-		if (debouncedValue.current.length > 0 && !mounted) {
-			mounted = true;
-		}
-	});
-
-	// Handle search when debounced value changes
-	$effect(() => {
-		if (!mounted) return;
-
-		const searchValue = debouncedValue.current;
+	// Create debounced search function
+	const performSearch = debounce((searchValue: string) => {
 		const params = new URLSearchParams(searchParams);
 
 		if (searchValue.length > 0) {
@@ -53,6 +41,12 @@
 		}).then(() => {
 			isSearching = false;
 		});
+	}, 500);
+
+	// Handle search when text changes
+	$effect(() => {
+		if (!mounted) return;
+		performSearch(searchText);
 	});
 </script>
 

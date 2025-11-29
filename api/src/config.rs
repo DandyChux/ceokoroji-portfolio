@@ -1,7 +1,7 @@
-use dotenvy::dotenv;
 use serde::{Deserialize, Serialize};
 use std::env;
-use std::sync::LazyLock;
+
+use crate::error::AppError;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
@@ -9,35 +9,24 @@ pub struct Config {
     pub database_url: String,
     pub server_host: String,
     pub port: u16,
-    // pub secret_key: String,
+    pub allowed_origins: Vec<String>,
+    pub admin_password_hash: String,
+    pub session_secret_key: String,
+    pub session_timeout_hours: i64,
+    pub rate_limit_max_requests: u32,
+    pub rate_limit_window_secs: u64,
+    pub github_access_token: String,
 }
 
 impl Config {
-    pub fn init() -> Self {
-        if std::env::var_os("RUST_LOG").is_none() {
-            // std::env::set_var("RUST_LOG", "actix_web=debug,sqlx=debug,info");
-            unsafe {
-                std::env::set_var(
-                    "RUST_LOG",
-                    "actix_web=info,actix_server=info,sqlx=info,debug",
-                )
-            };
-        }
+    pub fn init() -> Result<Self, AppError> {
+        let allowed_origins = env::var("ALLOWED_ORIGINS")
+            .expect("ALLOWED_ORIGINS must be set")
+            .split(',')
+            .map(|origin| origin.trim().to_string())
+            .collect();
 
-        // let environment;
-        // if cfg!(debug_assertions) {
-        //     // Load from `.env.local` in development
-        //     from_filename(".env.local").ok().expect("Failed to load .env.local file");
-        //     environment = "development";
-        // } else {
-        //     // Load from `.env` in production
-        //     dotenv().ok().expect("Failed to load .env file");
-        //     environment = "production";
-        // }
-        dotenv().ok().expect("Failed to load .env file");
-        let environment = env::var("APP_ENV").unwrap_or_else(|_| "dev".to_string());
-
-        Config {
+        Ok(Config {
             api_version: "1.0".to_string(),
             database_url: std::env::var("DATABASE_URL").expect("DATABASE_URL must be set"),
             port: std::env::var("PORT")
@@ -45,9 +34,25 @@ impl Config {
                 .parse()
                 .expect("PORT must be a number"),
             server_host: std::env::var("SERVER_HOST").expect("SERVER_HOST must be set"),
-            // secret_key: std::env::var("SECRET_KEY").expect("SECRET_KEY must be set"),
-        }
+            allowed_origins,
+            admin_password_hash: std::env::var("ADMIN_PASSWORD_HASH")
+                .expect("ADMIN_PASSWORD_HASH must be set"),
+            session_secret_key: std::env::var("SESSION_SECRET_KEY")
+                .expect("SESSION_SECRET_KEY must be set"),
+            session_timeout_hours: std::env::var("SESSION_TIMEOUT_HOURS")
+                .unwrap_or("24".to_string())
+                .parse()
+                .unwrap_or(24),
+            rate_limit_max_requests: std::env::var("RATE_LIMIT_MAX_REQUESTS")
+                .unwrap_or("5".to_string())
+                .parse()
+                .unwrap_or(5),
+            rate_limit_window_secs: std::env::var("RATE_LIMIT_WINDOW_SECS")
+                .unwrap_or("60".to_string())
+                .parse()
+                .unwrap_or(60),
+            github_access_token: std::env::var("GITHUB_ACCESS_TOKEN")
+                .expect("GITHUB_ACCESS_TOKEN must be set"),
+        })
     }
 }
-
-pub static ENV_CONFIG: LazyLock<Config> = LazyLock::new(|| Config::init());

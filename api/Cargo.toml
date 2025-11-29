@@ -5,10 +5,14 @@ edition = "2024"
 
 [dependencies]
 actix-cors = "0.7.1"
+actix-session = { version = "0.11.0", features = ["cookie-session"] }
 actix-web = "4.11.0"
+argon2 = "0.5.3"
 chrono = { version = "0.4.42", features = ["serde"] }
 dotenvy = "0.15.7"
 lettre = "0.11.19"
+rand = "0.9.2"
+reqwest = "0.12.24"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.145"
 sqlx = { version = "0.8.6", features = ["runtime-tokio-rustls", "postgres", "chrono", "migrate"] }
@@ -18,3 +22,11 @@ tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 uuid = { version = "1.18.1", features = ["v4"] }
 validator = { version = "0.20.0", features = ["derive"] }
+
+# [[bin]]
+# name = "generate_hash"
+# path = "src/generate_hash.rs"
+
+# [[bin]]
+# name = "api"
+# path = "src/main.rs"

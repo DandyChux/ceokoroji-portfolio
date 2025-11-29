@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from "$components/ui/button/index.js";
 	import { cn } from "$lib/utils.js";
-	import PanelLeftIcon from "@lucide/svelte/icons/panel-left";
+	import { PanelLeftOpen, PanelLeftClose } from "@lucide/svelte";
 	import type { ComponentProps } from "svelte";
 	import { useSidebar } from "./context.svelte.js";
 
@@ -30,6 +30,7 @@
 	}}
 	{...restProps}
 >
-	<PanelLeftIcon />
+	<PanelLeftOpen class="group-data-[collapsible=]:hidden" />
+	<PanelLeftClose class="group-data-[collapsible=icon]:hidden" />
 	<span class="sr-only">Toggle Sidebar</span>
 </Button>

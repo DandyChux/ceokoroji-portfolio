@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { Button } from "$components/ui/button";
+	import Input from "$components/ui/input/input.svelte";
+	import { Textarea } from "$components/ui/textarea";
 	import { onMount } from "svelte";
 
 	let name = $state("");
@@ -44,6 +47,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Contact | Chukwuma Okoroji</title>
+</svelte:head>
+
 <div class="flex flex-col items-center justify-center min-h-screen p-12">
 	<div class="w-full max-w-2xl">
 		<h1 class="text-4xl lg:text-6xl mb-8 font-semibold text-center">
@@ -55,35 +62,35 @@
 
 		<form onsubmit={handleSubmit} class="flex flex-col gap-4">
 			<div>
-				<input
+				<Input
 					type="text"
 					bind:value={name}
 					placeholder="Full Name"
 					required
-					class="w-full px-4 py-3 rounded-lg border border-border bg-input focus:outline-none focus:ring-2 focus:ring-accent"
+					class="w-full px-4 py-3 rounded-lg"
 				/>
 			</div>
 
 			<div>
-				<input
+				<Input
 					type="email"
 					bind:value={email}
 					placeholder="Email Address"
 					required
-					class="w-full px-4 py-3 rounded-lg border border-border bg-input focus:outline-none focus:ring-2 focus:ring-accent"
+					class="w-full px-4 py-3 rounded-lg"
 				/>
 			</div>
 
 			<div>
-				<textarea
+				<Textarea
 					bind:value={message}
 					placeholder="Message"
-					rows="10"
+					rows={10}
 					required
-					maxlength="250"
-					class="w-full px-4 py-3 rounded-lg border border-border bg-input focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-				></textarea>
-				<p class="text-sm text-muted mt-1">{message.length}/250</p>
+					maxlength={500}
+					class="w-full px-4 py-3 rounded-lg resize-none"
+				></Textarea>
+				<p class="text-sm text-muted mt-1">{message.length}/500</p>
 			</div>
 
 			{#if submitStatus}
@@ -96,17 +103,14 @@
 				</div>
 			{/if}
 
-			<button
+			<Button
 				type="submit"
-				disabled={isSubmitting || message.length > 250}
-				class="px-8 py-3 bg-accent text-accent-foreground rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed self-center"
+				disabled={isSubmitting || message.length > 500}
+				variant="secondary"
+				class="px-8 py-3 self-center"
 			>
 				{isSubmitting ? "Sending..." : "Submit"}
-			</button>
+			</Button>
 		</form>
-
-		<div class="mt-8 text-center">
-			<a href="/" class="text-accent hover:underline">← Back to Home</a>
-		</div>
 	</div>
 </div>
