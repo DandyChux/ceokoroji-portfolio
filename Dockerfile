@@ -7,13 +7,16 @@ WORKDIR /app
 # Copy package files
 COPY package.json bun.lockb* ./
 
-# Install dependencies
-RUN bun install --frozen-lockfile
+# Install dependencies (skip the prepare script for now)
+RUN bun install --frozen-lockfile --ignore-scripts
 
-# Copy source code
+# Copy source code and config files
 COPY . .
 
-# Build the SvelteKit app
+# Now run svelte-kit sync to generate the .svelte-kit directory
+RUN bun run prepare
+
+# Build the SvelteKit app with verbose output
 RUN bun run build
 
 # Production stage - use nginx to serve the static files
