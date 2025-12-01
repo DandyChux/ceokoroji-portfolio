@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "bun", "gcc-unwrapped"]
+nixPkgs = ["nodejs_20", "bun", "gcc"]
 
 [phases.build]
 cmds = ["bun --bun run build"]
