@@ -1,28 +1,30 @@
-# Use Bun's official image
-FROM oven/bun:1 AS builder
+# Build stage with Node.js (more stable with Vite)
+FROM node:20-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
 # Set Node options for more memory
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Copy package files
-COPY package.json bun.lockb* ./
+COPY package.json bun.lockb ./
 
-# Install dependencies (skip the prepare script for now)
+# Install Bun in the Node container (we'll use it for install)
+RUN npm install -g bun
+
+# Install dependencies with Bun
 RUN bun install --frozen-lockfile --ignore-scripts
 
-# Copy source code and config files
+# Copy source code
 COPY . .
 
-# Now run svelte-kit sync to generate the .svelte-kit directory
+# Run svelte-kit sync
 RUN bun run prepare
 
-# Build the SvelteKit app - try with more verbose logging
-RUN bun run build 2>&1 | tee build.log || (cat build.log && exit 1)
+# Build with Node (more stable than Bun for Vite builds)
+RUN bunx --bun vite build
 
-# Production stage - use nginx to serve the static files
+# Production stage - use nginx to serve static files
 FROM nginx:alpine AS runner
 
 # Copy the built static files from builder
