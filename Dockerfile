@@ -7,7 +7,7 @@ WORKDIR /app
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Copy package files
-COPY package.json bun.lockb ./
+COPY package.json bun.lockb* ./
 
 # Install Bun in the Node container (we'll use it for install)
 RUN npm install -g bun
