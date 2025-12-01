@@ -4,6 +4,9 @@ FROM oven/bun:1 AS builder
 # Set working directory
 WORKDIR /app
 
+# Set Node options for more memory
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # Copy package files
 COPY package.json bun.lockb* ./
 
@@ -16,8 +19,8 @@ COPY . .
 # Now run svelte-kit sync to generate the .svelte-kit directory
 RUN bun run prepare
 
-# Build the SvelteKit app with verbose output
-RUN bun run build
+# Build the SvelteKit app - try with more verbose logging
+RUN bun run build 2>&1 | tee build.log || (cat build.log && exit 1)
 
 # Production stage - use nginx to serve the static files
 FROM nginx:alpine AS runner
@@ -34,24 +37,19 @@ RUN echo 'server { \
 	location / { \
 	try_files $uri $uri/ /200.html; \
 	} \
-	# Enable gzip compression \
 	gzip on; \
 	gzip_vary on; \
 	gzip_min_length 1024; \
 	gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json; \
-	# Cache static assets \
 	location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ { \
 	expires 1y; \
 	add_header Cache-Control "public, immutable"; \
 	} \
 	}' > /etc/nginx/conf.d/default.conf
 
-# Expose port 80
 EXPOSE 80
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 	CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
