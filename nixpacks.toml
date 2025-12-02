@@ -1,5 +1,8 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "bun", "gcc", "libstdcxx"]
+nixPkgs = ["nodejs_20", "bun", "gcc"]
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile", "bun add sharp --force"]
 
 [phases.build]
 cmds = ["bun --bun run build"]
