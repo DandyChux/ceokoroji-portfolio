@@ -2,7 +2,7 @@
 nixPkgs = ["nodejs_20", "bun", "gcc"]
 
 [phases.install]
-cmds = ["bun install --frozen-lockfile", "bun add sharp --force"]
+cmds = ["bun install --frozen-lockfile", "npm install --os=linux --cpu=x64 sharp"]
 
 [phases.build]
 cmds = ["bun --bun run build"]
