@@ -3,9 +3,7 @@ providers = ["node"]
 [phases.setup]
 # nixPkgs = ["nodejs_20", "bun"]
 nixPkgs = ["bun"]
-
-[phases.install]
-cmds = ["bun install --frozen-lockfile", "npm install --os=linux --cpu=x64 sharp"]
+aptPkgs = ["libstdc++6"]
 
 [phases.build]
 cmds = ["bun --bun run build"]
