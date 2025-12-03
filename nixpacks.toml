@@ -1,8 +1,5 @@
-providers = ["node"]
-
 [phases.setup]
-# nixPkgs = ["nodejs_20", "bun"]
-nixPkgs = ["bun"]
+nixPkgs = ["nodejs_20", "bun"]
 nixLibs = ["gcc-unwrapped"]
 aptPkgs = ["libstdc++6"]
 
