@@ -1,7 +1,7 @@
 [phases.setup]
 nixPkgs = ["nodejs_20", "bun"]
 nixLibs = ["gcc-unwrapped"]
-aptPkgs = ["libstdc++6"]
+aptPkgs = ["libstdc++6", "curl", "wget"]
 
 [phases.install]
 cmds = ["bun install --frozen-lockfile", "npm install --os=linux --cpu=x64 sharp"]
@@ -9,5 +9,5 @@ cmds = ["bun install --frozen-lockfile", "npm install --os=linux --cpu=x64 sharp
 [phases.build]
 cmds = ["bun run build"]
 
-[start]
-cmd = "bun ./build/index.js"
+[staticAssets]
+directory = "build"
