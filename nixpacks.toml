@@ -6,4 +6,4 @@ nixPkgs = ["bun"]
 aptPkgs = ["libstdc++6"]
 
 [phases.build]
-cmds = ["bun --bun run build"]
+cmds = ["bun run build"]
