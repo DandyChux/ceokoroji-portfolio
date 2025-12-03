@@ -29,10 +29,10 @@ pub struct AppState {
 
 #[actix_web::main]
 async fn main() -> AppResult<()> {
-    // Load .env file
-    dotenvy::from_filename(".env.local")
-        .ok()
-        .expect("Failed to load .env_local file");
+    // Load .env file if it exists (for local development)
+    if dotenvy::from_filename(".env.local").is_err() {
+        info!("No .env.local file found, using environment variables");
+    }
 
     // Set default RUST_LOG if not set
     if std::env::var_os("RUST_LOG").is_none() {

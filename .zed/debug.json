@@ -25,6 +25,6 @@
 		"adapter": "CodeLLDB",
 		"label": "Debug Rust API (with auto-reload)",
 		"request": "attach",
-		"pid": "${command:pickProcess}"
+		"pid": "$ZED_PICK_PID"
 	}
 ]
