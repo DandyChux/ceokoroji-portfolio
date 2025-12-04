@@ -13,6 +13,7 @@
 		CardHeader,
 		CardTitle,
 	} from "./ui/card";
+	import { trackEvent } from "$lib/analytics.svelte";
 
 	interface Props extends HTMLAttributes<HTMLDivElement>, Project {
 		class?: string;
@@ -44,6 +45,13 @@
 		<a
 			class="text-sm underline decoration-dotted underline-offset-2"
 			href={deployment}
+			onclick={() =>
+				trackEvent("Project View", {
+					props: {
+						projectName: name,
+						projectUrl: deployment,
+					},
+				})}
 			target="_blank"
 			rel="noreferrer"
 			aria-label="View Deployment"

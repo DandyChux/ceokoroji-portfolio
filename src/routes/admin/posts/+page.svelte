@@ -6,7 +6,7 @@
 	let { data }: { data: PageData } = $props();
 
 	const postsQuery = createQuery<Post[]>(() => ({
-		queryKey: ["admin-posts"],
+		queryKey: ["admin", "posts"],
 		queryFn: async () => {
 			const response = await fetch(`${data.apiUrl}/posts`);
 
@@ -24,7 +24,7 @@
 	}));
 
 	const deletePost = createMutation(() => ({
-		mutationKey: ["admin-posts"],
+		mutationKey: ["admin", "posts"],
 		mutationFn: async (id: string) => {
 			const response = await fetch(`${data.apiUrl}/posts/${id}`, {
 				method: "DELETE",
@@ -45,7 +45,7 @@
 	}));
 
 	const togglePublish = createMutation(() => ({
-		mutationKey: ["admin-posts"],
+		mutationKey: ["admin", "posts"],
 		mutationFn: async (post: Post) => {
 			const response = await fetch(`${data.apiUrl}/posts/${post.id}`, {
 				method: "PUT",

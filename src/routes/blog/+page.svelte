@@ -61,7 +61,9 @@
 		<Alert.Root>
 			<Alert.Title>No posts found</Alert.Title>
 			<Alert.Description>
-				There are no posts matching your search query.
+				There are no posts {searchQuery
+					? "matching your search query"
+					: "available"}
 			</Alert.Description>
 		</Alert.Root>
 	{:else}

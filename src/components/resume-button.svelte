@@ -4,6 +4,7 @@
 	import { ArrowDown } from "@lucide/svelte";
 	import { cn } from "$lib/utils";
 	import { page } from "$app/state";
+	import { trackEvent } from "$lib/analytics.svelte";
 
 	type Props = {
 		class?: string;
@@ -14,20 +15,12 @@
 	let btnText = page.url.pathname === "/" ? "Download CV" : "View My Resume";
 
 	function handleClick() {
-		// Call Plausible if available (plausible.js exposes a global function)
-		try {
-			if (typeof (window as any).plausible === "function") {
-				(window as any).plausible("Resume Downloaded", {
-					props: {
-						btnLocation: page.url.pathname,
-						btnText,
-					},
-				});
-			}
-		} catch (e) {
-			// ignore errors
-			// console.warn('plausible unavailable', e);
-		}
+		trackEvent("Resume Downloaded", {
+			props: {
+				btnLocation: page.url.pathname,
+				btnText,
+			},
+		});
 	}
 </script>
 
