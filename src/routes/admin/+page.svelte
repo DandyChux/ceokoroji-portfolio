@@ -8,7 +8,7 @@
 	let { data }: { data: PageData } = $props();
 
 	const postsQuery = createQuery<Post[]>(() => ({
-		queryKey: ["admin-posts"],
+		queryKey: ["admin", "posts"],
 		queryFn: async () => {
 			const response = await fetch(`${data.apiUrl}/posts/admin`);
 

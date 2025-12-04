@@ -1,6 +1,6 @@
 # Usage: make shadcn-add COMPONENT=Button
 shadcn-add:
-	@bun x shadcn-svelte@latest add $(COMPONENT)
+	@bun x shadcn-svelte@latest add $(component)
 
 migrate-up:
 	@cd api && sqlx migrate run

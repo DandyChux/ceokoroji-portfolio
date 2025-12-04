@@ -60,6 +60,17 @@
 								<FileText class="size-4" />
 								Posts
 							</a>
+							<a
+								href="/admin/projects"
+								class="px-3 py-2 text-sm font-medium rounded-md transition-colors inline-flex items-center gap-2 {page.url.pathname.startsWith(
+									'/admin/projects',
+								)
+									? 'bg-accent text-accent-foreground'
+									: 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'}"
+							>
+								<LayoutDashboard class="size-4" />
+								Projects
+							</a>
 						</div>
 					</div>
 

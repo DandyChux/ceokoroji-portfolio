@@ -4,7 +4,7 @@ use sqlx::FromRow;
 
 #[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
 pub struct Post {
-    pub id: String,
+    pub id: i32,
     pub title: String,
     pub date: DateTime<Utc>,
     pub description: String,

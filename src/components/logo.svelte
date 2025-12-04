@@ -8,14 +8,7 @@
 </script>
 
 <div class="hidden xl:flex md:flex-col absolute top-4 right-4 items-center">
-	<Button
-		variant="link"
-		href="/admin/login"
-		class={buttonVariants({
-			variant: "ghost",
-			class: "relative size-auto hover:bg-transparent cursor-default",
-		})}
-	>
+	<Button variant="link" href="/admin" class="cursor-default">
 		<enhanced:img src={logoSrc} alt="Logo" width="100" height="100" />
 	</Button>
 </div>

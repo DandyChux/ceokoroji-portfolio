@@ -86,7 +86,6 @@
 		onSubmit: async ({ formData, cancel }) => {
 			cancel();
 
-			console.log(formData);
 			createPostMutation.mutate();
 		},
 	});

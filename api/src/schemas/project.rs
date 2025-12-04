@@ -17,6 +17,16 @@ pub enum SkillCategory {
     Other,
 }
 
+/// Enum representing the valid levels for a skill
+#[derive(Debug, Clone, Deserialize, Serialize, sqlx::Type)]
+#[sqlx(type_name = "skill_level", rename_all = "lowercase")]
+pub enum SkillLevel {
+    Beginner,
+    Intermediate,
+    Advanced,
+    Expert,
+}
+
 /// Represents a skill in the database
 /// Table: skills
 #[derive(Debug, FromRow, Deserialize, Serialize)]
@@ -28,8 +38,9 @@ pub struct Skill {
     /// The category of the skill.
     pub category: SkillCategory,
     /// The level of the skill.
-    pub level: String,
+    pub level: SkillLevel,
     /// The order of the skill.
+    #[sqlx(rename = "display_order")]
     pub order: i32,
     /// The description of the skill.
     pub description: String,
@@ -48,8 +59,7 @@ pub struct SkillCreate {
 
     pub category: SkillCategory,
 
-    #[validate(length(min = 2, max = 100))]
-    pub level: String,
+    pub level: SkillLevel,
 
     #[validate(length(min = 2, max = 100))]
     pub description: String,
@@ -89,6 +99,7 @@ pub struct SkillUpdate {
 }
 
 /// Represents a project in the database.
+///
 /// Table: projects
 #[derive(Debug, FromRow, Deserialize, Serialize)]
 pub struct Project {
@@ -98,27 +109,48 @@ pub struct Project {
     pub image_url: String,
     pub github_url: String,
     pub live_url: Option<String>,
+}
+
+/// API response model with skills included
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ProjectResponse {
+    pub id: i32,
+    pub name: String,
+    pub description: String,
+    pub image_url: String,
+    pub github_url: String,
+    pub live_url: Option<String>,
     pub skills: Vec<Skill>,
+}
+
+impl ProjectResponse {
+    pub fn from_row_with_skills(row: Project, skills: Vec<Skill>) -> Self {
+        Self {
+            id: row.id,
+            name: row.name,
+            description: row.description,
+            image_url: row.image_url,
+            github_url: row.github_url,
+            live_url: row.live_url,
+            skills,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate)]
 pub struct ProjectCreate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
-
     #[validate(length(min = 2, max = 100))]
     pub description: String,
-
     #[validate(url)]
     pub image_url: String,
-
     #[validate(url)]
     pub github_url: String,
-
     #[validate(url)]
     pub live_url: Option<String>,
-
-    pub skills: Vec<Skill>,
+    /// List of skill IDs to associate with this project
+    pub skill_ids: Vec<i32>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate)]
@@ -138,7 +170,7 @@ pub struct ProjectUpdate {
     #[validate(url)]
     pub live_url: Option<String>,
 
-    pub skills: Vec<Skill>,
+    pub skill_ids: Option<Vec<i32>>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate)]

@@ -4,11 +4,11 @@ use actix_web::{
 };
 use serde_json::json;
 use tracing::error;
-use uuid::Uuid;
 
 use crate::{
     AppState,
     error::{AppError, AppResult},
+    middleware::auth::AdminAuth,
     schemas::post::{NewPost, Post, UpdatePost},
 };
 
@@ -73,10 +73,10 @@ pub async fn get_post_by_slug(
 
 #[post("")]
 pub async fn create_post(
+    _auth: AdminAuth,
     app_state: web::Data<AppState>,
     new_post: web::Json<NewPost>,
 ) -> AppResult<HttpResponse> {
-    let id = Uuid::new_v4().to_string();
     let category = new_post
         .category
         .clone()
@@ -85,10 +85,9 @@ pub async fn create_post(
 
     let result = sqlx::query_as::<_, Post>(
         "INSERT INTO posts (id, title, description, content, tags, category, slug, published)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, false)
+         VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, false)
          RETURNING id, title, date, description, published, tags, category, content, slug",
     )
-    .bind(&id)
     .bind(&new_post.title)
     .bind(&new_post.description)
     .bind(&new_post.content)
@@ -109,6 +108,7 @@ pub async fn create_post(
 
 #[put("/{slug}")]
 pub async fn update_post(
+    _auth: AdminAuth,
     app_state: web::Data<AppState>,
     slug: web::Path<String>,
     update_data: web::Json<UpdatePost>,
@@ -177,6 +177,7 @@ pub async fn update_post(
 
 #[delete("/{slug}")]
 pub async fn delete_post(
+    _auth: AdminAuth,
     app_state: web::Data<AppState>,
     slug: web::Path<String>,
 ) -> AppResult<HttpResponse> {

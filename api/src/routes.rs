@@ -1,5 +1,5 @@
 use crate::handlers::contact::send_contact_email;
-use crate::handlers::{auth, posts, repositories};
+use crate::handlers::{auth, posts, projects, repositories};
 use actix_web::{HttpResponse, web};
 
 pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
@@ -24,6 +24,14 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
                     .service(auth::logout)
                     .service(auth::verify_session),
             )
-            .service(web::scope("/repos").service(repositories::get_repository)),
+            .service(web::scope("/repos").service(repositories::get_repository))
+            .service(
+                web::scope("/projects")
+                    .service(projects::get_projects)
+                    .service(projects::get_project)
+                    .service(projects::create_project)
+                    .service(projects::update_project)
+                    .service(projects::delete_project),
+            ),
     );
 }
