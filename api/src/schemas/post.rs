@@ -1,8 +1,9 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
+use utoipa::ToSchema;
 
-#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow, ToSchema)]
 pub struct Post {
     pub id: i32,
     pub title: String,
@@ -15,7 +16,7 @@ pub struct Post {
     pub slug: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, ToSchema)]
 pub struct NewPost {
     pub title: String,
     pub description: String,
@@ -25,7 +26,7 @@ pub struct NewPost {
     pub slug: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, ToSchema)]
 pub struct UpdatePost {
     pub title: Option<String>,
     pub description: Option<String>,

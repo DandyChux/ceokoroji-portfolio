@@ -12,6 +12,14 @@ use crate::{
     schemas::post::{NewPost, Post, UpdatePost},
 };
 
+#[utoipa::path(
+    get,
+    path = "/posts",
+    responses(
+        (status = 200, description = "List of published posts", body = Vec<Post>)
+    ),
+    tag = "Posts"
+)]
 #[get("")]
 pub async fn get_posts(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
@@ -28,6 +36,16 @@ pub async fn get_posts(app_state: web::Data<AppState>) -> AppResult<HttpResponse
     }
 }
 
+#[utoipa::path(
+    get,
+    path = "/posts/admin",
+    responses(
+        (status = 200, description = "List of all posts", body = Vec<Post>),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Posts",
+    security(("session" = []))
+)]
 #[get("/admin")]
 pub async fn get_all_posts(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
@@ -47,6 +65,18 @@ pub async fn get_all_posts(app_state: web::Data<AppState>) -> AppResult<HttpResp
     }
 }
 
+#[utoipa::path(
+    get,
+    path = "/posts/{slug}",
+    responses(
+        (status = 200, description = "Post found", body = Post),
+        (status = 404, description = "Post not found")
+    ),
+    params(
+        ("slug" = String, Path, description = "Post slug")
+    ),
+    tag = "Posts"
+)]
 #[get("/{slug}")]
 pub async fn get_post_by_slug(
     app_state: web::Data<AppState>,
@@ -71,6 +101,17 @@ pub async fn get_post_by_slug(
     }
 }
 
+#[utoipa::path(
+    post,
+    path = "/posts",
+    request_body = NewPost,
+    responses(
+        (status = 201, description = "Post created", body = Post),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Posts",
+    security(("session" = []))
+)]
 #[post("")]
 pub async fn create_post(
     _auth: AdminAuth,
@@ -106,6 +147,21 @@ pub async fn create_post(
     }
 }
 
+#[utoipa::path(
+    put,
+    path = "/posts/{slug}",
+    request_body = UpdatePost,
+    responses(
+        (status = 200, description = "Post updated", body = Post),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Post not found")
+    ),
+    params(
+        ("slug" = String, Path, description = "Post slug")
+    ),
+    tag = "Posts",
+    security(("session" = []))
+)]
 #[put("/{slug}")]
 pub async fn update_post(
     _auth: AdminAuth,
@@ -175,6 +231,20 @@ pub async fn update_post(
     }
 }
 
+#[utoipa::path(
+    delete,
+    path = "/posts/{slug}",
+    responses(
+        (status = 200, description = "Post deleted"),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Post not found")
+    ),
+    params(
+        ("slug" = String, Path, description = "Post slug")
+    ),
+    tag = "Posts",
+    security(("session" = []))
+)]
 #[delete("/{slug}")]
 pub async fn delete_post(
     _auth: AdminAuth,

@@ -1,6 +1,4 @@
-use actix_web::{
-    HttpRequest, HttpResponse, Responder, ResponseError, body::BoxBody, http::StatusCode,
-};
+use actix_web::{HttpResponse, ResponseError, body::BoxBody, http::StatusCode};
 use serde::Serialize;
 use serde_json::json;
 use std::fmt;
@@ -231,7 +229,7 @@ impl ResponseError for AppError {
             AppError::SessionGet(_) => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::Request(_) => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::Json(_) => StatusCode::INTERNAL_SERVER_ERROR,
-            AppError::Forbidden(msg) => StatusCode::FORBIDDEN,
+            AppError::Forbidden(_) => StatusCode::FORBIDDEN,
         }
     }
 }

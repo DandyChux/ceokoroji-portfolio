@@ -9,9 +9,6 @@
 	import Textarea from "$components/ui/textarea/textarea.svelte";
 	import * as Command from "$components/ui/command";
 	import * as Popover from "$components/ui/popover";
-	import * as Select from "$components/ui/select";
-	import Checkbox from "$components/ui/checkbox/checkbox.svelte";
-	import Calendar from "$components/ui/calendar/calendar.svelte";
 	import {
 		type SuperValidated,
 		type Infer,
@@ -19,29 +16,13 @@
 		defaults,
 	} from "sveltekit-superforms";
 	import { zod4, zod4Client } from "sveltekit-superforms/adapters";
-	import { generateSlug } from "$lib/utils/markdown";
-	import MarkdownEditor from "$components/markdown-editor.svelte";
-	import {
-		CalendarIcon,
-		CheckIcon,
-		ChevronsUpDownIcon,
-		Tags,
-	} from "@lucide/svelte";
-	import { Button, buttonVariants } from "$components/ui/button";
+	import { CheckIcon, ChevronsUpDownIcon } from "@lucide/svelte";
+	import { buttonVariants } from "$components/ui/button";
 	import { cn } from "$lib/utils";
 	import { toast } from "svelte-sonner";
-	import {
-		CalendarDate,
-		DateFormatter,
-		type DateValue,
-		getLocalTimeZone,
-		parseDate,
-		today,
-	} from "@internationalized/date";
 	import { tick } from "svelte";
 	import { createMutation } from "@tanstack/svelte-query";
 	import { useId } from "bits-ui";
-	import { debounce } from "$lib/utils/debounce.svelte";
 	import { Label } from "$components/ui/label";
 
 	let {
@@ -250,4 +231,6 @@
 			{/snippet}
 		</Form.Control>
 	</Form.Field>
+
+	<Form.Button class="cursor-pointer mt-4">Create Project</Form.Button>
 </form>

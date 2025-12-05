@@ -7,7 +7,9 @@ import { createProjectSchema, skillSchema } from '$routes/projects/schema';
 export const load: PageLoad = async () => {
 	const API_URL = import.meta.env.VITE_API_URL;
 
-	const response = await fetch(`${API_URL}/skills`);
+	const response = await fetch(`${API_URL}/projects/skills`, {
+		credentials: 'include'
+	});
 
 	if (!response.ok) {
 		error(response.status, 'Failed to fetch skills');

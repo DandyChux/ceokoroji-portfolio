@@ -10,6 +10,20 @@ use crate::{
     schemas::repository::RepoResponse,
 };
 
+#[utoipa::path(
+	get,
+    path="/repos/{owner}/{repo}",
+    responses(
+        (status = 200, description = "Repository details", body = RepoResponse),
+        (status = 403, description = "Forbidden"),
+        (status = 404, description = "Not Found"),
+    ),
+    tag = "Repositories",
+    params(
+        ("owner", description = "Owner of the repository", example = "ceokoroji"),
+        ("repo", description = "Name of the repository", example = "portfolio"),
+    ),
+)]
 #[get("/{owner}/{repo}")]
 pub async fn get_repository(
     app_state: Data<AppState>,

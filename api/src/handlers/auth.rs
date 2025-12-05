@@ -5,13 +5,14 @@ use actix_session::Session;
 use actix_web::{HttpRequest, HttpResponse, get, post, web};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, ToSchema)]
 pub struct LoginRequest {
     password: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 pub struct AuthResponse {
     success: bool,
     message: String,
@@ -19,6 +20,16 @@ pub struct AuthResponse {
 
 const SESSION_USER_KEY: &str = "admin_authenticated";
 
+#[utoipa::path(
+    post,
+    path = "/auth/login",
+    responses(
+        (status = 200, description = "Login successful", body = AuthResponse),
+        (status = 401, description = "Invalid credentials", body = AuthResponse),
+        (status = 429, description = "Rate limit exceeded", body = AuthResponse),
+    ),
+    tag = "Authentication"
+)]
 #[post("/login")]
 pub async fn login(
     req: HttpRequest,
@@ -54,6 +65,14 @@ pub async fn login(
     }
 }
 
+#[utoipa::path(
+    post,
+    path = "/auth/logout",
+    responses(
+        (status = 200, description = "Logout successful", body = AuthResponse),
+    ),
+    tag = "Authentication"
+)]
 #[post("/logout")]
 pub async fn logout(
     req: HttpRequest,
@@ -68,6 +87,16 @@ pub async fn logout(
     }))
 }
 
+#[utoipa::path(
+    get,
+    path = "/auth/verify",
+    responses(
+        (status = 200, description = "Verification successful", body = AuthResponse),
+        (status = 401, description = "Not authenticated", body = AuthResponse),
+        (status = 429, description = "Rate limit exceeded", body = AuthResponse),
+    ),
+    tag = "Authentication"
+)]
 #[get("/verify")]
 pub async fn verify_session(
     req: HttpRequest,

@@ -2,7 +2,6 @@ use actix_web::{
     HttpResponse, delete, get, post, put,
     web::{self, Data},
 };
-use serde_json::json;
 use tracing::error;
 
 use crate::{
@@ -10,7 +9,7 @@ use crate::{
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
     schemas::project::{
-        Project, ProjectCreate, ProjectDelete, ProjectResponse, ProjectUpdate, Skill,
+        Project, ProjectCreate, ProjectDelete, ProjectResponse, ProjectUpdate, Skill, SkillCreate,
     },
 };
 
@@ -56,6 +55,17 @@ async fn update_project_skills(
     Ok(())
 }
 
+/// Get all projects
+#[utoipa::path(
+    get,
+    path = "/projects",
+    responses(
+        (status = 200, description = "Projects retrieved"),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
 #[get("")]
 pub async fn get_projects(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
@@ -74,6 +84,20 @@ pub async fn get_projects(app_state: web::Data<AppState>) -> AppResult<HttpRespo
     Ok(HttpResponse::Ok().json(projects))
 }
 
+#[utoipa::path(
+    get,
+    path = "/projects/{id}",
+    responses(
+        (status = 200, description = "Project retrieved"),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Project not found")
+    ),
+    params(
+        ("id" = i32, Path, description = "Project ID")
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
 #[get("/{id}")]
 pub async fn get_project(
     app_state: web::Data<AppState>,
@@ -93,6 +117,21 @@ pub async fn get_project(
     Ok(HttpResponse::Ok().json(project))
 }
 
+#[utoipa::path(
+    post,
+    path = "/projects",
+    responses(
+        (status = 201, description = "Project created"),
+        (status = 401, description = "Unauthorized"),
+        (status = 409, description = "Project already exists")
+    ),
+    request_body(
+        content = ProjectCreate,
+        description = "Project data"
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
 #[post("")]
 pub async fn create_project(
     _auth: AdminAuth,
@@ -139,6 +178,21 @@ pub async fn create_project(
     Ok(HttpResponse::Created().json(result))
 }
 
+#[utoipa::path(
+    put,
+    path = "/projects/{id}",
+    responses(
+        (status = 200, description = "Project updated"),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Project not found")
+    ),
+    request_body(
+        content = ProjectUpdate,
+        description = "Project data"
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
 #[put("/{id}")]
 pub async fn update_project(
     _auth: AdminAuth,
@@ -198,6 +252,20 @@ pub async fn update_project(
     Ok(HttpResponse::Ok().json(result))
 }
 
+#[utoipa::path(
+    delete,
+    path = "/projects/{id}",
+    responses(
+        (status = 204, description = "Project deleted"),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Project not found")
+    ),
+    params(
+        ("id" = i32, Path, description = "Project ID")
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
 #[delete("/{id}")]
 pub async fn delete_project(
     _auth: AdminAuth,
@@ -213,4 +281,81 @@ pub async fn delete_project(
         .await?;
 
     Ok(HttpResponse::NoContent().finish())
+}
+
+#[utoipa::path(
+    get,
+    path = "/projects/skills",
+    responses(
+        (status = 200, description = "Skills retrieved", body = [Skill]),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Skills",
+    security(("session" = []))
+)]
+#[get("/skills")]
+pub async fn get_skills(
+    _auth: AdminAuth,
+    app_state: web::Data<AppState>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
+        .fetch_all(pool)
+        .await?;
+
+    Ok(HttpResponse::Ok().json(skills))
+}
+
+#[utoipa::path(
+    get,
+    path = "/{id}/skills",
+    responses(
+        (status = 200, description = "Project skills retrieved", body = [Skill]),
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Project not found")
+    ),
+    params(
+        ("id" = i32, Path, description = "Project ID")
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
+#[get("/{id}/skills")]
+pub async fn get_project_skills(
+    app_state: web::Data<AppState>,
+    id: web::Path<i32>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let skills = fetch_project_skills(pool, id.into_inner()).await?;
+
+    Ok(HttpResponse::Ok().json(skills))
+}
+
+#[utoipa::path(
+    post,
+    path = "/projects/skill",
+    responses(
+        (status = 201, description = "Skill created", body = Skill),
+        (status = 401, description = "Unauthorized")
+    ),
+    request_body = SkillCreate,
+    tag = "Skills",
+    security(("session" = []))
+)]
+#[post("/skill")]
+pub async fn create_skill(
+    _auth: AdminAuth,
+    app_state: web::Data<AppState>,
+    skill: web::Json<SkillCreate>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let skill = sqlx::query_as::<_, Skill>("INSERT INTO skills (name) VALUES ($1) RETURNING *")
+        .bind(&skill.name)
+        .fetch_one(pool)
+        .await?;
+
+    Ok(HttpResponse::Created().json(skill))
 }

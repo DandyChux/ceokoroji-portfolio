@@ -3,6 +3,7 @@ mod db;
 mod error;
 mod handlers;
 mod middleware;
+mod openapi;
 mod rate_limiter;
 mod routes;
 mod schemas;
@@ -10,6 +11,7 @@ mod schemas;
 use crate::config::Config;
 use crate::db::create_pool;
 use crate::error::{AppError, AppResult};
+use crate::openapi::ApiDoc;
 use actix_cors::Cors;
 use actix_session::SessionMiddleware;
 use actix_session::storage::CookieSessionStore;
@@ -19,6 +21,7 @@ use actix_web::{App, HttpServer, http::header, web};
 use rate_limiter::{RateLimiter, RateLimiterConfig};
 use sqlx::PgPool;
 use tracing::{error, info};
+use utoipa_swagger_ui::SwaggerUi;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -118,6 +121,10 @@ async fn main() -> AppResult<()> {
 
         App::new()
             .app_data(web::Data::new(app_state.clone()))
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-docs/openapi.json", ApiDoc::with_version(&api_version)),
+            )
             .wrap(actix_web::middleware::NormalizePath::trim())
             .wrap(
                 SessionMiddleware::builder(CookieSessionStore::default(), secret_key.clone())

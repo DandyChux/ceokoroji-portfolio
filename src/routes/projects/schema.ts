@@ -1,8 +1,10 @@
 import { z } from 'zod';
 
-export const skillCategoryEnum = z.enum(['Frontend', 'Backend', 'Database', 'DevOps', 'Language', 'Tool', 'Framework', 'Other']);
+export const skillCategories = ['Frontend', 'Backend', 'Database', 'DevOps', 'Language', 'Tool', 'Framework', 'Other'] as const;
+export const skillCategoryEnum = z.enum(skillCategories);
 
-export const skillLevelEnum = z.enum(['Beginner', 'Intermediate', 'Advanced', 'Expert']);
+export const skillLevels = ["Beginner", "Intermediate", "Advanced", "Expert"] as const;
+export const skillLevelEnum = z.enum(skillLevels);
 
 export const skillSchema = z.object({
 	id: z.string(),

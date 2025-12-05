@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 use validator::Validate;
 
-#[derive(Deserialize, Serialize, Validate)]
+#[derive(Deserialize, Serialize, Validate, ToSchema)]
 pub struct RepoResponse {
     pub stargazers_count: Option<u32>,
     pub forks_count: Option<u32>,

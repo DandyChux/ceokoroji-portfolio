@@ -1,10 +1,10 @@
-use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
+use utoipa::ToSchema;
 use validator::Validate;
 
 /// Enum representing the valid categories for a skill
-#[derive(Debug, Clone, Deserialize, Serialize, sqlx::Type)]
+#[derive(Debug, Clone, Deserialize, Serialize, sqlx::Type, ToSchema)]
 #[sqlx(type_name = "skill_category", rename_all = "lowercase")]
 pub enum SkillCategory {
     Frontend,
@@ -18,7 +18,7 @@ pub enum SkillCategory {
 }
 
 /// Enum representing the valid levels for a skill
-#[derive(Debug, Clone, Deserialize, Serialize, sqlx::Type)]
+#[derive(Debug, Clone, Deserialize, Serialize, sqlx::Type, ToSchema)]
 #[sqlx(type_name = "skill_level", rename_all = "lowercase")]
 pub enum SkillLevel {
     Beginner,
@@ -29,7 +29,7 @@ pub enum SkillLevel {
 
 /// Represents a skill in the database
 /// Table: skills
-#[derive(Debug, FromRow, Deserialize, Serialize)]
+#[derive(Debug, FromRow, Deserialize, Serialize, ToSchema)]
 pub struct Skill {
     /// The ID of the skill.
     pub id: i32,
@@ -52,29 +52,25 @@ pub struct Skill {
     pub icon_color: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct SkillCreate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
-
     pub category: SkillCategory,
-
     pub level: SkillLevel,
-
     #[validate(length(min = 2, max = 100))]
     pub description: String,
-
     #[validate(length(min = 2, max = 100))]
     pub color: Option<String>,
-
     #[validate(url)]
     pub icon_url: Option<String>,
-
     #[validate(url)]
     pub icon_color: Option<String>,
+    #[validate(range(min = 0, max = 100))]
+    pub order: i32,
 }
 
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct SkillUpdate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
@@ -101,7 +97,7 @@ pub struct SkillUpdate {
 /// Represents a project in the database.
 ///
 /// Table: projects
-#[derive(Debug, FromRow, Deserialize, Serialize)]
+#[derive(Debug, FromRow, Deserialize, Serialize, ToSchema)]
 pub struct Project {
     pub id: i32,
     pub name: String,
@@ -112,7 +108,7 @@ pub struct Project {
 }
 
 /// API response model with skills included
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct ProjectResponse {
     pub id: i32,
     pub name: String,
@@ -137,7 +133,7 @@ impl ProjectResponse {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectCreate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
@@ -153,7 +149,7 @@ pub struct ProjectCreate {
     pub skill_ids: Vec<i32>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectUpdate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
@@ -173,7 +169,7 @@ pub struct ProjectUpdate {
     pub skill_ids: Option<Vec<i32>>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectDelete {
     pub id: i32,
 }
