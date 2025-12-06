@@ -239,4 +239,6 @@
 		<Form.Description>Color of the skill icon</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
+
+	<Form.Button class="mt-4 cursor-pointer">Submit</Form.Button>
 </form>
