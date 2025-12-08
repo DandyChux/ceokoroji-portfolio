@@ -69,7 +69,7 @@
 					class="w-auto h-full mx-auto"
 				/>
 			{:else}
-				<Skeleton class="w-full h-full" />
+				<div class="w-full h-full bg-gray-200 rounded-lg"></div>
 			{/if}
 		</div>
 
@@ -92,7 +92,7 @@
 		<menu class="flex flex-wrap justify-center gap-2 pt-4">
 			{#each skills ?? [] as skill, index (index)}
 				<Badge class="rounded-md">
-					{skill}
+					{skill.name}
 				</Badge>
 			{/each}
 		</menu>
