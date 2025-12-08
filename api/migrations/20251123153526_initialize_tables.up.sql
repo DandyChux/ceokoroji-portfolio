@@ -32,27 +32,24 @@ CREATE TABLE IF NOT EXISTS skills (
     name VARCHAR(100) NOT NULL,
     category skill_category NOT NULL,
     level skill_level NOT NULL,
-    "order" INTEGER NOT NULL DEFAULT 0,
-    description VARCHAR(500) NOT NULL,
-    color VARCHAR(100),
+    description VARCHAR(500),
     icon_url TEXT,
-    icon_color VARCHAR(100),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- Create index on skills category for faster filtering
 CREATE INDEX IF NOT EXISTS idx_skills_category ON skills(category);
-CREATE INDEX IF NOT EXISTS idx_skills_order ON skills("order");
 
 -- Create projects table
 CREATE TABLE IF NOT EXISTS projects (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     image_url TEXT NOT NULL,
     github_url TEXT NOT NULL,
     live_url TEXT,
+    featured BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

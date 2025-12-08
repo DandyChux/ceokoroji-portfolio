@@ -3,24 +3,14 @@
 	import type { Skill } from "$routes/projects/schema";
 	import type { PageData } from "./$types";
 	import * as Table from "$components/ui/table";
+	import apiClient from "$lib/api";
 
 	let { data }: { data: PageData } = $props();
 
 	const skillsQuery = createQuery<Skill[]>(() => ({
 		queryKey: ["admin", "skills"],
 		queryFn: async () => {
-			const response = await fetch(`${data.apiUrl}/projects/skills`, {
-				credentials: "include",
-			});
-
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch projects: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			const result = await response.json();
-			return result;
+			return await apiClient.get("/projects/skills");
 		},
 		staleTime: Infinity,
 		refetchOnWindowFocus: true,
@@ -75,9 +65,7 @@
 						<Table.Head>Name</Table.Head>
 						<Table.Head>Category</Table.Head>
 						<Table.Head>Level</Table.Head>
-						<Table.Head>Order</Table.Head>
 						<Table.Head>Icon URL</Table.Head>
-						<Table.Head>Color</Table.Head>
 						<Table.Head>Actions</Table.Head>
 					</Table.Row>
 				</Table.Header>
@@ -87,9 +75,7 @@
 							<Table.Cell>{skill.name}</Table.Cell>
 							<Table.Cell>{skill.category}</Table.Cell>
 							<Table.Cell>{skill.level}</Table.Cell>
-							<Table.Cell>{skill.order}</Table.Cell>
 							<Table.Cell>{skill.icon_url}</Table.Cell>
-							<Table.Cell>{skill.color}</Table.Cell>
 							<Table.Cell>
 								<a
 									href={`/admin/projects/${skill.id}/edit`}

@@ -37,6 +37,7 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
             .service(
                 web::scope("/projects")
                     .service(projects::get_skills)
+                    .service(projects::get_skills_with_category)
                     .service(projects::create_skill)
                     .service(projects::get_projects)
                     .service(projects::create_project)

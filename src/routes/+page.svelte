@@ -2,57 +2,65 @@
 	import ProjectCard from "$components/project-card.svelte";
 	import ResumeButton from "$components/resume-button.svelte";
 	import { Button, buttonVariants } from "$components/ui/button";
-	import type { Project } from "./projects/schema";
+	import { createQuery } from "@tanstack/svelte-query";
+	import { type ProjectResponse, type Project } from "./projects/schema";
+	import apiClient from "$lib/api";
 
-	const featuredProjects: Project[] = [
-		{
-			name: "BlackStack Software Solutions",
-			description:
-				"A website for my freelance software development LLC. It was built for potential clients to learn more about the services I offer. For current clients, it serves as a hub for project management and communication with features like a client portal and a blog.",
-			documentation:
-				"https://github.com/blackstack-software-solutions/blackstack-site",
-			deployment: "https://blackstacksolutions.com",
-			skills: [
-				"Next.js",
-				"TRPC",
-				"TailwindCSS",
-				"TypeScript",
-				"AWS S3",
-				"PostgreSQL",
-			],
-			image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/blackstack.svg",
+	const featuredProjectsQuery = createQuery(() => ({
+		queryKey: ["featured-projects"],
+		queryFn: async () => {
+			return await apiClient.get<ProjectResponse[]>("/projects");
 		},
-		{
-			name: "Silvi",
-			description:
-				"Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.",
-			documentation: "https://github.com/SilviProtocol/silvi-open",
-			deployment: "https://www.silvi.earth/about-us",
-			skills: [
-				"Next.js",
-				"TypeScript",
-				"TailwindCSS",
-				"Django",
-				"Python",
-			],
-			image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/silvi.svg",
-		},
-		{
-			name: "Sporta Go",
-			description:
-				"Sporta Go is a platform built for athletes to connect with trainers and coaches. They are a client of BlackStack Software Solutions. MVP currently in development.",
-			documentation: "https://github.com/SportaGo/sporta-go-web",
-			deployment: "https://thesportago.com",
-			skills: [
-				"Next.js",
-				"Typescript",
-				"TailwindCSS",
-				"PostgreSQL",
-				"AWS S3",
-			],
-			image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/sporta-go.svg",
-		},
-	];
+	}));
+	// const featuredProjects: Project[] = [
+	// 	{
+	// 		name: "BlackStack Software Solutions",
+	// 		description:
+	// 			"A website for my freelance software development LLC. It was built for potential clients to learn more about the services I offer. For current clients, it serves as a hub for project management and communication with features like a client portal and a blog.",
+	// 		documentation:
+	// 			"https://github.com/blackstack-software-solutions/blackstack-site",
+	// 		deployment: "https://blackstacksolutions.com",
+	// 		skills: [
+	// 			"Next.js",
+	// 			"TRPC",
+	// 			"TailwindCSS",
+	// 			"TypeScript",
+	// 			"AWS S3",
+	// 			"PostgreSQL",
+	// 		],
+	// 		image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/blackstack.svg",
+	// 	},
+	// 	{
+	// 		name: "Silvi",
+	// 		description:
+	// 			"Silvi is an open-source web-app with the purpose of enabling tree stewards to easily track and report on their reforestation projects as well as sharing that progress with a broader community.",
+	// 		documentation: "https://github.com/SilviProtocol/silvi-open",
+	// 		deployment: "https://www.silvi.earth/about-us",
+	// 		skills: [
+	// 			"Next.js",
+	// 			"TypeScript",
+	// 			"TailwindCSS",
+	// 			"Django",
+	// 			"Python",
+	// 		],
+	// 		image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/silvi.svg",
+	// 	},
+	// 	{
+	// 		name: "Sporta Go",
+	// 		description:
+	// 			"Sporta Go is a platform built for athletes to connect with trainers and coaches. They are a client of BlackStack Software Solutions. MVP currently in development.",
+	// 		documentation: "https://github.com/SportaGo/sporta-go-web",
+	// 		deployment: "https://thesportago.com",
+	// 		skills: [
+	// 			"Next.js",
+	// 			"Typescript",
+	// 			"TailwindCSS",
+	// 			"PostgreSQL",
+	// 			"AWS S3",
+	// 		],
+	// 		image: "https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/sporta-go.svg",
+	// 	},
+	// ];
 </script>
 
 <svelte:head>
@@ -162,11 +170,11 @@
 		Featured Projects
 	</h1>
 
-	<div class="grid gap-3 pt-3 my-4 md:grid-cls-2 2xl:grid-cols-3">
+	<!-- <div class="grid gap-3 pt-3 my-4 md:grid-cls-2 2xl:grid-cols-3">
 		{#each featuredProjects as project, index (index)}
 			<ProjectCard {...project} class="rounded-3xl" />
 		{/each}
-	</div>
+	</div> -->
 
 	<Button
 		size={"lg"}

@@ -42,7 +42,7 @@ async fn main() -> AppResult<()> {
         unsafe {
             std::env::set_var(
                 "RUST_LOG",
-                "debug,actix_web=info,actix_server=info,sqlx=info",
+                "debug,actix_web=debug,actix_server=info,sqlx=debug,actix_session=info",
             )
         };
     }

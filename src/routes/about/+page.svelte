@@ -1,72 +1,38 @@
 <script lang="ts">
 	import ResumeButton from "$components/resume-button.svelte";
-	import Badge from "$components/ui/badge/badge.svelte";
-	import * as Tabs from "$components/ui/tabs/index";
-	import Image from "$components/ui/image.svelte";
+	import * as Card from "$components/ui/card/index";
+	import Progress from "$components/ui/progress/progress.svelte";
+	import { createQuery } from "@tanstack/svelte-query";
+	import apiClient from "$lib/api";
+	import {
+		type GroupedSkillsResponse,
+		type Skill,
+	} from "$routes/projects/schema";
 
-	const skills = [
-		{
-			label: "Languages",
-			value: "languages",
-			list: [
-				"JavaScript",
-				"TypeScript",
-				"Python",
-				"Rust",
-				"Go",
-				"C#",
-				"SQL",
-			],
+	const skillsQuery = createQuery(() => ({
+		queryKey: ["skills"],
+		queryFn: async () => {
+			return await apiClient.get<GroupedSkillsResponse>(
+				"/projects/skill-categories",
+			);
 		},
-		{
-			label: "Frontend",
-			value: "frontend",
-			list: [
-				"HTML",
-				"CSS/SCSS",
-				"React",
-				"Next.js",
-				"Solid.js",
-				"Angular",
-				"Astro",
-				"Yew",
-			],
-		},
-		{
-			label: "Backend",
-			value: "backend",
-			list: [
-				"Node.js",
-				"Django",
-				"Flask",
-				"Sanic",
-				"Axum",
-				"Actix",
-				"Fiber",
-				".NET",
-				"PostgreSQL",
-				"Redis",
-				"SQLite",
-				"MySQL",
-				"MongoDB",
-			],
-		},
-		{
-			label: "Tools",
-			value: "tools",
-			list: [
-				"Docker",
-				"AWS",
-				"Azure",
-				"Linux",
-				"Git",
-				"Jira",
-				"Figma",
-				"Wireshark",
-				"Wordpress",
-			],
-		},
-	] as const;
+		select: (data) => data.categories,
+	}));
+
+	const getSkillLevel = (skill: Skill) => {
+		switch (skill.level) {
+			case "Beginner":
+				return 25;
+			case "Intermediate":
+				return 50;
+			case "Advanced":
+				return 75;
+			case "Expert":
+				return 100;
+			default:
+				return 0;
+		}
+	};
 </script>
 
 <svelte:head>
@@ -75,9 +41,11 @@
 
 <div class="flex h-full flex-col">
 	<h1 class="mb-2 self-start text-2xl font-medium xl:text-3xl">About Me</h1>
-	<h3 class="mb-8 self-start text-xl font-normal capitalize xl:text-2xl">
+	<span
+		class="mb-8 self-start text-xl text-primary font-science-gothic font-normal capitalize xl:text-2xl"
+	>
 		Your friendly neighborhood developer
-	</h3>
+	</span>
 
 	<div class="mb-4 flex flex-col items-center xl:flex-row">
 		<enhanced:img
@@ -119,32 +87,51 @@
 		</article>
 	</div>
 
-	<div class="flex flex-col items-center pt-10">
-		<h2 class="mb-5 text-xl font-bold">My Skills</h2>
-		<Tabs.Root value={skills[0]?.value} class="w-full lg:px-12 2xl:px-32">
-			<Tabs.List class="inline-flex w-full">
-				{#each skills as skill, index (index)}
-					<Tabs.Trigger value={skill.value} class="flex-1">
-						{skill.label}
-					</Tabs.Trigger>
-				{/each}
-			</Tabs.List>
-			{#each skills as category, index (index)}
-				<Tabs.Content value={category.value}>
-					<div
-						class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-					>
-						{#each category.list as skill, index (index)}
-							<Badge
-								variant="secondary"
-								class="justify-center py-2 rounded-md w-full"
+	<div class="flex flex-col pt-10">
+		<div class="mb-4">
+			<h2 class="text-xl mb-2 font-bold">Skills &amp; Expertise</h2>
+			<span
+				class="inline-block text-base lg:text-lg font-science-gothic text-muted max-w-[750px]"
+				>Here&apos;s a breakdown of my technical skills and proficiency
+				levels across different areas of development and design. Click
+				on any skill to learn more.</span
+			>
+		</div>
+
+		{#each skillsQuery.data as category, index (index)}
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>{category.name}</Card.Title>
+				</Card.Header>
+				<Card.Content class="flex flex-col space-y-4">
+					{#each category.skills as skill}
+						<div class="inline-flex items-center justify-between">
+							{#if skill.icon_url}
+								<img
+									src={skill.icon_url}
+									alt={skill.name}
+									class="size-6 mr-2"
+								/>
+							{:else}
+								<div
+									class="size-6 mr-2 bg-foreground/40 rounded-full"
+								></div>
+							{/if}
+							<span
+								class="text-base lg:text-lg font-science-gothic"
 							>
-								{skill}
-							</Badge>
-						{/each}
-					</div>
-				</Tabs.Content>
-			{/each}
-		</Tabs.Root>
+								{skill.name}
+							</span>
+							<span
+								class="text-base lg:text-lg font-science-gothic text-muted ml-auto"
+							>
+								{skill.level}
+							</span>
+						</div>
+						<Progress value={getSkillLevel(skill)} />
+					{/each}
+				</Card.Content>
+			</Card.Root>
+		{/each}
 	</div>
 </div>

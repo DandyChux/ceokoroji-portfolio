@@ -4,7 +4,7 @@ import { zod4 } from 'sveltekit-superforms/adapters'
 import { fail, error } from '@sveltejs/kit';
 import { createProjectSchema, skillSchema } from '$routes/projects/schema';
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ fetch }) => {
 	const API_URL = import.meta.env.VITE_API_URL;
 
 	const response = await fetch(`${API_URL}/projects/skills`, {

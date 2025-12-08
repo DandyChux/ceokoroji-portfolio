@@ -1,10 +1,8 @@
 <script lang="ts">
 	import {
-		createProjectSchema,
 		createSkillSchema,
 		skillCategories,
 		skillLevels,
-		type CreateProject,
 		type CreateSkill,
 		type Skill,
 	} from "$routes/projects/schema";
@@ -45,7 +43,7 @@
 					"Content-Type": "application/json",
 				},
 				credentials: "include",
-				body: JSON.stringify(data.form.data),
+				body: JSON.stringify($formData),
 			});
 
 			if (!response.ok) {
@@ -80,6 +78,11 @@
 	const triggerContent = $derived(
 		skillCategories.find((category) => category === $formData.category) ??
 			"Select a category",
+	);
+
+	const levelTriggerContent = $derived(
+		skillLevels.find((level) => level === $formData.level) ??
+			"Select a level",
 	);
 
 	function closeAndFocusTrigger(triggerId: string) {
@@ -155,7 +158,7 @@
 					bind:value={$formData.level}
 				>
 					<Select.Trigger class="w-[180px]">
-						{triggerContent}
+						{levelTriggerContent}
 					</Select.Trigger>
 					<Select.Content>
 						{#each skillLevels as level, index (index)}
@@ -168,41 +171,6 @@
 			{/snippet}
 		</Form.Control>
 		<Form.Description>Level of the skill</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
-
-	<!-- Order -->
-	<Form.Field {form} name="order">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Order</Form.Label>
-				<Input
-					{...props}
-					type="number"
-					name="order"
-					min="0"
-					bind:value={$formData.order}
-				/>
-			{/snippet}
-		</Form.Control>
-		<Form.Description>Order of the skill</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
-
-	<!-- Color -->
-	<Form.Field {form} name="color">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Color</Form.Label>
-				<Input
-					{...props}
-					type="color"
-					name="color"
-					bind:value={$formData.color}
-				/>
-			{/snippet}
-		</Form.Control>
-		<Form.Description>Color of the skill</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
 
@@ -220,23 +188,6 @@
 			{/snippet}
 		</Form.Control>
 		<Form.Description>URL of the skill icon</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
-
-	<!-- Icon Color -->
-	<Form.Field {form} name="icon_color">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Icon Color</Form.Label>
-				<Input
-					{...props}
-					type="color"
-					name="iconColor"
-					bind:value={$formData.icon_color}
-				/>
-			{/snippet}
-		</Form.Control>
-		<Form.Description>Color of the skill icon</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
 

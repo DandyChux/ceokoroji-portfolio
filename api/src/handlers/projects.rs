@@ -1,3 +1,5 @@
+use std::collections::{HashMap, HashSet};
+
 use actix_web::{
     HttpResponse, delete, get, post, put,
     web::{self, Data},
@@ -9,7 +11,8 @@ use crate::{
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
     schemas::project::{
-        Project, ProjectCreate, ProjectDelete, ProjectResponse, ProjectUpdate, Skill, SkillCreate,
+        GroupedSkillsResponse, Project, ProjectCreate, ProjectDelete, ProjectRequestQuery,
+        ProjectResponse, ProjectUpdate, Skill, SkillCategory, SkillCategoryGroup, SkillCreate,
     },
 };
 
@@ -23,7 +26,6 @@ async fn fetch_project_skills(
 		SELECT * FROM skills s
 		INNER JOIN project_skills ps on s.id = ps.skill_id
 		WHERE ps.project_id = $1
-		ORDER BY s.display_order
 		"#,
     )
     .bind(project_id)
@@ -67,12 +69,21 @@ async fn update_project_skills(
     security(("session" = []))
 )]
 #[get("")]
-pub async fn get_projects(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
+pub async fn get_projects(
+    app_state: web::Data<AppState>,
+    query: web::Query<ProjectRequestQuery>,
+) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let project_rows = sqlx::query_as::<_, Project>("SELECT * FROM projects")
-        .fetch_all(pool)
-        .await?;
+    let project_rows = if query.featured {
+        sqlx::query_as::<_, Project>("SELECT * FROM projects WHERE featured = true")
+            .fetch_all(pool)
+            .await?
+    } else {
+        sqlx::query_as::<_, Project>("SELECT * FROM projects")
+            .fetch_all(pool)
+            .await?
+    };
 
     // Fetch skills for each project
     let mut projects = Vec::with_capacity(project_rows.len());
@@ -146,8 +157,8 @@ pub async fn create_project(
     // Insert the project
     let row = sqlx::query_as::<_, Project>(
         r#"
-        INSERT INTO projects (name, description, image_url, github_url, live_url)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO projects (name, description, image_url, github_url, live_url, featured)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *
         "#,
     )
@@ -156,6 +167,7 @@ pub async fn create_project(
     .bind(&project.image_url)
     .bind(&project.github_url)
     .bind(&project.live_url)
+    .bind(project.featured)
     .fetch_one(&mut *tx)
     .await?;
 
@@ -285,6 +297,54 @@ pub async fn delete_project(
 
 #[utoipa::path(
     get,
+    path = "/projects/skill-categories",
+    responses(
+        (status = 200, description = "Skills retrieved", body = [Skill]),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Skills",
+    security(("session" = []))
+)]
+#[get("/skill-categories")]
+pub async fn get_skills_with_category(
+    _auth: AdminAuth,
+    app_state: web::Data<AppState>,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
+        .fetch_all(pool)
+        .await?;
+
+    let category_order = SkillCategory::all();
+
+    let mut category_map: HashMap<SkillCategory, Vec<Skill>> = HashMap::new();
+
+    for skill in skills {
+        category_map
+            .entry(skill.category.clone())
+            .or_insert_with(Vec::new)
+            .push(skill);
+    }
+
+    let mut categories: Vec<SkillCategoryGroup> = Vec::new();
+
+    for category in category_order {
+        if let Some(skills) = category_map.remove(&category) {
+            categories.push(SkillCategoryGroup {
+                name: category.to_string(),
+                skills,
+            });
+        }
+    }
+
+    let response = GroupedSkillsResponse { categories };
+
+    Ok(HttpResponse::Ok().json(response))
+}
+
+#[utoipa::path(
+    get,
     path = "/projects/skills",
     responses(
         (status = 200, description = "Skills retrieved", body = [Skill]),
@@ -300,11 +360,11 @@ pub async fn get_skills(
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
+    let result = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
         .fetch_all(pool)
         .await?;
 
-    Ok(HttpResponse::Ok().json(skills))
+    Ok(HttpResponse::Ok().json(result))
 }
 
 #[utoipa::path(
@@ -352,10 +412,20 @@ pub async fn create_skill(
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let skill = sqlx::query_as::<_, Skill>("INSERT INTO skills (name) VALUES ($1) RETURNING *")
+    let result = sqlx::query_as::<_, Skill>("INSERT INTO skills (name, description, level, category, icon_url) VALUES ($1, $2, $3, $4, $5) RETURNING *")
         .bind(&skill.name)
+        .bind(&skill.description)
+        .bind(&skill.level)
+        .bind(&skill.category)
+        .bind(&skill.icon_url)
         .fetch_one(pool)
-        .await?;
+        .await;
 
-    Ok(HttpResponse::Created().json(skill))
+    match result {
+        Ok(skill) => Ok(HttpResponse::Created().json(skill)),
+        Err(e) => {
+            tracing::error!("Failed to create skill: {:?}", e);
+            Err(AppError::Database(e))
+        }
+    }
 }

@@ -17,9 +17,9 @@
 		"program": "${ZED_WORKTREE_ROOT}/api/target/debug/ceokoroji-api",
 		"cwd": "${ZED_WORKTREE_ROOT}/api",
 		"stopOnEntry": false,
-		"env": {
-			"RUST_BACKTRACE": "1"
-		}
+		// "env": {
+		// 	"RUST_BACKTRACE": "1"
+		// }
 	},
 	{
 		"adapter": "CodeLLDB",

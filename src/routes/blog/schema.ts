@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const postSchema = z.object({
-	id: z.string(),
+	id: z.int32().min(1),
 	title: z.string().min(2).max(100),
 	date: z.date().max(new Date()),
 	description: z.string().min(2).max(100),

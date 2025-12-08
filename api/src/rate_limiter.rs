@@ -6,6 +6,7 @@ use std::net::IpAddr;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use tokio::sync::RwLock;
+use tracing::{debug, info};
 
 use crate::AppState;
 use crate::error::AppError;
@@ -75,16 +76,23 @@ impl RateLimiter {
                             .unwrap_or(Duration::from_secs(0))
                             .as_secs();
 
+                        debug!(
+                            "Rate limit exceeded for IP {}: {}/{} requests",
+                            ip, record.count, self.config.max_requests
+                        );
+
                         return Err(ErrorTooManyRequests(format!(
                             "Rate limit exceeded. Try again in {} seconds",
                             retry_after
                         )));
                     }
                     record.count += 1;
+                    debug!("IP {} request count: {}", ip, record.count);
                 } else {
                     // New window, reset counter
                     record.count = 1;
                     record.window_start = now;
+                    debug!("IP {} window reset, count: 1", ip);
                 }
             }
             None => {
@@ -96,6 +104,7 @@ impl RateLimiter {
                         window_start: now,
                     },
                 );
+                debug!("IP {} first request recorded", ip);
             }
         }
 

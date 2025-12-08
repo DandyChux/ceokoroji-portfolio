@@ -42,7 +42,7 @@
 					"Content-Type": "application/json",
 				},
 				credentials: "include",
-				body: JSON.stringify(data.form.data),
+				body: JSON.stringify($formData),
 			});
 			if (!response.ok) {
 				throw new Error("Failed to create project");
@@ -112,6 +112,21 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
+	<!-- Featured -->
+	<Form.Field {form} name="featured">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Featured</Form.Label>
+				<Input
+					{...props}
+					bind:value={$formData.featured}
+					type="checkbox"
+				/>
+			{/snippet}
+		</Form.Control>
+		<Form.FieldErrors />
+	</Form.Field>
+
 	<!-- Image URL -->
 	<Form.Field {form} name="image_url">
 		<Form.Control>
@@ -159,7 +174,7 @@
 	</Form.Field>
 
 	<!-- Skills -->
-	<Form.Field {form} name="skills">
+	<Form.Field {form} name="skill_ids">
 		<Form.Control id={triggerId}>
 			{#snippet children({ props })}
 				<Form.Label>Skills</Form.Label>
@@ -168,17 +183,20 @@
 						class={cn(
 							buttonVariants({ variant: "outline" }),
 							"w-[200px] justify-between",
-							!$formData.skills && "text-white",
+							!$formData.skill_ids && "text-white",
 						)}
 						role="combobox"
 						{...props}
 					>
-						<!-- {postTags.find((tag) => $formData.skills.includes(tag)) ??
+						<!-- {postTags.find((tag) => $formData.skill_ids.includes(tag)) ??
 							"No tags selected"} -->
-						{$formData.skills.length === 1
-							? $formData.skills[0]
-							: $formData.skills.length > 1
-								? $formData.skills.length + " skills"
+						{$formData.skill_ids.length === 1
+							? data.skills?.find(
+									(skill) =>
+										skill.id === $formData.skill_ids[0],
+								)?.name
+							: $formData.skill_ids.length > 1
+								? $formData.skill_ids.length + " skills"
 								: "No skills selected"}
 						<ChevronsUpDownIcon class="opacity-50" />
 					</Popover.Trigger>
@@ -193,17 +211,21 @@
 							<Command.Group value="skills">
 								{#each data.skills as skill, index (index)}
 									<Command.Item
-										value={skill.id}
+										value={skill.id.toString()}
 										onSelect={() => {
 											if (
-												$formData.skills.includes(skill)
+												$formData.skill_ids.includes(
+													skill.id,
+												)
 											) {
-												$formData.skills =
-													$formData.skills.filter(
-														(t) => t !== skill,
+												$formData.skill_ids =
+													$formData.skill_ids.filter(
+														(t) => t !== skill.id,
 													);
 											} else {
-												$formData.skills.push(skill);
+												$formData.skill_ids.push(
+													skill.id,
+												);
 											}
 											closeAndFocusTrigger(triggerId);
 										}}
@@ -212,7 +234,9 @@
 										<CheckIcon
 											class={cn(
 												"ms-auto text-primary",
-												$formData.skills.includes(skill)
+												$formData.skill_ids.includes(
+													skill.id,
+												)
 													? "opacity-100"
 													: "opacity-0",
 											)}
@@ -228,7 +252,7 @@
 					to find.
 				</Form.Description>
 				<Form.FieldErrors />
-				<input hidden value={$formData.skills} name={props.name} />
+				<input hidden value={$formData.skill_ids} name={props.name} />
 			{/snippet}
 		</Form.Control>
 	</Form.Field>

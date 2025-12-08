@@ -277,7 +277,6 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Category</Form.Label>
-				<!-- <Select {...props} bind:value={$formData.category} /> -->
 				<Select.Root
 					type="single"
 					name="category"
