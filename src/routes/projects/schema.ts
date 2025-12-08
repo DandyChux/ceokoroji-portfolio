@@ -27,10 +27,10 @@ export const groupedSkillsResponseSchema = z.object({
 export const projectSchema = z.object({
 	id: z.int32().min(1),
 	name: z.string().min(2).max(100),
-	description: z.string().min(10).max(500).optional(),
+	description: z.string().min(10).max(500).nullable(),
 	image_url: z.url(),
 	github_url: z.url().min(10).max(500),
-	live_url: z.url().optional(),
+	live_url: z.url().nullable(),
 	created_at: z.date(),
 	updated_at: z.date(),
 	featured: z.boolean(),
