@@ -51,6 +51,7 @@
 		},
 		onSuccess: () => {
 			toast.success("Project created successfully");
+			form.reset();
 		},
 		onError: () => {
 			toast.error("Failed to create project");

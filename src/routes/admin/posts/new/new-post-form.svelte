@@ -87,6 +87,7 @@
 			cancel();
 
 			createPostMutation.mutate();
+			form.reset();
 		},
 	});
 

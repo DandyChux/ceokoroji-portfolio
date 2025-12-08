@@ -55,6 +55,7 @@
 		onSuccess: () => {
 			toast.success("Skill created successfully");
 			createSkillMutation.reset();
+			form.reset();
 		},
 		onError: (error) => {
 			toast.error(error.message);
