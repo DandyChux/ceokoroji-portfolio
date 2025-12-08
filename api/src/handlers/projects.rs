@@ -71,19 +71,18 @@ async fn update_project_skills(
 #[get("")]
 pub async fn get_projects(
     app_state: web::Data<AppState>,
-    query: web::Query<ProjectRequestQuery>,
+    query: Option<web::Query<ProjectRequestQuery>>,
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let project_rows = if query.featured {
-        sqlx::query_as::<_, Project>("SELECT * FROM projects WHERE featured = true")
-            .fetch_all(pool)
-            .await?
-    } else {
-        sqlx::query_as::<_, Project>("SELECT * FROM projects")
-            .fetch_all(pool)
-            .await?
+    let query_str = match query {
+        Some(q) if q.featured => "SELECT * FROM projects WHERE featured = true",
+        _ => "SELECT * FROM projects",
     };
+
+    let project_rows = sqlx::query_as::<_, Project>(query_str)
+        .fetch_all(pool)
+        .await?;
 
     // Fetch skills for each project
     let mut projects = Vec::with_capacity(project_rows.len());
