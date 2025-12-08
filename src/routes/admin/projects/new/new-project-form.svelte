@@ -222,9 +222,10 @@
 														(t) => t !== skill.id,
 													);
 											} else {
-												$formData.skill_ids.push(
+												$formData.skill_ids = [
+													...$formData.skill_ids,
 													skill.id,
-												);
+												];
 											}
 											closeAndFocusTrigger(triggerId);
 										}}

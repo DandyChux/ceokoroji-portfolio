@@ -345,7 +345,10 @@
 														(t) => t !== tag,
 													);
 											} else {
-												$formData.tags.push(tag);
+												$formData.tags = [
+													...$formData.tags,
+													tag,
+												];
 											}
 											closeAndFocusTrigger(triggerId);
 										}}
