@@ -1,9 +1,5 @@
 <script lang="ts">
-	import {
-		createProjectSchema,
-		type CreateProject,
-		type Skill,
-	} from "$routes/projects/schema";
+	import { createProjectSchema, type Skill } from "$routes/projects/schema";
 	import * as Form from "$components/ui/form";
 	import Input from "$components/ui/input/input.svelte";
 	import Textarea from "$components/ui/textarea/textarea.svelte";
@@ -13,7 +9,6 @@
 		type SuperValidated,
 		type Infer,
 		superForm,
-		defaults,
 	} from "sveltekit-superforms";
 	import { zod4, zod4Client } from "sveltekit-superforms/adapters";
 	import { CheckIcon, ChevronsUpDownIcon } from "@lucide/svelte";
@@ -28,7 +23,10 @@
 	let {
 		data,
 	}: {
-		data: { form: SuperValidated<Infer<CreateProject>>; skills: Skill[] };
+		data: {
+			form: SuperValidated<Infer<typeof createProjectSchema>>;
+			skills: Skill[];
+		};
 	} = $props();
 
 	const API_URL = import.meta.env.VITE_API_URL;
@@ -58,7 +56,7 @@
 		},
 	}));
 
-	const form = superForm(defaults(zod4(createProjectSchema)), {
+	const form = superForm(data.form, {
 		validators: zod4Client(createProjectSchema),
 		SPA: true,
 		onSubmit: async ({ formData, cancel }) => {

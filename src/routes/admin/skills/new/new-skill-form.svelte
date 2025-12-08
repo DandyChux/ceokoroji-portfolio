@@ -3,14 +3,11 @@
 		createSkillSchema,
 		skillCategories,
 		skillLevels,
-		type CreateSkill,
 		type Skill,
 	} from "$routes/projects/schema";
 	import * as Form from "$components/ui/form";
 	import Input from "$components/ui/input/input.svelte";
 	import Textarea from "$components/ui/textarea/textarea.svelte";
-	import * as Command from "$components/ui/command";
-	import * as Popover from "$components/ui/popover";
 	import * as Select from "$components/ui/select";
 	import {
 		type SuperValidated,
@@ -19,17 +16,14 @@
 		defaults,
 	} from "sveltekit-superforms";
 	import { zod4, zod4Client } from "sveltekit-superforms/adapters";
-	import { CheckIcon, ChevronsUpDownIcon, ListOrdered } from "@lucide/svelte";
-	import { buttonVariants } from "$components/ui/button";
-	import { cn } from "$lib/utils";
 	import { toast } from "svelte-sonner";
 	import { tick } from "svelte";
 	import { createMutation } from "@tanstack/svelte-query";
 	import { useId } from "bits-ui";
-	import { Label } from "$components/ui/label";
-	import { error } from "@sveltejs/kit";
 
-	let { data }: { data: { form: SuperValidated<Infer<CreateSkill>> } } =
+	let {
+		data,
+	}: { data: { form: SuperValidated<Infer<typeof createSkillSchema>> } } =
 		$props();
 
 	const API_URL = import.meta.env.VITE_API_URL;
@@ -55,7 +49,7 @@
 		onSuccess: () => {
 			toast.success("Skill created successfully");
 			createSkillMutation.reset();
-			form.reset();
+			form.reset;
 		},
 		onError: (error) => {
 			toast.error(error.message);
@@ -65,7 +59,7 @@
 		},
 	}));
 
-	const form = superForm(defaults(zod4(createSkillSchema)), {
+	const form = superForm(data.form, {
 		validators: zod4Client(createSkillSchema),
 		SPA: true,
 		onSubmit: async ({ formData, cancel }) => {

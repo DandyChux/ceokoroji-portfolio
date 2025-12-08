@@ -73,7 +73,7 @@
 		},
 	}));
 
-	const form = superForm(defaults(zod4(createPostSchema)), {
+	const form = superForm(data.form, {
 		validators: zod4Client(createPostSchema),
 		SPA: true,
 		onUpdate: async ({ form }) => {
