@@ -102,7 +102,7 @@
 			{#each skillsQuery.data as category, index (index)}
 				<Card.Root>
 					<Card.Header>
-						<Card.Title>{category.name}</Card.Title>
+						<Card.Title class="text-xl">{category.name}</Card.Title>
 					</Card.Header>
 					<Card.Content class="flex flex-col space-y-4">
 						{#each category.skills as skill}

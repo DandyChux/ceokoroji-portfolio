@@ -311,7 +311,7 @@ pub async fn get_skills_with_category(
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
+    let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills ORDER BY name ASC")
         .fetch_all(pool)
         .await?;
 
