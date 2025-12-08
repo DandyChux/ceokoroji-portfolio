@@ -45,7 +45,9 @@
 	import { debounce } from "$lib/utils/debounce.svelte";
 	import { Label } from "$components/ui/label";
 
-	let { data }: { data: { form: SuperValidated<Infer<CreatePost>> } } =
+	let {
+		data,
+	}: { data: { form: SuperValidated<Infer<typeof createPostSchema>> } } =
 		$props();
 
 	const API_URL = import.meta.env.VITE_API_URL;

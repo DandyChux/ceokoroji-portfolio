@@ -19,6 +19,7 @@
 	import { createMutation } from "@tanstack/svelte-query";
 	import { useId } from "bits-ui";
 	import { Label } from "$components/ui/label";
+	import { Checkbox } from "$components/ui/checkbox";
 
 	let {
 		data,
@@ -34,6 +35,7 @@
 	const createProjectMutation = createMutation(() => ({
 		mutationKey: ["projects"],
 		mutationFn: async () => {
+			console.log($formData);
 			const response = await fetch(`${API_URL}/projects`, {
 				method: "POST",
 				headers: {
@@ -115,12 +117,10 @@
 	<Form.Field {form} name="featured">
 		<Form.Control>
 			{#snippet children({ props })}
-				<Form.Label>Featured</Form.Label>
-				<Input
-					{...props}
-					bind:value={$formData.featured}
-					type="checkbox"
-				/>
+				<div class="flex items-center space-x-2">
+					<Checkbox {...props} bind:checked={$formData.featured} />
+					<Form.Label class="cursor-pointer">Featured</Form.Label>
+				</div>
 			{/snippet}
 		</Form.Control>
 		<Form.FieldErrors />
@@ -139,10 +139,10 @@
 		<div>
 			<Label>Image Preview</Label>
 			{#if $formData.image_url}
-				<img
+				<enhanced:img
 					src={$formData.image_url}
 					alt="Project Image"
-					class="w-full h-auto"
+					class="w-[400px] h-auto mx-auto"
 				/>
 			{:else}
 				<p>No image selected</p>
