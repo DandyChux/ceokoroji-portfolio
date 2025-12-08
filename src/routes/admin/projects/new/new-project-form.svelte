@@ -210,7 +210,7 @@
 							<Command.Group value="skills">
 								{#each data.skills as skill, index (index)}
 									<Command.Item
-										value={skill.id.toString()}
+										value={skill.name}
 										onSelect={() => {
 											if (
 												$formData.skill_ids.includes(
