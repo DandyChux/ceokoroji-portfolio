@@ -359,7 +359,7 @@ pub async fn get_skills(
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let result = sqlx::query_as::<_, Skill>("SELECT * FROM skills")
+    let result = sqlx::query_as::<_, Skill>("SELECT * FROM skills ORDER BY name ASC")
         .fetch_all(pool)
         .await?;
 

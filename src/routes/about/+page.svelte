@@ -98,40 +98,44 @@
 			>
 		</div>
 
-		{#each skillsQuery.data as category, index (index)}
-			<Card.Root>
-				<Card.Header>
-					<Card.Title>{category.name}</Card.Title>
-				</Card.Header>
-				<Card.Content class="flex flex-col space-y-4">
-					{#each category.skills as skill}
-						<div class="inline-flex items-center justify-between">
-							{#if skill.icon_url}
-								<img
-									src={skill.icon_url}
-									alt={skill.name}
-									class="size-6 mr-2"
-								/>
-							{:else}
-								<div
-									class="size-6 mr-2 bg-foreground/40 rounded-full"
-								></div>
-							{/if}
-							<span
-								class="text-base lg:text-lg font-science-gothic"
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			{#each skillsQuery.data as category, index (index)}
+				<Card.Root>
+					<Card.Header>
+						<Card.Title>{category.name}</Card.Title>
+					</Card.Header>
+					<Card.Content class="flex flex-col space-y-4">
+						{#each category.skills as skill}
+							<div
+								class="inline-flex items-center justify-between"
 							>
-								{skill.name}
-							</span>
-							<span
-								class="text-base lg:text-lg font-science-gothic text-muted ml-auto"
-							>
-								{skill.level}
-							</span>
-						</div>
-						<Progress value={getSkillLevel(skill)} />
-					{/each}
-				</Card.Content>
-			</Card.Root>
-		{/each}
+								{#if skill.icon_url}
+									<img
+										src={skill.icon_url}
+										alt={skill.name}
+										class="size-6 mr-2"
+									/>
+								{:else}
+									<div
+										class="size-6 mr-2 bg-foreground/40 rounded-full"
+									></div>
+								{/if}
+								<span
+									class="text-base lg:text-lg font-science-gothic"
+								>
+									{skill.name}
+								</span>
+								<span
+									class="text-base lg:text-lg font-science-gothic text-muted ml-auto"
+								>
+									{skill.level}
+								</span>
+							</div>
+							<Progress value={getSkillLevel(skill)} />
+						{/each}
+					</Card.Content>
+				</Card.Root>
+			{/each}
+		</div>
 	</div>
 </div>
