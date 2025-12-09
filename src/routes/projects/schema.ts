@@ -34,13 +34,14 @@ export const projectSchema = z.object({
 	created_at: z.date(),
 	updated_at: z.date(),
 	featured: z.boolean(),
+	order: z.int32().min(1),
 });
 
 
 // Schema Definitions
 export const createSkillSchema = skillSchema.omit({ id: true });
 export const updateSkillSchema = skillSchema.omit({ id: true });
-export const createProjectSchema = projectSchema.omit({ id: true, created_at: true, updated_at: true }).extend({ skill_ids: z.array(z.number().int().min(1)) });
+export const createProjectSchema = projectSchema.omit({ id: true, created_at: true, updated_at: true, order: true }).extend({ skill_ids: z.array(z.number().int().min(1)) });
 export const updateProjectSchema = projectSchema.omit({ id: true, created_at: true, updated_at: true });
 export const projectResponseSchema = projectSchema.extend({ skills: z.array(skillSchema) });
 

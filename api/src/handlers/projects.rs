@@ -157,7 +157,7 @@ pub async fn create_project(
     // Insert the project
     let row = sqlx::query_as::<_, Project>(
         r#"
-        INSERT INTO projects (name, description, image_url, github_url, live_url, featured, "order")
+        INSERT INTO projects (name, description, image_url, github_url, live_url, featured)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *
         "#,
@@ -168,7 +168,6 @@ pub async fn create_project(
     .bind(&project.github_url)
     .bind(&project.live_url)
     .bind(project.featured)
-    .bind(project.order)
     .fetch_one(&mut *tx)
     .await?;
 

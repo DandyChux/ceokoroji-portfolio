@@ -240,7 +240,6 @@ pub struct ProjectCreate {
     pub featured: bool,
     /// List of skill IDs to associate with this project
     pub skill_ids: Vec<i32>,
-    pub order: i32,
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
