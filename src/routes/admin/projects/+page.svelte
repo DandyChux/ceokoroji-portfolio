@@ -106,11 +106,5 @@
 		<div class="mt-8">
 			<ProjectOrder />
 		</div>
-
-		<div class="mt-8">
-			<a href="/admin" class="text-accent hover:underline"
-				>← Back to Admin</a
-			>
-		</div>
 	</div>
 </div>
