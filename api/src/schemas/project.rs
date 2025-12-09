@@ -186,6 +186,7 @@ pub struct Project {
     pub github_url: String,
     pub live_url: Option<String>,
     pub featured: bool,
+    pub order: i32,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
@@ -200,6 +201,7 @@ pub struct ProjectResponse {
     pub github_url: String,
     pub live_url: Option<String>,
     pub featured: bool,
+    pub order: i32,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
     pub skills: Vec<Skill>,
@@ -215,6 +217,7 @@ impl ProjectResponse {
             github_url: row.github_url,
             live_url: row.live_url,
             featured: row.featured,
+            order: row.order,
             created_at: row.created_at,
             updated_at: row.updated_at,
             skills,
@@ -237,28 +240,24 @@ pub struct ProjectCreate {
     pub featured: bool,
     /// List of skill IDs to associate with this project
     pub skill_ids: Vec<i32>,
+    pub order: i32,
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectUpdate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
-
     #[validate(length(min = 2, max = 100))]
     pub description: Option<String>,
-
     #[validate(url)]
     pub image_url: String,
-
     #[validate(url)]
     pub github_url: String,
-
     #[validate(url)]
     pub live_url: Option<String>,
-
     pub skill_ids: Option<Vec<i32>>,
-
     pub featured: bool,
+    pub order: i32,
 }
 
 #[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
@@ -269,4 +268,10 @@ pub struct ProjectDelete {
 #[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectRequestQuery {
     pub featured: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
+pub struct ProjectReorder {
+    /// List of project IDs in the new order
+    pub project_ids: Vec<i32>,
 }

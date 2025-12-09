@@ -137,15 +137,15 @@ export const apiClient = {
 		return request<T>(endpoint, { ...config, method: 'GET' });
 	},
 
-	post<T>(endpoint: string, body?: unknown, config?: RequestConfig): Promise<T> {
+	post<T, B = unknown>(endpoint: string, body?: B, config?: RequestConfig): Promise<T> {
 		return request<T>(endpoint, { ...config, method: 'POST', body });
 	},
 
-	put<T>(endpoint: string, body?: unknown, config?: RequestConfig): Promise<T> {
+	put<T, B = unknown>(endpoint: string, body?: B, config?: RequestConfig): Promise<T> {
 		return request<T>(endpoint, { ...config, method: 'PUT', body });
 	},
 
-	patch<T>(endpoint: string, body?: unknown, config?: RequestConfig): Promise<T> {
+	patch<T, B = unknown>(endpoint: string, body?: B, config?: RequestConfig): Promise<T> {
 		return request<T>(endpoint, { ...config, method: 'PATCH', body });
 	},
 

@@ -103,7 +103,7 @@ async fn main() -> AppResult<()> {
         let api_version = config.api_version.clone();
 
         let cors = Cors::default()
-            .allowed_methods(vec!["GET", "POST", "PATCH", "DELETE"])
+            .allowed_methods(vec!["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
             .allowed_headers(vec![
                 header::CONTENT_TYPE,
                 header::AUTHORIZATION,

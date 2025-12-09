@@ -3,6 +3,7 @@
 	import type { Project } from "$routes/projects/schema";
 	import type { PageData } from "./$types";
 	import * as Table from "$components/ui/table";
+	import ProjectOrder from "$components/project-order.svelte";
 
 	let { data }: { data: PageData } = $props();
 
@@ -101,6 +102,10 @@
 				Loading projects...
 			</div>
 		{/if}
+
+		<div class="mt-8">
+			<ProjectOrder />
+		</div>
 
 		<div class="mt-8">
 			<a href="/admin" class="text-accent hover:underline"

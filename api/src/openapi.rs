@@ -16,6 +16,7 @@ use crate::schemas::project::{
         projects::create_project,
         projects::update_project,
         projects::delete_project,
+        projects::reorder_projects,
         projects::get_project_skills,
         projects::get_skills_with_category,
         projects::get_skills,

@@ -11,8 +11,9 @@ use crate::{
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
     schemas::project::{
-        GroupedSkillsResponse, Project, ProjectCreate, ProjectDelete, ProjectRequestQuery,
-        ProjectResponse, ProjectUpdate, Skill, SkillCategory, SkillCategoryGroup, SkillCreate,
+        GroupedSkillsResponse, Project, ProjectCreate, ProjectDelete, ProjectReorder,
+        ProjectRequestQuery, ProjectResponse, ProjectUpdate, Skill, SkillCategory,
+        SkillCategoryGroup, SkillCreate,
     },
 };
 
@@ -76,8 +77,8 @@ pub async fn get_projects(
     let pool = &app_state.db;
 
     let query_str = match query.featured {
-        Some(true) => "SELECT * FROM projects WHERE featured = true",
-        _ => "SELECT * FROM projects",
+        Some(true) => "SELECT * FROM projects WHERE featured = true ORDER BY \"order\" ASC",
+        _ => "SELECT * FROM projects ORDER BY \"order\" ASC",
     };
 
     let project_rows = sqlx::query_as::<_, Project>(query_str)
@@ -292,6 +293,48 @@ pub async fn delete_project(
         .await?;
 
     Ok(HttpResponse::NoContent().finish())
+}
+
+/// Reorder projects
+#[utoipa::path(
+    put,
+    path = "/projects/reorder",
+    responses(
+        (status = 200, description = "Projects reordered successfully"),
+        (status = 400, description = "Invalid request"),
+        (status = 401, description = "Unauthorized")
+    ),
+    tag = "Projects",
+    security(("session" = []))
+)]
+#[put("/reorder")]
+pub async fn reorder_projects(
+    app_state: web::Data<AppState>,
+    body: web::Json<ProjectReorder>,
+    _: AdminAuth,
+) -> AppResult<HttpResponse> {
+    let pool = &app_state.db;
+
+    // Start a transaction to ensure atomicity
+    let mut transaction = pool.begin().await?;
+
+    // Update the order for each project
+    for (new_order, project_id) in body.project_ids.iter().enumerate() {
+        let order_value = (new_order + 1) as i32; // 1-indexed
+
+        sqlx::query("UPDATE projects SET \"order\" = $1, updated_at = NOW() WHERE id = $2")
+            .bind(order_value)
+            .bind(project_id)
+            .execute(&mut *transaction)
+            .await?;
+    }
+
+    // Commit the transaction
+    transaction.commit().await?;
+
+    Ok(HttpResponse::Ok().json(serde_json::json!({
+        "message": "Projects reordered successfully"
+    })))
 }
 
 #[utoipa::path(

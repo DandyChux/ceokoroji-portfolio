@@ -41,6 +41,7 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
                     .service(projects::create_skill)
                     .service(projects::get_projects)
                     .service(projects::create_project)
+                    .service(projects::reorder_projects)
                     .service(projects::get_project)
                     .service(projects::update_project)
                     .service(projects::delete_project)
