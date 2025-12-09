@@ -9,7 +9,9 @@
 	const featuredProjectsQuery = createQuery(() => ({
 		queryKey: ["featured-projects"],
 		queryFn: async () => {
-			return await apiClient.get<ProjectResponse[]>("/projects");
+			return await apiClient.get<ProjectResponse[]>(
+				"/projects?featured=true",
+			);
 		},
 	}));
 </script>
