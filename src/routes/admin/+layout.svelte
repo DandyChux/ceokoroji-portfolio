@@ -41,15 +41,6 @@
 						</a>
 						<div class="hidden sm:flex items-center gap-1">
 							<a
-								href="/admin"
-								class="px-3 py-2 text-sm font-medium rounded-md transition-colors {page
-									.url.pathname === '/admin'
-									? 'bg-accent text-accent-foreground'
-									: 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'}"
-							>
-								Dashboard
-							</a>
-							<a
 								href="/admin/posts"
 								class="px-3 py-2 text-sm font-medium rounded-md transition-colors inline-flex items-center gap-2 {page.url.pathname.startsWith(
 									'/admin/posts',

@@ -71,12 +71,12 @@ async fn update_project_skills(
 #[get("")]
 pub async fn get_projects(
     app_state: web::Data<AppState>,
-    query: Option<web::Query<ProjectRequestQuery>>,
+    query: web::Query<ProjectRequestQuery>,
 ) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
-    let query_str = match query {
-        Some(q) if q.featured => "SELECT * FROM projects WHERE featured = true",
+    let query_str = match query.featured {
+        Some(true) => "SELECT * FROM projects WHERE featured = true",
         _ => "SELECT * FROM projects",
     };
 

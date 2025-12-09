@@ -268,5 +268,5 @@ pub struct ProjectDelete {
 
 #[derive(Debug, Deserialize, Serialize, Validate, ToSchema)]
 pub struct ProjectRequestQuery {
-    pub featured: bool,
+    pub featured: Option<bool>,
 }

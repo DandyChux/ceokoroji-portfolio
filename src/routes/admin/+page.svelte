@@ -1,52 +1,93 @@
 <script lang="ts">
-	import { createQuery } from "@tanstack/svelte-query";
+	import { createQueries, createQuery } from "@tanstack/svelte-query";
 	import type { Post } from "$routes/blog/schema";
 	import type { PageData } from "./$types";
-	import { FileText, PlusCircle, Edit, BarChart3 } from "@lucide/svelte";
+	import { FileText, CirclePlus } from "@lucide/svelte";
 	import * as Card from "$components/ui/card";
+	import StatsGrid from "./stats-grid.svelte";
+	import type { Project, Skill } from "$routes/projects/schema";
+	import apiClient from "$lib/api";
 
 	let { data }: { data: PageData } = $props();
 
-	const postsQuery = createQuery<Post[]>(() => ({
-		queryKey: ["admin", "posts"],
-		queryFn: async () => {
-			const response = await fetch(`${data.apiUrl}/posts/admin`);
+	export type Stats = {
+		total: number;
+		published: number;
+		drafts: number;
+		recent: Post[];
+		projects: number;
+		featuredProjects: number;
+		skills: number;
+	};
 
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch posts: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			return response.json();
-		},
-		staleTime: 1000 * 60 * 5,
+	const queries = createQueries(() => ({
+		queries: [
+			{
+				queryKey: ["admin", "posts"],
+				queryFn: async () => {
+					return await apiClient.get<Post[]>("/posts/admin");
+				},
+				staleTime: 1000 * 60 * 5,
+			},
+			{
+				queryKey: ["admin", "projects"],
+				queryFn: async () => {
+					return await apiClient.get<Project[]>("/projects");
+				},
+				staleTime: 1000 * 60 * 5,
+			},
+			{
+				queryKey: ["admin", "featuredProjects"],
+				queryFn: async () => {
+					return await apiClient.get<Project[]>(
+						"/projects?featured=true",
+					);
+				},
+				staleTime: 1000 * 60 * 5,
+			},
+			{
+				queryKey: ["admin", "skills"],
+				queryFn: async () => {
+					return await apiClient.get<Skill[]>("/projects/skills");
+				},
+				staleTime: 1000 * 60 * 5,
+			},
+		],
 	}));
 
-	const stats = $derived(() => {
-		if (!postsQuery.data) {
+	const stats = $derived.by(() => {
+		if (!queries[0].data) {
 			return {
 				total: 0,
 				published: 0,
 				drafts: 0,
 				recent: [],
+				projects: 0,
+				featuredProjects: 0,
+				skills: 0,
 			};
 		}
 
-		const published = postsQuery.data.filter((p) => p.published).length;
-		const drafts = postsQuery.data.filter((p) => !p.published).length;
-		const recent = [...postsQuery.data]
+		const published = queries[0].data.filter((p) => p.published).length;
+		const drafts = queries[0].data.filter((p) => !p.published).length;
+		const recent = [...queries[0].data]
 			.sort(
 				(a, b) =>
 					new Date(b.date).getTime() - new Date(a.date).getTime(),
 			)
 			.slice(0, 5);
+		const projects = queries[1].data?.length || 0;
+		const featuredProjects = queries[2].data?.length || 0;
+		const skills = queries[3].data?.length || 0;
 
 		return {
-			total: postsQuery.data.length,
+			total: queries[0].data.length,
 			published,
 			drafts,
 			recent,
+			projects,
+			featuredProjects,
+			skills,
 		};
 	});
 
@@ -75,75 +116,15 @@
 			</p>
 		</div>
 
-		{#if postsQuery.isPending}
+		{#if queries[0].isPending}
 			<div class="text-muted-foreground">Loading dashboard...</div>
-		{:else if postsQuery.isError}
+		{:else if queries[0].isError}
 			<div class="p-4 rounded-lg bg-destructive/10 text-destructive">
-				Error: {postsQuery.error?.message}
+				Error: {queries[0].error?.message}
 			</div>
 		{:else}
 			<!-- Stats Grid -->
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-				<!-- Total Posts -->
-				<Card.Root>
-					<Card.Header
-						class="flex flex-row items-center justify-between pb-2"
-					>
-						<Card.Title class="text-sm font-medium"
-							>Total Posts</Card.Title
-						>
-						<FileText class="size-4 text-muted-foreground" />
-					</Card.Header>
-					<Card.Content>
-						<div class="text-3xl font-bold">
-							{stats().total}
-						</div>
-						<p class="text-xs text-muted-foreground mt-1">
-							All blog posts
-						</p>
-					</Card.Content>
-				</Card.Root>
-
-				<!-- Published -->
-				<Card.Root>
-					<Card.Header
-						class="flex flex-row items-center justify-between pb-2"
-					>
-						<Card.Title class="text-sm font-medium"
-							>Published</Card.Title
-						>
-						<BarChart3 class="size-4 text-muted-foreground" />
-					</Card.Header>
-					<Card.Content>
-						<div class="text-3xl font-bold">
-							{stats().published}
-						</div>
-						<p class="text-xs text-muted-foreground mt-1">
-							Live on your blog
-						</p>
-					</Card.Content>
-				</Card.Root>
-
-				<!-- Drafts -->
-				<Card.Root>
-					<Card.Header
-						class="flex flex-row items-center justify-between pb-2"
-					>
-						<Card.Title class="text-sm font-medium"
-							>Drafts</Card.Title
-						>
-						<Edit class="size-4 text-muted-foreground" />
-					</Card.Header>
-					<Card.Content>
-						<div class="text-3xl font-bold">
-							{stats().drafts}
-						</div>
-						<p class="text-xs text-muted-foreground mt-1">
-							Work in progress
-						</p>
-					</Card.Content>
-				</Card.Root>
-			</div>
+			<StatsGrid {stats} />
 
 			<!-- Quick Actions -->
 			<Card.Root class="mb-8">
@@ -162,7 +143,7 @@
 							<div
 								class="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition"
 							>
-								<PlusCircle class="size-5" />
+								<CirclePlus class="size-5" />
 							</div>
 							<div>
 								<div class="font-semibold">Create New Post</div>
@@ -199,7 +180,7 @@
 					<Card.Description>Your latest blog posts</Card.Description>
 				</Card.Header>
 				<Card.Content>
-					{#if stats().recent.length === 0}
+					{#if stats.recent.length === 0}
 						<div class="text-center py-8">
 							<p class="text-muted-foreground mb-4">
 								No posts yet. Create your first post to get
@@ -214,7 +195,7 @@
 						</div>
 					{:else}
 						<div class="space-y-4">
-							{#each stats().recent as post (post.id)}
+							{#each stats.recent as post (post.id)}
 								<div
 									class="flex items-start justify-between p-4 border border-border rounded-lg hover:bg-muted/10 transition"
 								>
@@ -253,7 +234,7 @@
 							{/each}
 						</div>
 
-						{#if postsQuery.data && postsQuery.data.length > 5}
+						{#if queries[0].data && queries[0].data.length > 5}
 							<div class="mt-4 text-center">
 								<a
 									href="/admin/posts"
