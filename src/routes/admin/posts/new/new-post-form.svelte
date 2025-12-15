@@ -262,7 +262,7 @@
 						: "Publication date and time of the post"}
 				</Form.Description>
 				<Form.FieldErrors />
-				<input hidden value={$formData.date} name={props.name} />
+				<!-- <input hidden value={$formData.date} name={props.name} /> -->
 			{/snippet}
 		</Form.Control>
 	</Form.Field>
@@ -365,7 +365,7 @@
 					to find.
 				</Form.Description>
 				<Form.FieldErrors />
-				<input hidden value={$formData.tags} name={props.name} />
+				<!-- <input hidden value={$formData.tags} name={props.name} /> -->
 			{/snippet}
 		</Form.Control>
 	</Form.Field>
