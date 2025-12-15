@@ -3,6 +3,7 @@
 		createSkillSchema,
 		skillCategories,
 		skillLevels,
+		type CreateSkill,
 		type Skill,
 	} from "$routes/projects/schema";
 	import * as Form from "$components/ui/form";
@@ -20,6 +21,7 @@
 	import { tick } from "svelte";
 	import { createMutation } from "@tanstack/svelte-query";
 	import { useId } from "bits-ui";
+	import apiClient from "$lib/api";
 
 	let {
 		data,
@@ -31,20 +33,10 @@
 	const createSkillMutation = createMutation(() => ({
 		mutationKey: ["skills"],
 		mutationFn: async () => {
-			const response = await fetch(`${API_URL}/projects/skill`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				credentials: "include",
-				body: JSON.stringify($formData),
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to create skill");
-			}
-
-			return await response.json();
+			return await apiClient.post<Skill, CreateSkill>(
+				"/projects/skill",
+				$formData,
+			);
 		},
 		onSuccess: () => {
 			toast.success("Skill created successfully");

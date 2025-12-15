@@ -4,6 +4,7 @@
 		postCategories,
 		postTags,
 		type CreatePost,
+		type Post,
 	} from "$routes/blog/schema";
 	import * as Form from "$components/ui/form";
 	import Input from "$components/ui/input/input.svelte";
@@ -44,6 +45,7 @@
 	import { useId } from "bits-ui";
 	import { debounce } from "$lib/utils/debounce.svelte";
 	import { Label } from "$components/ui/label";
+	import apiClient from "$lib/api";
 
 	let {
 		data,
@@ -55,17 +57,7 @@
 	const createPostMutation = createMutation(() => ({
 		mutationKey: ["posts"],
 		mutationFn: async () => {
-			const response = await fetch(`${API_URL}/posts`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify($formData),
-			});
-			if (!response.ok) {
-				throw new Error("Failed to create post");
-			}
-			return response.json();
+			return await apiClient.post<Post, CreatePost>("/posts", $formData);
 		},
 		onSuccess: () => {
 			toast.success("Post created successfully!");

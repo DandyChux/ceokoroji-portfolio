@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { createProjectSchema, type Skill } from "$routes/projects/schema";
+	import {
+		createProjectSchema,
+		ProjectResponse,
+		type CreateProject,
+		type Skill,
+	} from "$routes/projects/schema";
 	import * as Form from "$components/ui/form";
 	import Input from "$components/ui/input/input.svelte";
 	import Textarea from "$components/ui/textarea/textarea.svelte";
@@ -20,6 +25,7 @@
 	import { useId } from "bits-ui";
 	import { Label } from "$components/ui/label";
 	import { Checkbox } from "$components/ui/checkbox";
+	import apiClient from "$lib/api";
 
 	let {
 		data,
@@ -35,19 +41,10 @@
 	const createProjectMutation = createMutation(() => ({
 		mutationKey: ["projects"],
 		mutationFn: async () => {
-			console.log($formData);
-			const response = await fetch(`${API_URL}/projects`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				credentials: "include",
-				body: JSON.stringify($formData),
-			});
-			if (!response.ok) {
-				throw new Error("Failed to create project");
-			}
-			return response.json();
+			return await apiClient.post<ProjectResponse, CreateProject>(
+				"/projects",
+				$formData,
+			);
 		},
 		onSuccess: () => {
 			toast.success("Project created successfully");
