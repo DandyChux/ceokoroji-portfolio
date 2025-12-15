@@ -2,7 +2,7 @@ use utoipa::OpenApi;
 use utoipa::openapi::{Info, ServerBuilder};
 
 use crate::handlers::{auth, contact, posts, projects, repositories};
-use crate::schemas::post::{NewPost, Post, UpdatePost};
+use crate::schemas::post::{CreatePost, Post, UpdatePost};
 use crate::schemas::project::{
     Project, ProjectCreate, ProjectResponse, ProjectUpdate, Skill, SkillCategory, SkillLevel,
 };
@@ -40,7 +40,7 @@ use crate::schemas::project::{
     components(
         schemas(
             Project, ProjectCreate, ProjectUpdate, ProjectResponse,
-            Post, NewPost, UpdatePost,
+            Post, CreatePost, UpdatePost,
             Skill, SkillCategory, SkillLevel,
         )
     ),

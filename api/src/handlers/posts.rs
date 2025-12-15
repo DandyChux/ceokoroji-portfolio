@@ -4,12 +4,13 @@ use actix_web::{
 };
 use serde_json::json;
 use tracing::error;
+use validator::Validate;
 
 use crate::{
     AppState,
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
-    schemas::post::{NewPost, Post, UpdatePost},
+    schemas::post::{CreatePost, Post, UpdatePost},
 };
 
 #[utoipa::path(
@@ -104,7 +105,7 @@ pub async fn get_post_by_slug(
 #[utoipa::path(
     post,
     path = "/posts",
-    request_body = NewPost,
+    request_body = CreatePost,
     responses(
         (status = 201, description = "Post created", body = Post),
         (status = 401, description = "Unauthorized")
@@ -116,8 +117,11 @@ pub async fn get_post_by_slug(
 pub async fn create_post(
     _auth: AdminAuth,
     app_state: web::Data<AppState>,
-    new_post: web::Json<NewPost>,
+    new_post: web::Json<CreatePost>,
 ) -> AppResult<HttpResponse> {
+    // Validate the input data
+    new_post.validate()?;
+
     let category = new_post
         .category
         .clone()

@@ -9,7 +9,7 @@ export const skillLevelEnum = z.enum(skillLevels);
 export const skillSchema = z.object({
 	id: z.int32().min(1),
 	name: z.string().min(2).max(100),
-	description: z.string().min(10).max(500).nullable(),
+	description: z.string().min(10).max(100).nullable(),
 	category: skillCategoryEnum,
 	level: skillLevelEnum,
 	icon_url: z.url().nullable(),

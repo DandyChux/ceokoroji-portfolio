@@ -5,6 +5,7 @@ use actix_web::{
     web::{self, Data},
 };
 use tracing::error;
+use validator::Validate;
 
 use crate::{
     AppState,
@@ -149,6 +150,9 @@ pub async fn create_project(
     app_state: web::Data<AppState>,
     project: web::Json<ProjectCreate>,
 ) -> AppResult<HttpResponse> {
+    // Validate the input data
+    project.validate()?;
+
     let pool = &app_state.db;
 
     // Start a transaction
@@ -452,6 +456,8 @@ pub async fn create_skill(
     app_state: web::Data<AppState>,
     skill: web::Json<SkillCreate>,
 ) -> AppResult<HttpResponse> {
+    skill.validate()?;
+
     let pool = &app_state.db;
 
     let result = sqlx::query_as::<_, Skill>("INSERT INTO skills (name, description, level, category, icon_url) VALUES ($1, $2, $3, $4, $5) RETURNING *")

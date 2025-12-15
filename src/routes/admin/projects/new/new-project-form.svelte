@@ -107,6 +107,7 @@
 				/>
 			{/snippet}
 		</Form.Control>
+		<Form.Description>{$formData.description?.length}/500</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
 

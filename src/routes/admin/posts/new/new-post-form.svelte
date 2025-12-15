@@ -170,7 +170,7 @@
 				/>
 			{/snippet}
 		</Form.Control>
-		<Form.Description>Description of the post</Form.Description>
+		<Form.Description>{$formData.description.length}/500</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
 

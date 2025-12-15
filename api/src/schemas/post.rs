@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use utoipa::ToSchema;
+use validator::Validate;
 
 #[derive(Debug, Clone, Serialize, Deserialize, FromRow, ToSchema)]
 pub struct Post {
@@ -16,9 +17,10 @@ pub struct Post {
     pub slug: String,
 }
 
-#[derive(Debug, Deserialize, ToSchema)]
-pub struct NewPost {
+#[derive(Debug, Deserialize, ToSchema, Validate)]
+pub struct CreatePost {
     pub title: String,
+    #[validate(length(min = 2, max = 500))]
     pub description: String,
     pub content: String,
     pub tags: Option<Vec<String>>,
