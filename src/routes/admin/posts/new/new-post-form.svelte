@@ -61,6 +61,7 @@
 		},
 		onSuccess: () => {
 			toast.success("Post created successfully!");
+			form.reset();
 		},
 		onError: () => {
 			toast.error("Failed to create post");
@@ -81,7 +82,6 @@
 			cancel();
 
 			createPostMutation.mutate();
-			form.reset();
 		},
 	});
 

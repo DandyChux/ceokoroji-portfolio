@@ -1,8 +1,14 @@
 import { goto } from '$app/navigation';
+import apiClient from '$lib/api';
 
 interface AuthState {
 	isAuthenticated: boolean;
 	isLoading: boolean;
+}
+
+interface AuthResponse {
+	success: boolean;
+	message: string;
 }
 
 class AuthStore {
@@ -22,12 +28,9 @@ class AuthStore {
 	async checkAuth() {
 		this.state.isLoading = true;
 		try {
-			const API_URL = import.meta.env.VITE_API_URL;
-			const response = await fetch(`${API_URL}/auth/verify`, {
-				credentials: 'include',
-			});
+			const response = await apiClient.get<AuthResponse>('/auth/verify');
 
-			this.state.isAuthenticated = response.ok;
+			this.state.isAuthenticated = response.success;
 		} catch (error) {
 			console.error('Auth check failed:', error);
 			this.state.isAuthenticated = false;
@@ -37,29 +40,18 @@ class AuthStore {
 	}
 
 	async login(password: string) {
-		const API_URL = import.meta.env.VITE_API_URL;
-		const response = await fetch(`${API_URL}/auth/login`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-			body: JSON.stringify({ password }),
-		});
+		const response = await apiClient.post<AuthResponse>('/auth/login', { password });
 
-		if (!response.ok) {
-			const data = await response.json();
-			throw new Error(data.message || 'Invalid password');
+		if (!response.success) {
+			throw new Error(response.message || 'Invalid password');
 		}
 
 		this.state.isAuthenticated = true;
-		return response.json();
+		return response;
 	}
 
 	async logout() {
-		const API_URL = import.meta.env.VITE_API_URL;
-		await fetch(`${API_URL}/auth/logout`, {
-			method: 'POST',
-			credentials: 'include',
-		});
+		await apiClient.post('/auth/logout');
 
 		this.state.isAuthenticated = false;
 		goto('/admin/login');

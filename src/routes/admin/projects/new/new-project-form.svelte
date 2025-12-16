@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		createProjectSchema,
-		ProjectResponse,
+		type ProjectResponse,
 		type CreateProject,
 		type Skill,
 	} from "$routes/projects/schema";
