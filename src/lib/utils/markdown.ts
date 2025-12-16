@@ -29,6 +29,7 @@ marked.use({
 	renderer,
 	breaks: true,
 	gfm: true,
+	pedantic: false
 });
 
 /**
