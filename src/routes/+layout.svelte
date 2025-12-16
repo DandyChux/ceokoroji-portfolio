@@ -1,6 +1,5 @@
 <script lang="ts">
 	import "../app.css";
-	import favicon from "$lib/assets/ceokoroji-logo.ico";
 	import { page } from "$app/state";
 	import Nav from "$components/navbar.svelte";
 	import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";
@@ -26,9 +25,17 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" type="image/svg+xml" href={favicon} />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/svg+xml" href={"/favicon.ico"} />
 	<meta charset="utf-8" />
+	<meta property="og:title" content="Chukwuma Okoroji" />
+	<meta
+		property="og:description"
+		content="Chukwuma Okoroji is a software engineer and entrepreneur."
+	/>
+	<meta property="og:image" content="/ceokoroji-logo.webp" />
+	<meta property="og:url" content="https://ceokoroji.dev" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Chukwuma Okoroji" />
 	<title>Chukwuma Okoroji</title>
 </svelte:head>
 

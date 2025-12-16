@@ -239,23 +239,24 @@
 
 	.prose h2 {
 		font-size: 1.5em;
-		margin-top: 2em;
+		margin-top: 1.75em;
 	}
 
 	.prose h3 {
 		font-size: 1.25em;
-		margin-top: 1.6em;
+		margin-top: 1.5em;
 	}
 
 	.prose h4 {
 		font-size: 1em;
-		margin-top: 1.5em;
+		margin-top: 1.25em;
 	}
 
 	/* Paragraphs */
 	.prose p {
 		margin-top: 1.25em;
 		margin-bottom: 1.25em;
+		text-indent: 1em;
 	}
 
 	.prose p:first-child {
@@ -384,6 +385,11 @@
 		font-weight: 600;
 		vertical-align: bottom;
 		padding: 0.75em 0.75em;
+
+		&:hover {
+			background-color: var(--color-muted);
+			color: var(--color-muted-foreground);
+		}
 	}
 
 	.prose tbody tr {

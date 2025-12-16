@@ -1,0 +1,26 @@
+{
+	"name": "Chukwuma Okoroji Portfolio",
+	"short_name": "Chukwuma Okoroji",
+	"description": "Chukwuma Okoroji is a software engineer and entrepreneur.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#084651",
+	"theme_color": "#303A3C",
+	"icons": [
+		{
+			"src": "/favicon.ico",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "/ceokoroji-logo.webp",
+			"type": "image/webp",
+			"sizes": "192x192"
+		},
+		{
+			"src": "/ceokoroji-logo.webp",
+			"type": "image/webp",
+			"sizes": "512x512"
+		}
+	]
+}

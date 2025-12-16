@@ -62,7 +62,7 @@
 			<div class="text-3xl font-bold">
 				{stats.projects}
 			</div>
-			<p class="text-xs text-muted-foreground mt-1">Work in progress</p>
+			<p class="text-xs text-muted-foreground mt-1">Live on site</p>
 		</Card.Content>
 	</Card.Root>
 
@@ -78,7 +78,7 @@
 			<div class="text-3xl font-bold">
 				{stats.featuredProjects}
 			</div>
-			<p class="text-xs text-muted-foreground mt-1">Work in progress</p>
+			<p class="text-xs text-muted-foreground mt-1">Live on site</p>
 		</Card.Content>
 	</Card.Root>
 
@@ -92,7 +92,7 @@
 			<div class="text-3xl font-bold">
 				{stats.skills}
 			</div>
-			<p class="text-xs text-muted-foreground mt-1">Work in progress</p>
+			<p class="text-xs text-muted-foreground mt-1">Live on site</p>
 		</Card.Content>
 	</Card.Root>
 </div>

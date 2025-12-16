@@ -1,7 +1,10 @@
 <script lang="ts">
+	import ShareLinks from "$components/share-links.svelte";
 	import { renderMarkdown } from "$lib/utils/markdown";
+	import { Clock } from "@lucide/svelte";
 	import type { PageData } from "./$types";
 	import { parseISO } from "date-fns";
+	import readingTime from "$lib/utils/reading-time";
 
 	let { data }: { data: PageData } = $props();
 
@@ -13,6 +16,8 @@
 				: data.post.date
 			: null,
 	);
+	console.log("RAW DATE: ", data.post.date);
+	// console.log("PARSED DATE: ", parseISO(data.post.date));
 
 	// Render the markdown content
 	let renderedContent = $derived(
@@ -26,6 +31,15 @@
 			year: "numeric",
 			month: "long",
 			day: "numeric",
+		});
+	}
+
+	// Format time
+	function formatTime(dateString: string): string {
+		const date = new Date(dateString);
+		return date.toLocaleTimeString("en-US", {
+			hour: "numeric",
+			minute: "numeric",
 		});
 	}
 </script>
@@ -56,31 +70,51 @@
 					class="flex flex-wrap items-center gap-4 text-muted-foreground text-sm"
 				>
 					{#if parsedDate}
-						<time datetime={parsedDate.toISOString()}>
-							{formatDate(parsedDate.toString())}
+						<time
+							datetime={parsedDate.toISOString()}
+							class="font-montserrat tracking-wide"
+						>
+							{formatDate(parsedDate.toString())} @ {formatTime(
+								parsedDate.toString(),
+							)}
 						</time>
-						<span>•</span>
+						<span>&bull;</span>
 					{/if}
 					<span
-						class="px-3 py-1 bg-primary/10 text-primary rounded-full"
+						class="px-3 py-1 bg-primary/10 text-primary rounded-full font-science-gothic"
 					>
 						{data.post?.category}
 					</span>
 					{#if data.post?.tags && data.post?.tags.length > 0}
-						<span>•</span>
+						<span>&bull;</span>
 						<div class="flex gap-2">
 							{#each data.post?.tags as tag}
 								<span
-									class="px-2 py-1 bg-muted/30 rounded text-xs"
+									class="px-2 py-1 bg-muted/30 rounded text-xs font-science-gothic font-[500] tracking-wider"
 								>
-									#{tag}
+									&num;{tag}
 								</span>
 							{/each}
 						</div>
 					{/if}
 				</div>
 
-				<p class="text-xl text-muted-foreground mt-4">
+				<div class="flex flex-wrap items-center w-full my-4 lg:my-8">
+					<div class="text-sm leading-6">
+						<span class="inline-flex items-center font-semibold">
+							<Clock class="size-4 mr-2" />
+							{readingTime(data.post.content)}
+						</span>
+					</div>
+
+					<ShareLinks
+						title={data.post?.title}
+						description={data.post?.description}
+						class="flex-1 justify-end my-0"
+					/>
+				</div>
+
+				<p class="text-md lg:text-xl text-muted-foreground mt-4">
 					{data.post?.description}
 				</p>
 			</header>

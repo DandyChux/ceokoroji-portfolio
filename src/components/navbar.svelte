@@ -2,7 +2,6 @@
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import type { Component } from "svelte";
-	import logoSrc from "$lib/assets/ceokoroji-logo.webp";
 	import {
 		House,
 		Mail,
@@ -93,13 +92,6 @@
 			</nav>
 		</Sheet.Content>
 	</Sheet.Root>
-	<!-- <enhanced:img
-		src={logoSrc}
-		alt="Logo"
-		width="100"
-		height="100"
-		class="mx-auto"
-	/> -->
 	<Button
 		variant="link"
 		href="/admin/login"
@@ -108,6 +100,11 @@
 			class: "relative size-auto mx-auto",
 		})}
 	>
-		<enhanced:img src={logoSrc} alt="Logo" width="100" height="100" />
+		<enhanced:img
+			src={"/ceokoroji-logo.webp"}
+			alt="Logo"
+			width="100"
+			height="100"
+		/>
 	</Button>
 </div>
