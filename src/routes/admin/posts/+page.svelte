@@ -2,22 +2,14 @@
 	import { createMutation, createQuery } from "@tanstack/svelte-query";
 	import type { Post } from "$routes/blog/schema";
 	import type { PageData } from "./$types";
+	import apiClient from "$lib/api";
 
 	let { data }: { data: PageData } = $props();
 
 	const postsQuery = createQuery<Post[]>(() => ({
 		queryKey: ["admin", "posts"],
 		queryFn: async () => {
-			const response = await fetch(`${data.apiUrl}/posts`);
-
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch posts: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			const result = await response.json();
-			return result;
+			return await apiClient.get("/posts/admin");
 		},
 		staleTime: 1000 * 60 * 5, // 5 minutes
 		refetchOnWindowFocus: true, // Refetch when user returns to tab
@@ -179,14 +171,16 @@
 											View
 										</a>
 										<a
-											href="/admin/posts/edit/{post.id}"
+											href="/admin/posts/edit/{post.slug}"
 											class="px-3 py-1 text-sm text-primary hover:underline"
 										>
 											Edit
 										</a>
 										<button
 											onclick={() =>
-												deletePost.mutate(post.id)}
+												deletePost.mutate(
+													post.id.toString(),
+												)}
 											class="px-3 py-1 text-sm text-destructive hover:underline"
 										>
 											Delete
