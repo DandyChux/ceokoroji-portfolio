@@ -26,6 +26,7 @@ pub struct CreatePost {
     pub tags: Option<Vec<String>>,
     pub category: Option<String>,
     pub slug: String,
+    pub date: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Deserialize, ToSchema)]

@@ -210,7 +210,11 @@
 									bind:placeholder
 									captionLayout="dropdown"
 									minValue={new CalendarDate(2020, 1, 1)}
-									maxValue={today(getLocalTimeZone())}
+									maxValue={new CalendarDate(
+										new Date().getFullYear() + 2,
+										new Date().getMonth(),
+										new Date().getDate(),
+									)}
 									calendarLabel="Publication date"
 									onValueChange={(v) => {
 										if (v) {
@@ -218,11 +222,17 @@
 												v.toDate(getLocalTimeZone());
 											const [hours, minutes] =
 												timeValue.split(":");
-											date.setHours(
+
+											const newDate = new Date(
+												date.getFullYear(),
+												date.getMonth(),
+												date.getDate(),
 												parseInt(hours),
 												parseInt(minutes),
+												0,
+												0,
 											);
-											$formData.date = date;
+											$formData.date = newDate;
 										} else {
 											$formData.date = new Date();
 										}

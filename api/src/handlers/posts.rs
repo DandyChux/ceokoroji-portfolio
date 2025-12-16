@@ -2,6 +2,7 @@ use actix_web::{
     HttpResponse, delete, get, post, put,
     web::{self, Data},
 };
+use chrono::Utc;
 use serde_json::json;
 use tracing::error;
 use validator::Validate;
@@ -129,8 +130,8 @@ pub async fn create_post(
     let pool = &app_state.db;
 
     let result = sqlx::query_as::<_, Post>(
-        "INSERT INTO posts (id, title, description, content, tags, category, slug, published)
-         VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, false)
+        "INSERT INTO posts (id, title, description, content, tags, category, slug, published, date)
+         VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8)
          RETURNING id, title, date, description, published, tags, category, content, slug",
     )
     .bind(&new_post.title)
@@ -139,6 +140,8 @@ pub async fn create_post(
     .bind(&new_post.tags)
     .bind(&category)
     .bind(&new_post.slug)
+    .bind(false)
+    .bind(&new_post.date.unwrap_or_else(|| Utc::now()))
     .fetch_one(pool)
     .await;
 
