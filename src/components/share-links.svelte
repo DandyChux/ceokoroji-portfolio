@@ -32,7 +32,7 @@
 	</span>
 	<Button
 		variant="link"
-		href="https://twitter.com/intent/tweet?url=${encodedUrl}&text=${title}"
+		href="https://twitter.com/intent/tweet?url={encodedUrl}&text={title}"
 		target="_blank"
 		rel="noopener noreferrer"
 		size="sm"
@@ -60,7 +60,7 @@
 	</Button>
 	<Button
 		variant="link"
-		href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}"
+		href="https://www.facebook.com/sharer/sharer.php?u={encodedUrl}"
 		target="_blank"
 		rel="noopener noreferrer"
 		size="sm"
@@ -88,7 +88,7 @@
 	</Button>
 	<Button
 		variant="link"
-		href="https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}"
+		href="https://www.linkedin.com/sharing/share-offsite/?url={encodedUrl}"
 		target="_blank"
 		rel="noopener noreferrer"
 		size="sm"
