@@ -146,9 +146,14 @@
 	}
 
 	body {
-		background: var(--color-background);
+		/*background: var(--color-background);*/
+		background-color: color-mix(in oklab, var(--color-background) 60%, transparent);
 		color: var(--color-foreground);
 		font-family: var(--font-monda);
+	}
+
+	.dark body {
+		background-color: var(--color-background);
 	}
 
 	h1,
