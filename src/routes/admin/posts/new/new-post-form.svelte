@@ -52,8 +52,6 @@
 	}: { data: { form: SuperValidated<Infer<typeof createPostSchema>> } } =
 		$props();
 
-	const API_URL = import.meta.env.VITE_API_URL;
-
 	const createPostMutation = createMutation(() => ({
 		mutationKey: ["posts"],
 		mutationFn: async () => {

@@ -1,4 +1,5 @@
 mod config;
+mod constants;
 mod db;
 mod error;
 mod handlers;
@@ -93,9 +94,17 @@ async fn main() -> AppResult<()> {
     let port = config.port;
 
     // Create session key from config
-    let secret_key = Key::from(config.session_secret_key.as_bytes());
+    let secret_key = Key::derive_from(config.session_secret_key.as_bytes());
 
-    info!("Starting HTTP server at http://{}:{}", host, port);
+    // Determine if we're in production based on RUST_ENV environment variable
+    let is_production = std::env::var("RUST_ENV")
+        .map(|v| v.eq_ignore_ascii_case("production"))
+        .unwrap_or(false);
+
+    info!(
+        "Starting HTTP server at http://{}:{} (cookie_secure={})",
+        host, port, is_production
+    );
 
     // Build the application router
     HttpServer::new(move || {
@@ -129,9 +138,14 @@ async fn main() -> AppResult<()> {
             .wrap(
                 SessionMiddleware::builder(CookieSessionStore::default(), secret_key.clone())
                     .cookie_name("admin_session".to_owned())
-                    .cookie_secure(false)
+                    .cookie_secure(is_production)
                     .cookie_http_only(true)
                     .cookie_same_site(SameSite::Lax)
+                    .session_lifecycle(
+                        actix_session::config::PersistentSession::default().session_ttl(
+                            actix_web::cookie::time::Duration::hours(config.session_timeout_hours),
+                        ),
+                    )
                     .build(),
             )
             .wrap(cors)

@@ -1,3 +1,4 @@
+use crate::constants::SESSION_USER_KEY;
 use crate::error::AppResult;
 use crate::rate_limiter::extract_and_check_rate_limit;
 use crate::{AppState, error::AppError};
@@ -17,8 +18,6 @@ pub struct AuthResponse {
     success: bool,
     message: String,
 }
-
-const SESSION_USER_KEY: &str = "admin_authenticated";
 
 #[utoipa::path(
     post,
@@ -74,11 +73,7 @@ pub async fn login(
     tag = "Authentication"
 )]
 #[post("/logout")]
-pub async fn logout(
-    req: HttpRequest,
-    session: Session,
-    state: web::Data<AppState>,
-) -> AppResult<HttpResponse> {
+pub async fn logout(session: Session) -> AppResult<HttpResponse> {
     // No rate limiting needed for logout, but easy to add if you want
     session.purge();
     Ok(HttpResponse::Ok().json(AuthResponse {

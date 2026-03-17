@@ -2,49 +2,35 @@
 	import { Button } from "$components/ui/button";
 	import Input from "$components/ui/input/input.svelte";
 	import { Textarea } from "$components/ui/textarea";
-	import { onMount } from "svelte";
+	import * as Form from "$components/ui/form";
+	import apiClient from "$lib/api";
+	import { superForm } from "sveltekit-superforms";
+	import { contactSchema } from "$lib/schema";
+	import { zod4Client } from "sveltekit-superforms/adapters";
+	import { createMutation } from "@tanstack/svelte-query";
 
-	let name = $state("");
-	let email = $state("");
-	let message = $state("");
-	let isSubmitting = $state(false);
-	let submitStatus = $state<"success" | "error" | null>(null);
-	let statusMessage = $state("");
+	let { data } = $props();
 
-	const API_URL = "http://localhost:8080";
+	const form = superForm(data.form, {
+		validators: zod4Client(contactSchema),
+		SPA: true,
+		onSubmit: async ({ cancel }) => {
+			cancel();
+			contactMutation.mutate();
+		},
+	});
 
-	async function handleSubmit(event: Event) {
-		event.preventDefault();
+	const { form: formData, enhance, submitting, reset } = form;
 
-		isSubmitting = true;
-		submitStatus = null;
-
-		try {
-			const response = await fetch(`${API_URL}/api/contact`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ name, email, message }),
-			});
-
-			if (response.ok) {
-				submitStatus = "success";
-				statusMessage = "Message sent successfully!";
-				name = "";
-				email = "";
-				message = "";
-			} else {
-				submitStatus = "error";
-				statusMessage = "Something went wrong. Please try again.";
-			}
-		} catch (error) {
-			submitStatus = "error";
-			statusMessage = "Failed to send message. Please try again later.";
-		} finally {
-			isSubmitting = false;
-		}
-	}
+	const contactMutation = createMutation(() => ({
+		mutationKey: ["contact"],
+		mutationFn: async () => {
+			return await apiClient.post("/contact", $formData);
+		},
+		onSuccess: () => {
+			reset();
+		},
+	}));
 </script>
 
 <svelte:head>
@@ -60,56 +46,80 @@
 			Have a project in mind? Let's work together!
 		</p>
 
-		<form onsubmit={handleSubmit} class="flex flex-col gap-4">
-			<div>
-				<Input
-					type="text"
-					bind:value={name}
-					placeholder="Full Name"
-					required
-					class="w-full px-4 py-3 rounded-lg"
-				/>
-			</div>
+		<form method="POST" use:enhance class="space-y-4">
+			<Form.Field {form} name="name">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Full Name</Form.Label>
+						<Input
+							{...props}
+							type="text"
+							bind:value={$formData.name}
+							placeholder="Full Name"
+							class="w-full px-4 py-3 rounded-lg"
+						/>
+					{/snippet}
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
 
-			<div>
-				<Input
-					type="email"
-					bind:value={email}
-					placeholder="Email Address"
-					required
-					class="w-full px-4 py-3 rounded-lg"
-				/>
-			</div>
+			<Form.Field {form} name="email">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Email Address</Form.Label>
+						<Input
+							{...props}
+							type="email"
+							bind:value={$formData.email}
+							placeholder="Email Address"
+							class="w-full px-4 py-3 rounded-lg"
+						/>
+					{/snippet}
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
 
-			<div>
-				<Textarea
-					bind:value={message}
-					placeholder="Message"
-					rows={10}
-					required
-					maxlength={500}
-					class="w-full px-4 py-3 rounded-lg resize-none"
-				></Textarea>
-				<p class="text-sm text-muted mt-1">{message.length}/500</p>
-			</div>
+			<Form.Field {form} name="message">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Message</Form.Label>
+						<Textarea
+							{...props}
+							bind:value={$formData.message}
+							placeholder="Message"
+							rows={10}
+							maxlength={500}
+							class="w-full px-4 py-3 rounded-lg resize-none"
+						></Textarea>
+						<p class="text-sm text-muted mt-1">
+							{($formData.message ?? "").length}/500
+						</p>
+					{/snippet}
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
 
-			{#if submitStatus}
-				<div
-					class="p-4 rounded-lg {submitStatus === 'success'
-						? 'bg-green-100 text-green-800'
-						: 'bg-red-100 text-red-800'}"
-				>
-					{statusMessage}
+			{#if contactMutation.isSuccess}
+				<div class="p-4 rounded-lg bg-green-100 text-green-800">
+					Message sent successfully!
+				</div>
+			{:else if contactMutation.isError}
+				<div class="p-4 rounded-lg bg-red-100 text-red-800">
+					Failed to send message. Please try again later.
 				</div>
 			{/if}
 
 			<Button
 				type="submit"
-				disabled={isSubmitting || message.length > 500}
+				disabled={$submitting ||
+					contactMutation.isPending ||
+					($formData.message ?? "").length > 500}
 				variant="secondary"
 				class="px-8 py-3 self-center"
 			>
-				{isSubmitting ? "Sending..." : "Submit"}
+				{$submitting || contactMutation.isPending
+					? "Sending..."
+					: "Submit"}
 			</Button>
 		</form>
 	</div>

@@ -3,9 +3,7 @@ use actix_web::{FromRequest, HttpRequest, dev::Payload};
 use std::future::{Ready, ready};
 use tracing::debug;
 
-use crate::error::AppError;
-
-const SESSION_USER_KEY: &str = "admin_authenticated";
+use crate::{constants::SESSION_USER_KEY, error::AppError};
 
 /// Extractor that validates admin authentication
 /// Use this in handler function signatures to require auth
