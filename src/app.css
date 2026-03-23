@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Monda:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&family=Monda:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap');
 
 /* Highlight.js theme for code syntax highlighting */
 @import 'highlight.js/styles/github-dark.css';
@@ -10,6 +10,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+	color-scheme: light dark;
+
+	font-synthesis: style weight;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-display: swap;
+
 	--radius: 0.625rem;
 	--background: oklch(94.96% 0.0283 180.27);
 	--foreground: oklch(23.82% 0.0334 178.72);
@@ -136,7 +144,8 @@
 @theme {
 	--font-monda: 'Monda', sans-serif;
 	--font-montserrat: 'Montserrat', sans-serif;
-	--font-science-gothic: 'Science Gothic', sans-serif;
+	--font-bitcount: 'Science Gothic', sans-serif;
+	--font-bitcount: 'Bitcount', system-ui;
 }
 
 @layer base {
@@ -163,7 +172,7 @@
 	h5,
 	h6 {
 		color: var(--color-primary);
-		font-family: var(--font-science-gothic);
+		font-family: var(--font-bitcount);
 		font-weight: bold;
 	}
 
@@ -230,7 +239,7 @@
 	.prose h5,
 	.prose h6 {
 		color: var(--color-primary);
-		font-family: var(--font-science-gothic);
+		font-family: var(--font-bitcount);
 		font-weight: 700;
 		margin-top: 2em;
 		margin-bottom: 1em;
