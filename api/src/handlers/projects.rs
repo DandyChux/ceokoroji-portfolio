@@ -345,17 +345,12 @@ pub async fn reorder_projects(
     get,
     path = "/projects/skill-categories",
     responses(
-        (status = 200, description = "Skills retrieved", body = [Skill]),
-        (status = 401, description = "Unauthorized")
+        (status = 200, description = "Skills retrieved", body = [Skill])
     ),
-    tag = "Skills",
-    security(("session" = []))
+    tag = "Skills"
 )]
 #[get("/skill-categories")]
-pub async fn get_skills_with_category(
-    _auth: AdminAuth,
-    app_state: web::Data<AppState>,
-) -> AppResult<HttpResponse> {
+pub async fn get_skills_with_category(app_state: web::Data<AppState>) -> AppResult<HttpResponse> {
     let pool = &app_state.db;
 
     let skills = sqlx::query_as::<_, Skill>("SELECT * FROM skills ORDER BY name ASC")
@@ -418,14 +413,12 @@ pub async fn get_skills(
     path = "/{id}/skills",
     responses(
         (status = 200, description = "Project skills retrieved", body = [Skill]),
-        (status = 401, description = "Unauthorized"),
         (status = 404, description = "Project not found")
     ),
     params(
         ("id" = i32, Path, description = "Project ID")
     ),
-    tag = "Projects",
-    security(("session" = []))
+    tag = "Projects"
 )]
 #[get("/{id}/skills")]
 pub async fn get_project_skills(
