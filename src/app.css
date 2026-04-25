@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&family=Monda:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&family=Monda:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap");
 
 /* Highlight.js theme for code syntax highlighting */
-@import 'highlight.js/styles/github-dark.css';
+@import "highlight.js/styles/github-dark.css";
 
 @import "tailwindcss";
 
@@ -142,10 +142,10 @@
 }
 
 @theme {
-	--font-monda: 'Monda', sans-serif;
-	--font-montserrat: 'Montserrat', sans-serif;
-	--font-bitcount: 'Science Gothic', sans-serif;
-	--font-bitcount: 'Bitcount', system-ui;
+	--font-monda: "Monda", sans-serif;
+	--font-montserrat: "Montserrat", sans-serif;
+	--font-bitcount: "Science Gothic", sans-serif;
+	--font-bitcount: "Bitcount", system-ui;
 }
 
 @layer base {
@@ -156,7 +156,11 @@
 
 	body {
 		/*background: var(--color-background);*/
-		background-color: color-mix(in oklab, var(--color-background) 60%, transparent);
+		background-color: color-mix(
+			in oklab,
+			var(--color-background) 30%,
+			transparent
+		);
 		color: var(--color-foreground);
 		font-family: var(--font-monda);
 	}
