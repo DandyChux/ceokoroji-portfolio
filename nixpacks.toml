@@ -15,6 +15,7 @@ cmds = [
 ]
 
 [phases.build]
+dependsOn = ["install"]
 cmds = [
     "cd ui && bun run build",
     "cargo build --release"
