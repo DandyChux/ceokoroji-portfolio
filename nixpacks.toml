@@ -1,14 +1,21 @@
 providers = ["rust"]
 
 [phases.setup]
-nixPkgs = ["nodejs_20", "bun", "pkg-config", "openssl"]
+nixPkgs = ["curl", "bun", "pkg-config", "openssl"]
 nixLibs = ["gcc-unwrapped"]
 aptPkgs = ["libstdc++6", "curl", "wget"]
 
-[phases.build]
+[phases.install]
 cmds = [
-    "cd ui && bun install --frozen-lockfile",
-    "cd ui && npm install --os=linux --cpu=x64 sharp",
+	"curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -",
+	"sudo apt-get install -y nodejs",
+	"cd ui && bun install --frozen-lockfile",
+	"cd ui && npm install --os=linux --cpu=x64 sharp"
+]
+
+[phases.build]
+dependsOn = ["install"]
+cmds = [
     "cd ui && bun run build",
     "cargo build --release"
 ]
