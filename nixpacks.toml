@@ -1,7 +1,14 @@
 providers = ["rust"]
 
 [phases.setup]
-nixPkgs = ["bun", "pkg-config", "openssl", "rust-bin.stable.latest.default", "gcc"]
+nixPkgs = [
+	"bun",
+	"pkg-config",
+	"openssl",
+	"rust-bin.stable.latest.default",
+	"gcc",
+	# "binutils"
+]
 aptPkgs = ["libstdc++6", "curl", "wget"]
 
 [phases.install]

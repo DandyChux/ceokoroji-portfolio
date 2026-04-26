@@ -19,6 +19,7 @@ use actix_session::storage::CookieSessionStore;
 use actix_web::cookie::{Key, SameSite};
 use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, http::header, web};
+use actix_web::{HttpRequest, HttpResponse};
 use mime_guess::from_path;
 use rate_limiter::{RateLimiter, RateLimiterConfig};
 use rust_embed::Embed;
