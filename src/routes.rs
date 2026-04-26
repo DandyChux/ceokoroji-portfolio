@@ -13,7 +13,7 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
     );
 
     cfg.service(
-        web::scope(&format!("/v{}", api_version))
+        web::scope(&format!("/api/v{}", api_version))
             .service(
                 web::resource("/healthcheck").route(web::get().to(|| async { HttpResponse::Ok() })),
             )

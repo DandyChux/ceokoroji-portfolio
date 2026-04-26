@@ -19,10 +19,17 @@ use actix_session::storage::CookieSessionStore;
 use actix_web::cookie::{Key, SameSite};
 use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, http::header, web};
+use mime_guess::from_path;
 use rate_limiter::{RateLimiter, RateLimiterConfig};
+use rust_embed::Embed;
+use rust_embed::RustEmbed;
 use sqlx::PgPool;
 use tracing::{error, info};
 use utoipa_swagger_ui::SwaggerUi;
+
+#[derive(RustEmbed)]
+#[folder = "ui/build"]
+struct Assets;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -151,9 +158,51 @@ async fn main() -> AppResult<()> {
             .wrap(cors)
             .wrap(Logger::default())
             .configure(|cfg| routes::init(cfg, api_version))
+            .default_service(web::route().to(static_handler))
     })
     .bind((host, port))?
     .run()
     .await
     .map_err(AppError::from)
+}
+
+async fn static_handler(req: HttpRequest) -> HttpResponse {
+    let mut path = req.path().trim_start_matches('/').to_string();
+
+    if path.is_empty() {
+        path = "index.html".to_string();
+    }
+
+    // Attempt to get the file from the binary
+    match Assets::get(&path) {
+        Some(content) => {
+            let mime = from_path(&path).first_or_octet_stream();
+            let mut response = HttpResponse::Ok()
+                .content_type(mime.as_ref())
+                .body(content.data.into_owned());
+
+            if path == "service-worker.js" || path == "index.html" {
+                response.headers_mut().insert(
+                    header::CACHE_CONTROL,
+                    header::HeaderValue::from_static("no-cache, no-store, must-revalidate"),
+                );
+            } else if path.contains(".hash.") || path.contains("/immutable/") {
+                response.headers_mut().insert(
+                    header::CACHE_CONTROL,
+                    header::HeaderValue::from_static("public, max-age=31536000, immutable"),
+                );
+            }
+
+            response
+        }
+        None => {
+            // SPA FALLBACK: If the file doesn't exist (e.g., /about),
+            // we serve index.html so SvelteKit can handle the routing.
+            let index = Assets::get("index.html").expect("index.html must exist in build");
+            HttpResponse::Ok()
+                .content_type("text/html")
+                .insert_header((header::CACHE_CONTROL, "no-cache"))
+                .body(index.data.into_owned())
+        }
+    }
 }

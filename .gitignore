@@ -1,12 +1,11 @@
-node_modules
-
 # Output
+node_modules
 .output
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
-/build
+.svelte-kit
+build
 target
 
 # OS
