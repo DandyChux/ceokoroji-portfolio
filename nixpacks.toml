@@ -1,10 +1,21 @@
+providers = ["rust"]
+
 [phases.setup]
-nixPkgs = ["nodejs_20", "bun"]
+nixPkgs = ["nodejs_20", "bun", "pkg-config", "openssl"]
 nixLibs = ["gcc-unwrapped"]
 aptPkgs = ["libstdc++6", "curl", "wget"]
 
 [phases.install]
-cmds = ["bun install --frozen-lockfile", "npm install --os=linux --cpu=x64 sharp"]
+cmds = [
+    "cd ui && bun install --frozen-lockfile",
+    "cd ui && npm install --os=linux --cpu=x64 sharp"
+]
 
 [phases.build]
-cmds = ["bun run build"]
+cmds = [
+    "cd ui && bun run build",
+    "cargo build --release"
+]
+
+[start]
+cmd = "./target/release/ceokoroji-api"
