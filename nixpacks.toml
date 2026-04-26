@@ -1,31 +1,21 @@
 providers = ["rust"]
 
 [phases.setup]
-nixPkgs = ["curl", "pkg-config", "openssl"]
+nixPkgs = ["bun", "pkg-config", "openssl"]
 nixLibs = ["gcc-unwrapped"]
-aptPkgs = ["libstdc++6", "curl", "wget", "unzip"]
-
-[phases.install_bun]
-dependsOn = ["setup"]
-cmds = [
-    "curl -fsSL https://bun.sh/install | bash",
-    "export PATH=\"$HOME/.bun/bin:$PATH\""
-]
+aptPkgs = ["libstdc++6", "curl", "wget"]
 
 [phases.install]
-dependsOn = ["install_bun"]
 cmds = [
-    "export PATH=\"$HOME/.bun/bin:$PATH\"",
     "curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -",
     "sudo apt-get install -y nodejs",
-    "cd ui && bun install --frozen-lockfile",
+    "rm -f ui/bun.lock",
+    "cd ui && bun install",
     "cd ui && npm install --os=linux --cpu=x64 sharp"
 ]
 
 [phases.build]
-dependsOn = ["install"]
 cmds = [
-    "export PATH=\"$HOME/.bun/bin:$PATH\"",
     "cd ui && bun run build",
     "cargo build --release"
 ]
