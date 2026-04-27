@@ -68,4 +68,4 @@ function createAuthStore() {
 	};
 }
 
-export const authStore = new AuthStore();
+export const authStore = createAuthStore();
