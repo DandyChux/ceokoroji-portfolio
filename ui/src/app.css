@@ -178,6 +178,7 @@
 		color: var(--color-primary);
 		font-family: var(--font-bitcount);
 		font-weight: bold;
+		letter-spacing: 0.1em;
 	}
 
 	h1 {

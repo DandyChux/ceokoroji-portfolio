@@ -29,9 +29,11 @@
 		>
 			Hello!
 		</h1>
-		<h2 class="text-xl lg:text-3xl mb-2 leading-normal font-medium">
+		<p
+			class="text-xl lg:text-3xl mb-2 leading-normal font-medium text-primary font-bitcount"
+		>
 			Your Friendly Neighborhood Software Developer
-		</h2>
+		</p>
 		<p
 			class="lg:w-[60%] mb-4 text-lg lg:text-xl 2xl:text-2xl leading-normal font-normal"
 		>
@@ -129,7 +131,7 @@
 
 <!-- Featured Projects -->
 <section class="my-4 flex flex-col w-full py-12 2xl:py-32">
-	<h1 class="text-3xl mb-2 text-center lg:m-0 leading-normal font-normal">
+	<h1 class="text-3xl mb-2 text-center lg:m-0 leading-normal">
 		Featured Projects
 	</h1>
 
