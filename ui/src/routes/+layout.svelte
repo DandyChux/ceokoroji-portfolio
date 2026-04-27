@@ -1,5 +1,6 @@
 <script lang="ts">
 	import "../app.css";
+	import "highlight.js/styles/github-dark.css";
 	import { page } from "$app/state";
 	import Nav from "$components/navbar.svelte";
 	import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";

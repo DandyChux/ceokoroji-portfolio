@@ -66,7 +66,11 @@
 >
 	<Sheet.Root>
 		<Sheet.Trigger
-			class={buttonVariants({ variant: "outline", size: "icon" })}
+			class={buttonVariants({
+				variant: "outline",
+				size: "icon",
+				class: "border-none shadow-none",
+			})}
 		>
 			<Menu class="size-8" />
 		</Sheet.Trigger>
@@ -108,7 +112,6 @@
 			width="100"
 			height="100"
 			sizes="(max-width: 100px) 100px, 100px"
-			srcset={generateSrcSet("/ceokoroji-logo.webp", [100], "webp", 90)}
 		/>
 	</Button>
 </div>

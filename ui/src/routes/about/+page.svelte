@@ -65,8 +65,8 @@
 
 		<article class="py-4 indent-12 xl:w-3/4 xl:h-auto 2xl:px-20 space-y-4">
 			<p class="font-base text-base lg:text-lg 2xl:text-xl">
-				I recently graduated from the University of South Florida with a
-				B.S. in Information Science. I am currently working as a
+				I graduated from the University of South Florida with a B.S. in
+				Information Science in 2023. I am currently working as a
 				Financial Systems Developer at Jabil, where I support the
 				financial systems used by the company&apos;s global finance
 				team. I am also a freelance web developer, where I work with
