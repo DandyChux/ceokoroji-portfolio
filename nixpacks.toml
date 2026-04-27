@@ -7,7 +7,7 @@ nixPkgs = [
 	"openssl",
 	"rust-bin.stable.latest.default",
 	"gcc",
-	# "binutils"
+	"binutils"
 ]
 aptPkgs = ["libstdc++6", "curl", "wget"]
 
@@ -25,7 +25,7 @@ dependsOn = ["install"]
 cmds = [
     "cd ui && bun run build",
     "cargo build --release",
-    "cp target/release/ceokoroji /usr/local/bin/ceokoroji-api"
+    "cp target/release/ceokoroji-api /usr/local/bin/ceokoroji-api"
 ]
 
 [start]
