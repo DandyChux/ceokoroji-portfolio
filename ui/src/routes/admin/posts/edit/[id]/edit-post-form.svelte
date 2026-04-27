@@ -45,7 +45,7 @@
 	import { debounce } from "$lib/utils/debounce.svelte";
 	import { Label } from "$components/ui/label";
 	import { goto } from "$app/navigation";
-	import type { PageData } from "./$types";
+	import apiClient from "$lib/api";
 
 	let {
 		data,
@@ -53,28 +53,15 @@
 		data: {
 			form: SuperValidated<Infer<UpdatePost>>;
 			post: Post;
-			apiUrl: string;
 		};
 	} = $props();
 
-	const API_URL = import.meta.env.VITE_API_URL;
 	const queryClient = useQueryClient();
 
 	const updatePostMutation = createMutation(() => ({
 		mutationKey: ["posts", data.post?.id],
 		mutationFn: async () => {
-			const response = await fetch(`${API_URL}/posts/${data.post?.id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				credentials: "include",
-				body: JSON.stringify($formData),
-			});
-			if (!response.ok) {
-				throw new Error("Failed to update post");
-			}
-			return response.json();
+			return await apiClient.put(`/posts/${data.post?.id}`, $formData);
 		},
 		onSuccess: () => {
 			toast.success("Post updated successfully!");

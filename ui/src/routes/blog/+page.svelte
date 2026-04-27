@@ -2,34 +2,15 @@
 	import type { Post } from "./schema";
 	import PostView from "$components/post-view.svelte";
 	import { page } from "$app/state";
-	import type { PageData } from "./$types";
 	import { createQuery } from "@tanstack/svelte-query";
 	import * as Alert from "$components/ui/alert";
 	import Spinner from "$components/ui/spinner/spinner.svelte";
 	import { cn } from "$lib/utils";
 	import { useSidebar } from "$components/ui/sidebar";
 
-	let { data }: { data: PageData } = $props();
+	let { data } = $props();
 
 	const sidebarState = $derived(useSidebar());
-
-	const postsQuery = createQuery<Post[]>(() => ({
-		queryKey: ["posts"],
-		queryFn: async () => {
-			const response = await fetch(`${data.apiUrl}/posts`);
-
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch posts: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			const result = await response.json();
-			return result;
-		},
-		staleTime: 1000 * 60 * 5, // 5 minutes
-		refetchOnWindowFocus: true, // Refetch when user returns to tab
-	}));
 
 	const searchQuery = $derived(page.url.searchParams.get("search") || "");
 </script>
@@ -45,19 +26,7 @@
 		Blog
 	</h1>
 
-	{#if postsQuery.isPending}
-		<Alert.Root>
-			<Spinner />
-			<Alert.Title>Loading posts...</Alert.Title>
-		</Alert.Root>
-	{:else if postsQuery.isError}
-		<Alert.Root variant="destructive">
-			<Alert.Title>Error loading posts</Alert.Title>
-			<Alert.Description>
-				{postsQuery.error.message}
-			</Alert.Description>
-		</Alert.Root>
-	{:else if !postsQuery.data?.length}
+	{#if !data.posts.length}
 		<Alert.Root>
 			<Alert.Title>No posts found</Alert.Title>
 			<Alert.Description>
@@ -67,7 +36,7 @@
 			</Alert.Description>
 		</Alert.Root>
 	{:else}
-		<PostView {searchQuery} posts={postsQuery.data} />
+		<PostView {searchQuery} posts={data.posts} />
 	{/if}
 
 	<!-- Circle vectors -->

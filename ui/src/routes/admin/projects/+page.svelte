@@ -1,52 +1,20 @@
 <script lang="ts">
-	import { createMutation, createQuery } from "@tanstack/svelte-query";
+	import { createMutation } from "@tanstack/svelte-query";
 	import type { Project } from "$routes/projects/schema";
-	import type { PageData } from "./$types";
 	import * as Table from "$components/ui/table";
 	import ProjectOrder from "$components/project-order.svelte";
+	import apiClient from "$lib/api.js";
+	import { page } from "$app/state";
 
-	let { data }: { data: PageData } = $props();
-
-	const projectsQuery = createQuery<Project[]>(() => ({
-		queryKey: ["admin", "projects"],
-		queryFn: async () => {
-			const response = await fetch(`${data.apiUrl}/projects`);
-
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch projects: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			const result = await response.json();
-			return result;
-		},
-		staleTime: Infinity,
-		refetchOnWindowFocus: true,
-	}));
+	let { data } = $props();
 
 	const createProjectMutation = createMutation<Project, Error, Project>(
 		() => ({
 			mutationFn: async (project) => {
-				const response = await fetch(`${data.apiUrl}/projects`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(project),
-				});
-
-				if (!response.ok) {
-					throw new Error(
-						`Failed to create project: ${response.status} ${response.statusText}`,
-					);
-				}
-
-				const result = await response.json();
-				return result;
+				return await apiClient.post<Project>("/projects", project);
 			},
 			onSuccess: () => {
-				projectsQuery.refetch();
+				// projectsQuery.refetch();
 			},
 		}),
 	);
@@ -69,39 +37,29 @@
 			</a>
 		</div>
 
-		{#if projectsQuery.data}
-			<Table.Root>
-				<Table.Header>
+		<Table.Root>
+			<Table.Header>
+				<Table.Row>
+					<Table.Head>Title</Table.Head>
+					<Table.Head>Live URL</Table.Head>
+					<Table.Head>Actions</Table.Head>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				{#each data.projects as project}
 					<Table.Row>
-						<Table.Head>Title</Table.Head>
-						<Table.Head>Live URL</Table.Head>
-						<Table.Head>Actions</Table.Head>
+						<Table.Cell>{project.name}</Table.Cell>
+						<Table.Cell>{project.live_url}</Table.Cell>
+						<Table.Cell>
+							<a
+								href={`/admin/projects/${project.id}/edit`}
+								class="text-primary hover:underline">Edit</a
+							>
+						</Table.Cell>
 					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each projectsQuery.data as project}
-						<Table.Row>
-							<Table.Cell>{project.name}</Table.Cell>
-							<Table.Cell>{project.live_url}</Table.Cell>
-							<Table.Cell>
-								<a
-									href={`/admin/projects/${project.id}/edit`}
-									class="text-primary hover:underline">Edit</a
-								>
-							</Table.Cell>
-						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
-		{:else if projectsQuery.error}
-			<div class="p-4 rounded-lg bg-destructive/10 text-destructive">
-				Error: {projectsQuery.error?.message}
-			</div>
-		{:else}
-			<div class="p-4 rounded-lg bg-primary/10 text-primary">
-				Loading projects...
-			</div>
-		{/if}
+				{/each}
+			</Table.Body>
+		</Table.Root>
 
 		<div class="mt-8">
 			<ProjectOrder />

@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { createMutation, createQuery } from "@tanstack/svelte-query";
 	import type { Post } from "$routes/blog/schema";
-	import type { PageData } from "./$types";
 	import apiClient from "$lib/api";
 
-	let { data }: { data: PageData } = $props();
+	let { data } = $props();
 
 	const postsQuery = createQuery<Post[]>(() => ({
 		queryKey: ["admin", "posts"],
@@ -18,15 +17,11 @@
 	const deletePost = createMutation(() => ({
 		mutationKey: ["admin", "posts"],
 		mutationFn: async (id: string) => {
-			const response = await fetch(`${data.apiUrl}/posts/${id}`, {
-				method: "DELETE",
-			});
+			const response = await apiClient.delete<{ message: string }>(
+				`/posts/${id}`,
+			);
 
-			if (response.ok) {
-				return id;
-			} else {
-				throw new Error("Failed to delete post");
-			}
+			return response.message;
 		},
 		onSuccess: () => {
 			postsQuery.refetch();
@@ -39,21 +34,11 @@
 	const togglePublish = createMutation(() => ({
 		mutationKey: ["admin", "posts"],
 		mutationFn: async (post: Post) => {
-			const response = await fetch(`${data.apiUrl}/posts/${post.id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					published: !post.published,
-				}),
+			const response = await apiClient.put<Post>(`/posts/${post.id}`, {
+				published: !post.published,
 			});
 
-			if (response.ok) {
-				return post.id;
-			} else {
-				throw new Error("Failed to update post");
-			}
+			return response;
 		},
 		onSuccess: () => {
 			postsQuery.refetch();

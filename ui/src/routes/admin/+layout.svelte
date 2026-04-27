@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import { authStore } from "$lib/stores/auth.svelte";
-	import { LogOut, Home, LayoutDashboard, FileText } from "@lucide/svelte";
+	import { LogOut, House, LayoutDashboard, FileText } from "@lucide/svelte";
 	import Button from "$components/ui/button/button.svelte";
 
 	let { children } = $props();
@@ -84,7 +84,7 @@
 							href="/"
 							class="text-muted-foreground hover:text-foreground"
 						>
-							<Home class="size-4 sm:mr-2" />
+							<House class="size-4 sm:mr-2" />
 							<span class="hidden sm:inline">View Site</span>
 						</Button>
 						<Button

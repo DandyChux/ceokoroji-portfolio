@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { createQuery } from "@tanstack/svelte-query";
 	import type { Post } from "$routes/blog/schema";
-	import type { PageData } from "./$types";
 	import { FileText, SquarePen, ChartColumn } from "@lucide/svelte";
 	import * as Card from "$components/ui/card";
 	import type { Stats } from "./+page.svelte";

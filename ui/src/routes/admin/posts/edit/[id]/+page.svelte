@@ -1,8 +1,7 @@
 <script lang="ts">
 	import EditPostForm from "./edit-post-form.svelte";
-	import type { PageData } from "./$types";
 
-	let { data }: { data: PageData } = $props();
+	let { data } = $props();
 </script>
 
 <svelte:head>

@@ -1,61 +1,71 @@
-import { goto } from '$app/navigation';
-import apiClient from '$lib/api';
+import { goto } from "$app/navigation";
+import apiClient from "$lib/api";
 
 interface AuthState {
 	isAuthenticated: boolean;
 	isLoading: boolean;
 }
 
-interface AuthResponse {
+interface LoginResponse {
 	success: boolean;
 	message: string;
 }
 
-class AuthStore {
-	private state = $state<AuthState>({
-		isAuthenticated: false,
-		isLoading: true,
-	});
+function createAuthStore() {
+	let isAuthenicated = $state(false);
+	let isLoading = $state(false);
 
-	get isAuthenticated() {
-		return this.state.isAuthenticated;
-	}
+	return {
+		get isAuthenticated() {
+			return isAuthenicated;
+		},
+		get isLoading() {
+			return isLoading;
+		},
 
-	get isLoading() {
-		return this.state.isLoading;
-	}
+		async checkAuth() {
+			isLoading = true;
+			try {
+				const response =
+					await apiClient.get<LoginResponse>("/auth/verify");
+				isAuthenicated = response.success;
+			} catch (error) {
+				console.error("Auth check failed:", error);
+				isAuthenicated = false;
+			} finally {
+				isLoading = false;
+			}
+		},
 
-	async checkAuth() {
-		this.state.isLoading = true;
-		try {
-			const response = await apiClient.get<AuthResponse>('/auth/verify');
+		async login(password: string) {
+			isLoading = true;
+			try {
+				const response = await apiClient.post<LoginResponse>(
+					"/auth/login",
+					{ password },
+				);
+				isAuthenicated = response.success;
+			} catch (error) {
+				console.error("Login failed:", error);
+				isAuthenicated = false;
+			} finally {
+				isLoading = false;
+			}
+		},
 
-			this.state.isAuthenticated = response.success;
-		} catch (error) {
-			console.error('Auth check failed:', error);
-			this.state.isAuthenticated = false;
-		} finally {
-			this.state.isLoading = false;
-		}
-	}
-
-	async login(password: string) {
-		const response = await apiClient.post<AuthResponse>('/auth/login', { password });
-
-		if (!response.success) {
-			throw new Error(response.message || 'Invalid password');
-		}
-
-		this.state.isAuthenticated = true;
-		return response;
-	}
-
-	async logout() {
-		await apiClient.post('/auth/logout');
-
-		this.state.isAuthenticated = false;
-		goto('/admin/login');
-	}
+		async logout() {
+			isLoading = true;
+			try {
+				await apiClient.post("/auth/logout");
+				isAuthenicated = false;
+				goto("/admin/login");
+			} catch (error) {
+				console.error("Logout failed:", error);
+			} finally {
+				isLoading = false;
+			}
+		},
+	};
 }
 
 export const authStore = new AuthStore();

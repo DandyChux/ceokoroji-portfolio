@@ -4,6 +4,7 @@
 	import * as Tooltip from "$components/ui/tooltip";
 	import Badge from "$components/ui/badge/badge.svelte";
 	import { StarIcon } from "@lucide/svelte";
+	import apiClient from "$lib/api";
 
 	export let repo: string;
 
@@ -17,18 +18,10 @@
 
 	const owner = "DandyChux";
 
-	const API_URL = import.meta.env.VITE_API_URL;
-
 	const { data, isLoading, error } = createQuery<RepoData>(() => ({
 		queryKey: [owner, repo],
 		queryFn: async () => {
-			const response = await fetch(`${API_URL}/repos/${owner}/${repo}`);
-			if (!response.ok) {
-				throw new Error(
-					`GitHub API error: ${response.status} ${response.statusText}`,
-				);
-			}
-			return response.json();
+			return await apiClient.get<RepoData>(`/repos/${owner}/${repo}`);
 		},
 	}));
 </script>

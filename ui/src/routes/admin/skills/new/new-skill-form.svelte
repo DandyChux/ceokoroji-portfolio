@@ -28,8 +28,6 @@
 	}: { data: { form: SuperValidated<Infer<typeof createSkillSchema>> } } =
 		$props();
 
-	const API_URL = import.meta.env.VITE_API_URL;
-
 	const createSkillMutation = createMutation(() => ({
 		mutationKey: ["skills"],
 		mutationFn: async () => {

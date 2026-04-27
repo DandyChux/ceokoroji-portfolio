@@ -1,12 +1,10 @@
 <script lang="ts">
 	import NewSkillForm from "$routes/admin/skills/new/new-skill-form.svelte";
 	import type { Infer, SuperValidated } from "sveltekit-superforms";
-	import type { PageData } from "./$types";
 	import type { CreateSkill } from "$routes/projects/schema";
 
-	// let data : { data: PageData } = $props();
-	let { data }: { data: { form: SuperValidated<Infer<CreateSkill>> } } =
-		$props();
+	// let data  = $props();
+	let { data } = $props();
 </script>
 
 <svelte:head>

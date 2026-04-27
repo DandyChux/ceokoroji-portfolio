@@ -2,11 +2,10 @@
 	import ShareLinks from "$components/share-links.svelte";
 	import { renderMarkdown } from "$lib/utils/markdown";
 	import { Clock } from "@lucide/svelte";
-	import type { PageData } from "./$types";
 	import { parseISO } from "date-fns";
 	import readingTime from "$lib/utils/reading-time";
 
-	let { data }: { data: PageData } = $props();
+	let { data } = $props();
 
 	// Parse date if it's a string
 	const parsedDate = $derived(

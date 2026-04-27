@@ -9,17 +9,13 @@
 	import { Button } from "$components/ui/button";
 	import { GripVertical } from "@lucide/svelte";
 	import apiClient from "$lib/api";
-
-	const API_URL = import.meta.env.VITE_API_URL;
 	const queryClient = useQueryClient();
 
 	// Fetch projects
 	const projectsQuery = createQuery(() => ({
 		queryKey: ["projects"],
 		queryFn: async () => {
-			const response = await fetch(`${API_URL}/projects`);
-			if (!response.ok) throw new Error("Failed to fetch projects");
-			return response.json() as Promise<Project[]>;
+			return await apiClient.get<Project[]>(`/projects`);
 		},
 	}));
 

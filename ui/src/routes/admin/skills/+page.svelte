@@ -1,43 +1,18 @@
 <script lang="ts">
 	import { createMutation, createQuery } from "@tanstack/svelte-query";
 	import type { Skill } from "$routes/projects/schema";
-	import type { PageData } from "./$types";
 	import * as Table from "$components/ui/table";
 	import apiClient from "$lib/api";
 
-	let { data }: { data: PageData } = $props();
-
-	const skillsQuery = createQuery<Skill[]>(() => ({
-		queryKey: ["admin", "skills"],
-		queryFn: async () => {
-			return await apiClient.get("/projects/skills");
-		},
-		staleTime: Infinity,
-		refetchOnWindowFocus: true,
-	}));
+	let { data } = $props();
 
 	const createSkillMutation = createMutation<Skill, Error, Skill>(() => ({
 		mutationFn: async (skill) => {
-			const response = await fetch(`${data.apiUrl}/projects/skill`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(skill),
-			});
-
-			if (!response.ok) {
-				throw new Error(
-					`Failed to create project: ${response.status} ${response.statusText}`,
-				);
-			}
-
-			const result = await response.json();
-			return result;
+			return await apiClient.post<Skill>("/projects/skill", skill);
 		},
-		onSuccess: () => {
-			skillsQuery.refetch();
-		},
+		// onSuccess: () => {
+		// 	skillsQuery.refetch();
+		// },
 	}));
 </script>
 
@@ -58,43 +33,33 @@
 			</a>
 		</div>
 
-		{#if skillsQuery.data}
-			<Table.Root>
-				<Table.Header>
+		<Table.Root>
+			<Table.Header>
+				<Table.Row>
+					<Table.Head>Name</Table.Head>
+					<Table.Head>Category</Table.Head>
+					<Table.Head>Level</Table.Head>
+					<Table.Head>Icon URL</Table.Head>
+					<Table.Head>Actions</Table.Head>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				{#each data.skills as skill}
 					<Table.Row>
-						<Table.Head>Name</Table.Head>
-						<Table.Head>Category</Table.Head>
-						<Table.Head>Level</Table.Head>
-						<Table.Head>Icon URL</Table.Head>
-						<Table.Head>Actions</Table.Head>
+						<Table.Cell>{skill.name}</Table.Cell>
+						<Table.Cell>{skill.category}</Table.Cell>
+						<Table.Cell>{skill.level}</Table.Cell>
+						<Table.Cell>{skill.icon_url}</Table.Cell>
+						<Table.Cell>
+							<a
+								href={`/admin/projects/${skill.id}/edit`}
+								class="text-primary hover:underline">Edit</a
+							>
+						</Table.Cell>
 					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each skillsQuery.data as skill}
-						<Table.Row>
-							<Table.Cell>{skill.name}</Table.Cell>
-							<Table.Cell>{skill.category}</Table.Cell>
-							<Table.Cell>{skill.level}</Table.Cell>
-							<Table.Cell>{skill.icon_url}</Table.Cell>
-							<Table.Cell>
-								<a
-									href={`/admin/projects/${skill.id}/edit`}
-									class="text-primary hover:underline">Edit</a
-								>
-							</Table.Cell>
-						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
-		{:else if skillsQuery.error}
-			<div class="p-4 rounded-lg bg-destructive/10 text-destructive">
-				Error: {skillsQuery.error?.message}
-			</div>
-		{:else}
-			<div class="p-4 rounded-lg bg-primary/10 text-primary">
-				Loading skills...
-			</div>
-		{/if}
+				{/each}
+			</Table.Body>
+		</Table.Root>
 
 		<div class="mt-8">
 			<a href="/admin" class="text-accent hover:underline"
