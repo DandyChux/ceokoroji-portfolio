@@ -1,7 +1,7 @@
 import { goto } from "$app/navigation";
 import { authStore } from "$lib/stores/auth.svelte";
 
-export const API_BASE_URL = "/api";
+export const API_BASE_URL = "/api/v1.0";
 
 /**
  * Custom API error class with additional context
