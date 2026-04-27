@@ -24,8 +24,9 @@ cmds = [
 dependsOn = ["install"]
 cmds = [
     "cd ui && bun run build",
-    "cargo build --release"
+    "cargo build --release",
+    "cp target/release/ceokoroji /usr/local/bin/ceokoroji-api"
 ]
 
 [start]
-cmd = "./target/release/ceokoroji-api"
+cmd = "/usr/local/bin/ceokoroji-api"
