@@ -17,6 +17,8 @@
 	import * as Sheet from "$components/ui/sheet";
 	import Button, { buttonVariants } from "./ui/button/button.svelte";
 	import Logo from "./logo.svelte";
+	import Picture from "./picture.svelte";
+	import { generateSrcSet } from "$lib/utils";
 
 	type MenuLink = {
 		label: string;
@@ -100,11 +102,13 @@
 			class: "relative size-auto mx-auto",
 		})}
 	>
-		<enhanced:img
+		<Picture
 			src={"/ceokoroji-logo.webp"}
 			alt="Logo"
 			width="100"
 			height="100"
+			sizes="(max-width: 100px) 100px, 100px"
+			srcset={generateSrcSet("/ceokoroji-logo.webp", [100], "webp", 90)}
 		/>
 	</Button>
 </div>

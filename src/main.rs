@@ -23,12 +23,11 @@ use actix_web::{HttpRequest, HttpResponse};
 use mime_guess::from_path;
 use rate_limiter::{RateLimiter, RateLimiterConfig};
 use rust_embed::Embed;
-use rust_embed::RustEmbed;
 use sqlx::PgPool;
 use tracing::{error, info};
 use utoipa_swagger_ui::SwaggerUi;
 
-#[derive(RustEmbed)]
+#[derive(rust_embed::RustEmbed)]
 #[folder = "ui/build"]
 struct Assets;
 

@@ -5,6 +5,8 @@
 	import { createQuery } from "@tanstack/svelte-query";
 	import { type ProjectResponse, type Project } from "./projects/schema";
 	import apiClient from "$lib/api";
+	import Picture from "$components/picture.svelte";
+	import { generateSrcSet } from "$lib/utils";
 
 	const featuredProjectsQuery = createQuery(() => ({
 		queryKey: ["featured-projects"],
@@ -109,10 +111,18 @@
 	</div>
 
 	<div class="flex-1 relative">
-		<enhanced:img
+		<Picture
 			src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg"}
-			alt="Hero Code"
+			loading="eager"
+			srcset={generateSrcSet(
+				"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg",
+				[200, 400],
+				"webp",
+				85,
+			)}
 			class="absolute right-10 top-8 2xl:right-32"
+			sizes="(max-width: 768px) 200px, 468px"
+			alt="Hero Code"
 		/>
 	</div>
 </section>

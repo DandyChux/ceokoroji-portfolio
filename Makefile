@@ -39,13 +39,13 @@ shadcn-add:
 	@bun x shadcn-svelte@latest add $(component)
 
 migrate-up:
-	@cd api && sqlx migrate run
+	@sqlx migrate run
 
 migrate-down:
-	@cd api && sqlx migrate revert
+	@sqlx migrate revert
 
 add-migration:
-	@cd api && sqlx migrate add -r $(name)
+	@sqlx migrate add -r $(name)
 
 start-server:
-	@cd api && cargo watch -q -c -w src/ -x run
+	@cargo watch -q -c -w src/ -x run

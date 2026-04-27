@@ -8,6 +8,8 @@
 		type GroupedSkillsResponse,
 		type Skill,
 	} from "$routes/projects/schema";
+	import Picture from "$components/picture.svelte";
+	import { generateSrcSet } from "$lib/utils";
 
 	const skillsQuery = createQuery(() => ({
 		queryKey: ["skills"],
@@ -48,10 +50,17 @@
 	</span>
 
 	<div class="mb-4 flex flex-col items-center xl:flex-row">
-		<enhanced:img
+		<Picture
 			src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/images/ceokoroji_full-shot.webp"}
 			alt="Full body image"
 			class="xl:order-2 xl:w-1/4 h-auto rounded-lg border mb-4"
+			srcset={generateSrcSet(
+				"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/images/ceokoroji_full-shot.webp",
+				[250, 500],
+				"webp",
+				85,
+			)}
+			sizes="(max-width: 768px) 250px, 500px"
 		/>
 
 		<article class="py-4 indent-12 xl:w-3/4 xl:h-auto 2xl:px-20 space-y-4">

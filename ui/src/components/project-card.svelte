@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ArrowUpRight } from "@lucide/svelte";
 	import type { HTMLAttributes } from "svelte/elements";
-	import { cn } from "$lib/utils";
+	import { cn, generateSrcSet } from "$lib/utils";
 	import type { Project, ProjectResponse } from "$routes/projects/schema";
 	import GithubBadge from "./github-badge.svelte";
 	import Badge from "./ui/badge/badge.svelte";
@@ -14,6 +14,7 @@
 		CardTitle,
 	} from "./ui/card";
 	import { trackEvent } from "$lib/analytics.svelte";
+	import Picture from "./picture.svelte";
 
 	interface Props extends Omit<ProjectResponse, "id"> {
 		class?: string;
@@ -61,12 +62,14 @@
 	{/if}
 
 	<CardHeader>
-		<div class="relative w-full mx-auto mb-4 h-[10rem]">
+		<div class="relative w-full mx-auto mb-4 h-[160px]">
 			{#if image_url}
-				<enhanced:img
+				<Picture
 					src={image_url}
 					alt={name}
 					class="w-auto h-full mx-auto"
+					sizes="(max-width: 640px) 125px, 250px"
+					srcset={generateSrcSet(image_url, [125, 250], "webp", 85)}
 				/>
 			{:else}
 				<div class="w-full h-full bg-gray-200 rounded-lg"></div>
