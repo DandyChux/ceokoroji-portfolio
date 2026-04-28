@@ -18,6 +18,40 @@ function base64Url(buf) {
 /**
  * Generate optimized image URL via Imgproxy
  */
+// export function getOptimizedImageUrl(
+// 	src: string,
+// 	options?: {
+// 		size?: number | "auto";
+// 		format?: "webp" | "avif";
+// 		quality?: number;
+// 	},
+// ): string {
+// 	const IMGPROXY_URL = "https://img.ceokoroji.dev";
+// 	const width = options?.size === "auto" ? 0 : options?.size || 0;
+// 	const format = options?.format || "webp";
+// 	const quality = options?.quality || 85;
+// 	// Imgproxy processing options:
+// 	// rs:fill:WIDTH:HEIGHT / q:QUALITY / f:FORMAT
+// 	const processingOptions = `rs:fill:${width}:0/q:${quality}/f:${format}`;
+// 	const path = `/${processingOptions}/plain/${src}`;
+
+// 	// Read key/salt from env (hex/base64 handling depends on how you stored them)
+// 	const KEY = import.meta.env.VITE_IMGPROXY_KEY; // secret key (hex or base64)
+// 	const SALT = import.meta.env.VITE_IMGPROXY_SALT; // salt (hex or base64)
+
+// 	// Convert key/salt to raw bytes. If you stored hex, use 'hex'; if base64, use 'base64'.
+// 	// Adjust 'hex' below if your values are base64.
+// 	const keyBuf = Buffer.from(KEY, "hex");
+// 	const saltBuf = Buffer.from(SALT, "hex");
+
+// 	// HMAC input is salt || path
+// 	const hmac = crypto.createHmac("sha256", keyBuf);
+// 	hmac.update(Buffer.concat([saltBuf, Buffer.from(path, "utf8")]));
+// 	const signature = base64Url(hmac.digest());
+
+// 	// Imgproxy requires the source URL to be plain text at the end
+// 	return `${IMGPROXY_URL}/${signature}${path}`;
+// }
 export function getOptimizedImageUrl(
 	src: string,
 	options?: {
@@ -27,30 +61,18 @@ export function getOptimizedImageUrl(
 	},
 ): string {
 	const IMGPROXY_URL = "https://img.ceokoroji.dev";
+
+	// If no size is provided, default to 0 (Imgproxy keeps original width)
 	const width = options?.size === "auto" ? 0 : options?.size || 0;
 	const format = options?.format || "webp";
 	const quality = options?.quality || 85;
+
 	// Imgproxy processing options:
 	// rs:fill:WIDTH:HEIGHT / q:QUALITY / f:FORMAT
 	const processingOptions = `rs:fill:${width}:0/q:${quality}/f:${format}`;
-	const path = `/${processingOptions}/plain/${src}`;
-
-	// Read key/salt from env (hex/base64 handling depends on how you stored them)
-	const KEY = import.meta.env.VITE_IMGPROXY_KEY; // secret key (hex or base64)
-	const SALT = import.meta.env.VITE_IMGPROXY_SALT; // salt (hex or base64)
-
-	// Convert key/salt to raw bytes. If you stored hex, use 'hex'; if base64, use 'base64'.
-	// Adjust 'hex' below if your values are base64.
-	const keyBuf = Buffer.from(KEY, "hex");
-	const saltBuf = Buffer.from(SALT, "hex");
-
-	// HMAC input is salt || path
-	const hmac = crypto.createHmac("sha256", keyBuf);
-	hmac.update(Buffer.concat([saltBuf, Buffer.from(path, "utf8")]));
-	const signature = base64Url(hmac.digest());
 
 	// Imgproxy requires the source URL to be plain text at the end
-	return `${IMGPROXY_URL}/${signature}${path}`;
+	return `${IMGPROXY_URL}/insecure/${processingOptions}/plain/${src}`;
 }
 
 /**
