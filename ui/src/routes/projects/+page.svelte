@@ -72,7 +72,7 @@
 <!-- svelte-ignore element_invalid_self_closing_tag -->
 <div
 	class={cn(
-		"fixed left-0 -translate-x-14 2xl:translate-x-[calc(var(--sidebar-width)-50px)] bottom-24 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80 duration-300 ease-in-out",
+		"fixed left-0 -translate-x-14 2xl:translate-x-[calc(var(--sidebar-width)-50px)] bottom-24 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80 duration-300 ease-in-out -z-1",
 		{
 			"2xl:translate-x-0": !sidebarState.open,
 		},
@@ -80,5 +80,5 @@
 />
 <!-- svelte-ignore element_invalid_self_closing_tag -->
 <div
-	class="fixed right-0 translate-x-14 2xl:translate-x-12 top-24 2xl:top-52 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80"
+	class="fixed right-0 translate-x-14 2xl:translate-x-12 top-24 2xl:top-52 w-24 h-24 bg-transparent rounded-full border-2 border-accent/80 -z-1"
 />
