@@ -102,9 +102,8 @@
 			<span
 				class="inline-block text-base lg:text-lg font-science-gothic text-muted max-w-[750px]"
 				>Here&apos;s a breakdown of my technical skills and proficiency
-				levels across different areas of development and design. Click
-				on any skill to learn more.</span
-			>
+				levels across different areas of development and design.
+			</span>
 		</div>
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
