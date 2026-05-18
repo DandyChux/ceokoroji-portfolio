@@ -1,4 +1,4 @@
-use crate::rate_limiter::RateLimiter;
+use crate::services::rate_limiter::RateLimiter;
 use actix_web::{
     Error, HttpMessage, HttpResponse,
     dev::{Service, ServiceRequest, ServiceResponse, Transform, forward_ready},

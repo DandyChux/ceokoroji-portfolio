@@ -27,6 +27,7 @@ pub enum AppError {
     Request(reqwest::Error),
     Json(serde_json::Error),
     Forbidden(String),
+    Email(String),
 }
 
 impl AppError {
@@ -72,6 +73,10 @@ impl AppError {
                 format!("JSON error: {}", e),
             ),
             AppError::Forbidden(msg) => (StatusCode::FORBIDDEN, format!("Forbidden: {}", msg)),
+            AppError::Email(msg) => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                format!("Email error: {}", msg),
+            ),
         };
 
         ErrorResponse {
@@ -100,6 +105,7 @@ impl fmt::Display for AppError {
             AppError::Request(e) => write!(f, "Request error: {}", e),
             AppError::Json(e) => write!(f, "JSON error: {}", e),
             AppError::Forbidden(msg) => write!(f, "Forbidden: {}", msg),
+            AppError::Email(msg) => write!(f, "Email error: {}", msg),
         }
     }
 }
@@ -131,6 +137,7 @@ impl Into<std::io::Error> for AppError {
             AppError::Request(e) => std::io::Error::new(std::io::ErrorKind::Other, e.to_string()),
             AppError::Json(e) => std::io::Error::new(std::io::ErrorKind::Other, e.to_string()),
             AppError::Forbidden(msg) => std::io::Error::new(std::io::ErrorKind::Other, msg),
+            AppError::Email(msg) => std::io::Error::new(std::io::ErrorKind::Other, msg),
         }
     }
 }
@@ -230,6 +237,7 @@ impl ResponseError for AppError {
             AppError::Request(_) => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::Json(_) => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::Forbidden(_) => StatusCode::FORBIDDEN,
+            AppError::Email(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 }

@@ -23,7 +23,7 @@
 	<h1
 		class="text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold"
 	>
-		Blog
+		Insights
 	</h1>
 
 	{#if !data.posts.length}

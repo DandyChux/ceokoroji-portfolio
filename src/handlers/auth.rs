@@ -1,6 +1,6 @@
 use crate::constants::SESSION_USER_KEY;
 use crate::error::AppResult;
-use crate::rate_limiter::extract_and_check_rate_limit;
+use crate::services::rate_limiter::extract_and_check_rate_limit;
 use crate::{AppState, error::AppError};
 use actix_session::Session;
 use actix_web::{HttpRequest, HttpResponse, get, post, web};
