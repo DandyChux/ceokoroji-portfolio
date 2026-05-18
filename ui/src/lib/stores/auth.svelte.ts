@@ -26,8 +26,10 @@ function createAuthStore() {
 		async checkAuth() {
 			isLoading = true;
 			try {
-				const response =
-					await apiClient.get<LoginResponse>("/auth/verify");
+				const response = await apiClient.get<LoginResponse>(
+					"/auth/verify",
+					{ skipAuthCheck: true },
+				);
 				isAuthenicated = response.success;
 			} catch (error) {
 				console.error("Auth check failed:", error);

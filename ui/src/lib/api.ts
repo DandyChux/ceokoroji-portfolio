@@ -49,6 +49,8 @@ export interface RequestConfig extends Omit<RequestInit, "body"> {
 	params?: Record<string, string | number | boolean | undefined>;
 	/** @internal Prevents infinite refresh loops — do not set manually. */
 	_isRetry?: boolean;
+	/** Skips automatic logout on 401 */
+	skipAuthCheck?: boolean;
 }
 
 /**
@@ -171,7 +173,7 @@ async function request<T>(
 	// Handle non-OK responses
 	if (!response.ok) {
 		// 401 handling: attempt token refresh, then retry
-		if (response.status === 401 && !_isRetry) {
+		if (response.status === 401 && !_isRetry && !config.skipAuthCheck) {
 			// const refreshed = await tryRefreshToken();
 			// if (refreshed) {
 			// 	// Retry the original request with the new token.
