@@ -1,9 +1,23 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const skillCategories = ['Frontend', 'Backend', 'Database', 'DevOps', 'Language', 'Tool', 'Framework', 'Other'] as const;
+export const skillCategories = [
+	"Frontend",
+	"Backend",
+	"Database",
+	"DevOps",
+	"Language",
+	"Tool",
+	"Framework",
+	"Other",
+] as const;
 export const skillCategoryEnum = z.enum(skillCategories);
 
-export const skillLevels = ["Beginner", "Intermediate", "Advanced", "Expert"] as const;
+export const skillLevels = [
+	"Beginner",
+	"Intermediate",
+	"Advanced",
+	"Expert",
+] as const;
 export const skillLevelEnum = z.enum(skillLevels);
 
 export const skillSchema = z.object({
@@ -18,15 +32,15 @@ export const skillSchema = z.object({
 export const skillCategoryGroupSchema = z.object({
 	name: z.string(),
 	skills: z.array(skillSchema),
-})
+});
 
 export const groupedSkillsResponseSchema = z.object({
 	categories: z.array(skillCategoryGroupSchema),
-})
+});
 
 export const projectSchema = z.object({
 	id: z.int32().min(1),
-	name: z.string().min(2).max(100),
+	name: z.string().min(2).max(500),
 	description: z.string().min(10).max(500).nullable(),
 	image_url: z.url(),
 	github_url: z.url().min(10).max(500),
@@ -37,13 +51,20 @@ export const projectSchema = z.object({
 	order: z.int32().min(1),
 });
 
-
 // Schema Definitions
 export const createSkillSchema = skillSchema.omit({ id: true });
 export const updateSkillSchema = skillSchema.omit({ id: true });
-export const createProjectSchema = projectSchema.omit({ id: true, created_at: true, updated_at: true, order: true }).extend({ skill_ids: z.array(z.number().int().min(1)) });
-export const updateProjectSchema = projectSchema.omit({ id: true, created_at: true, updated_at: true });
-export const projectResponseSchema = projectSchema.extend({ skills: z.array(skillSchema) });
+export const createProjectSchema = projectSchema
+	.omit({ id: true, created_at: true, updated_at: true, order: true })
+	.extend({ skill_ids: z.array(z.number().int().min(1)) });
+export const updateProjectSchema = projectSchema.omit({
+	id: true,
+	created_at: true,
+	updated_at: true,
+});
+export const projectResponseSchema = projectSchema.extend({
+	skills: z.array(skillSchema),
+});
 
 // Type Definitions
 export type Skill = z.infer<typeof skillSchema>;
