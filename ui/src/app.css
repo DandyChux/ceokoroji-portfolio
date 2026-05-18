@@ -139,7 +139,7 @@
 @theme {
 	--font-monda: "Monda", sans-serif;
 	--font-montserrat: "Montserrat", sans-serif;
-	--font-bitcount: "Science Gothic", sans-serif;
+	--font-science-gothic: "Science Gothic", sans-serif;
 	--font-bitcount: "Bitcount", system-ui;
 }
 
@@ -157,7 +157,7 @@
 			transparent
 		);
 		color: var(--color-foreground);
-		font-family: var(--font-monda);
+		font-family: var(--font-montserrat);
 	}
 
 	.dark body {

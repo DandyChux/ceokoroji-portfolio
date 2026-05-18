@@ -27,13 +27,13 @@
 <section class="flex flex-col lg:flex-row w-full items-start py-12 2xl:py-32">
 	<div class="flex-1">
 		<h1
-			class="text-4xl lg:text-5xl mb-6 leading-tight font-bold tracking-tight text-primary"
+			class="text-4xl lg:text-5xl mb-6 leading-tight font-bold tracking-tight text-primary font-science-gothic"
 		>
 			I turn your manual operational chaos into custom web tools that stop
 			revenue leaks and save 15+ hours a week.
 		</h1>
 		<h2
-			class="lg:w-[80%] text-lg lg:text-xl 2xl:text-2xl leading-relaxed font-normal text-muted-foreground"
+			class="lg:w-[80%] text-lg lg:text-xl 2xl:text-2xl leading-relaxed font-normal text-foreground font-[unset]"
 		>
 			For services, businesses, & e-commerce brands tired of spreadsheets,
 			lost quotes, and Franken-software.
