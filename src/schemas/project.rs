@@ -229,7 +229,7 @@ impl ProjectResponse {
 pub struct ProjectCreate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
-    #[validate(length(min = 2, max = 100))]
+    #[validate(length(min = 2, max = 500))]
     pub description: Option<String>,
     #[validate(url)]
     pub image_url: String,
@@ -246,7 +246,7 @@ pub struct ProjectCreate {
 pub struct ProjectUpdate {
     #[validate(length(min = 2, max = 100))]
     pub name: String,
-    #[validate(length(min = 2, max = 100))]
+    #[validate(length(min = 2, max = 500))]
     pub description: Option<String>,
     #[validate(url)]
     pub image_url: String,
