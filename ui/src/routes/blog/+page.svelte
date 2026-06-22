@@ -20,11 +20,7 @@
 </svelte:head>
 
 <div class="relative flex flex-col h-full">
-	<h1
-		class="text-3xl w-full text-center md:text-[5rem] leading-normal font-extrabold"
-	>
-		Insights
-	</h1>
+	<h1 class="w-full text-center">Insights</h1>
 
 	{#if !data.posts.length}
 		<Alert.Root>

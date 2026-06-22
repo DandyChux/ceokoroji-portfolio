@@ -21,23 +21,20 @@
 </script>
 
 <svelte:head>
-	<title>Home | Chukwuma Okoroji</title>
+	<title>Chukwuma Okoroji</title>
 </svelte:head>
 
 <section class="flex flex-col lg:flex-row w-full items-start py-12 2xl:py-32">
 	<div class="flex-1">
-		<h1
-			class="text-4xl lg:text-5xl mb-6 leading-tight font-bold tracking-tight text-primary font-science-gothic"
-		>
-			I turn your manual operational chaos into custom web tools that stop
-			revenue leaks and save 15+ hours a week.
+		<h1 class="text-4xl mb-4 text-primary">
+			Software Engineer & Researcher
 		</h1>
-		<h2
-			class="lg:w-[80%] text-lg lg:text-xl 2xl:text-2xl leading-relaxed font-normal text-foreground font-[unset]"
+		<p
+			class="lg:w-[80%] text-lg lg:text-xl 2xl:text-2xl leading-relaxed font-normal text-foreground"
 		>
-			For services, businesses, & e-commerce brands tired of spreadsheets,
-			lost quotes, and Franken-software.
-		</h2>
+			Documenting my graduate research in clinical informatics, predictive
+			modeling, and secure systems.
+		</p>
 
 		<div class="flex flex-col gap-4 w-max pt-16 2xl:pt-52">
 			<ResumeButton />
@@ -82,29 +79,6 @@
 						/>
 					</svg>
 				</a>
-
-				<!-- Instagram Logo -->
-				<!-- <a
-					href="https://instagram.com/the_ceokoroji/"
-					rel="noopener"
-					target="_blank"
-					class="cursor-pointer group"
-					aria-label="Instagram"
-				>
-					<svg
-						fill="currentColor"
-						stroke-width="0"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 1024 1024"
-						height="1em"
-						width="1em"
-						class="w-6 h-6 2xl:w-10 2xl:h-10 fill-accent group-hover:fill-accent/80"
-					>
-						<path
-							d="M512 378.7c-73.4 0-133.3 59.9-133.3 133.3S438.6 645.3 512 645.3 645.3 585.4 645.3 512 585.4 378.7 512 378.7zM911.8 512c0-55.2.5-109.9-2.6-165-3.1-64-17.7-120.8-64.5-167.6-46.9-46.9-103.6-61.4-167.6-64.5-55.2-3.1-109.9-2.6-165-2.6-55.2 0-109.9-.5-165 2.6-64 3.1-120.8 17.7-167.6 64.5C132.6 226.3 118.1 283 115 347c-3.1 55.2-2.6 109.9-2.6 165s-.5 109.9 2.6 165c3.1 64 17.7 120.8 64.5 167.6 46.9 46.9 103.6 61.4 167.6 64.5 55.2 3.1 109.9 2.6 165 2.6 55.2 0 109.9.5 165-2.6 64-3.1 120.8-17.7 167.6-64.5 46.9-46.9 61.4-103.6 64.5-167.6 3.2-55.1 2.6-109.8 2.6-165zM512 717.1c-113.5 0-205.1-91.6-205.1-205.1S398.5 306.9 512 306.9 717.1 398.5 717.1 512 625.5 717.1 512 717.1zm213.5-370.7c-26.5 0-47.9-21.4-47.9-47.9s21.4-47.9 47.9-47.9 47.9 21.4 47.9 47.9a47.84 47.84 0 0 1-47.9 47.9z"
-						/>
-					</svg>
-				</a> -->
 			</span>
 		</div>
 	</div>
@@ -153,6 +127,6 @@
 </section>
 
 <!-- Pricing -->
-<section class="flex flex-col md:flex-row md:flex-wrap">
+<!-- <section class="flex flex-col md:flex-row md:flex-wrap">
 	<PricingPlans />
-</section>
+</section> -->

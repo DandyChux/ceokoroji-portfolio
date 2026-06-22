@@ -103,7 +103,7 @@
 
 <div class="flex flex-col items-center justify-center min-h-screen p-12">
 	<div class="w-full max-w-2xl">
-		<h1 class="text-4xl lg:text-6xl mb-8 font-semibold text-center">
+		<h1 class="text-4xl lg:text-6xl mb-2 font-semibold text-center">
 			Get In Touch
 		</h1>
 		<p class="text-lg lg:text-xl mb-8 text-center text-muted">

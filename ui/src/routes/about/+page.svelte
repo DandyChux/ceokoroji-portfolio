@@ -93,31 +93,18 @@
 			class="py-4 indent-12 xl:h-auto 2xl:px-20 space-y-4 w-full xl:w-3/5"
 		>
 			<p class="font-base text-base lg:text-lg 2xl:text-xl">
-				I graduated from the University of South Florida with a B.S. in
-				Information Science in 2023. I am currently working as a
-				Financial Systems Developer at Jabil, where I support the
-				financial systems used by the company&apos;s global finance
-				team. I am also a freelance web developer, where I work with
-				clients to build websites and web applications. I am passionate
-				about using technology to solve problems and make a positive
-				impact on the lives of others.
+				I am a Software Engineer with a background in enterprise
+				systems. By day, I build swecure financial data pipelines at
+				Jabil. By night, I explore how similar data architectures can be
+				applied to healthcare.
 			</p>
 
 			<p class="font-base text-base lg:text-lg 2xl:text-xl">
-				Inspiration for my career path came from my natural curiosity
-				and desire to learn. I was always interested in how technology
-				worked and how I could use it to solve problems. I fell in love
-				with the idea of being able to create something from nothing.
-			</p>
-
-			<p class="font-base text-base lg:text-lg 2xl:text-xl">
-				Blending a vibrant personality and an unwavering work ethic, I
-				craft efficient digital solutions. As a full-stack developer, I
-				strive each day to deliver cutting-edge, user-friendly
-				applications that enhance the experiences of users and empower
-				businesses to achieve their goals. I&apos;m driven to work on
-				projects that aim to make a real impact on the lives of their
-				users.
+				Currently, I am pursuing my Master's at USF, where my research
+				focuses on clinical informatics and data integrity. Through my
+				graduate research, I am actively developing tools for predictive
+				clinical care and exploring how to build secure, FHIR-compatible
+				applications.
 			</p>
 
 			<ResumeButton class="w-auto indent-0" />
@@ -161,13 +148,13 @@
 								>
 									{skill.name}
 								</span>
-								<span
+								<!-- <span
 									class="text-base lg:text-lg font-science-gothic text-muted ml-auto"
 								>
 									{skill.level}
-								</span>
+								</span> -->
 							</div>
-							<Progress value={getSkillLevel(skill)} />
+							<!-- <Progress value={getSkillLevel(skill)} /> -->
 						{/each}
 					</Card.Content>
 				</Card.Root>

@@ -157,7 +157,7 @@
 			transparent
 		);
 		color: var(--color-foreground);
-		font-family: var(--font-montserrat);
+		font-family: var(--font-science-gothic);
 	}
 
 	.dark body {

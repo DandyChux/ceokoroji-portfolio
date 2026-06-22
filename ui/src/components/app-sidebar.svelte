@@ -21,7 +21,7 @@
 			<Avatar.Fallback>CO</Avatar.Fallback>
 		</Avatar.Root>
 
-		<span class="font-semibold text-xl xl:text-3xl">
+		<span class="font-semibold text-xl xl:text-3xl text-center">
 			Chukwuma Okoroji
 		</span>
 

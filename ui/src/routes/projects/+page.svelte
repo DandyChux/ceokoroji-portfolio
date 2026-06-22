@@ -23,7 +23,7 @@
 	<title>Projects | Chukwuma Okoroji</title>
 </svelte:head>
 
-<h1 class="text-4xl lg:text-6xl mb-8 font-semibold text-center">Projects</h1>
+<h1 class="mb-8 text-center">Projects</h1>
 
 <span class="text-lg w-full text-center leading-normal font-medium mt-4">
 	Specializations
