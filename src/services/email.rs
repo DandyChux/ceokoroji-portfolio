@@ -78,7 +78,7 @@ impl MailgunClient {
 
 		form = form.text("from", message.from);
 		form = form.text("subject", message.subject);
-		form = form.text("body", message.body);
+		form = form.text("html", message.body);
 
 		for recipient in message.to {
 			form = form.text("to", recipient);
