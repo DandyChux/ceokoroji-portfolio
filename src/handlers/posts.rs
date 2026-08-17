@@ -11,7 +11,7 @@ use crate::{
     AppState,
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
-    schemas::post::{CreatePost, Post, UpdatePost},
+    models::post::{CreatePost, Post, UpdatePost},
 };
 
 #[utoipa::path(

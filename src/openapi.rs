@@ -2,8 +2,8 @@ use utoipa::OpenApi;
 use utoipa::openapi::{Info, ServerBuilder};
 
 use crate::handlers::{auth, contact, posts, projects, repositories};
-use crate::schemas::post::{CreatePost, Post, UpdatePost};
-use crate::schemas::project::{
+use crate::models::post::{CreatePost, Post, UpdatePost};
+use crate::models::project::{
     Project, ProjectCreate, ProjectResponse, ProjectUpdate, Skill, SkillCategory, SkillLevel,
 };
 

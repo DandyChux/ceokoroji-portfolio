@@ -11,8 +11,8 @@ use crate::{
     AppState,
     error::{AppError, AppResult},
     middleware::auth::AdminAuth,
-    schemas::project::{
-        GroupedSkillsResponse, Project, ProjectCreate, ProjectDelete, ProjectReorder,
+    models::project::{
+        GroupedSkillsResponse, Project, ProjectCreate, ProjectReorder,
         ProjectRequestQuery, ProjectResponse, ProjectUpdate, Skill, SkillCategory,
         SkillCategoryGroup, SkillCreate,
     },

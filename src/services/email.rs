@@ -1,13 +1,6 @@
 use crate::error::{AppError, AppResult};
+use base64::Engine;
 use handlebars::{DirectorySourceOptions, Handlebars};
-use lettre::{
-    AsyncSmtpTransport, AsyncTransport, Message, Tokio1Executor,
-    message::{Mailbox, MultiPart, SinglePart, header::ContentType},
-    transport::smtp::{
-        authentication::Credentials,
-        client::{Tls, TlsParameters},
-    },
-};
 use serde::Serialize;
 use std::{env, path::Path, sync::LazyLock};
 
@@ -63,33 +56,125 @@ static TEMPLATES: LazyLock<Handlebars<'static>> = LazyLock::new(|| {
     hbars
 });
 
-pub struct EmailConfig {
-    pub host: String,
-    pub port: u16,
-    pub username: String,
-    pub password: String,
-    pub from: String,
+#[derive(Debug, Clone)]
+pub struct MailgunClient {
+	api_key: String,
+	domain: String,
+	client: reqwest::Client
 }
 
-impl EmailConfig {
-    pub fn from_env() -> Self {
-        let username = env::var("EMAIL_USERNAME").unwrap_or_default();
-        let from = env::var("EMAIL_FROM").unwrap_or_else(|_| username.clone());
-        let host = env::var("EMAIL_HOST").unwrap_or_else(|_| "smtp.gmail.com".to_string());
+impl MailgunClient {
+	pub fn new(api_key: String, domain: String) -> Self {
+		Self { api_key, domain, client: reqwest::Client::new() }
+	}
 
-        let port = env::var("EMAIL_PORT")
-            .unwrap_or_else(|_| "587".to_string())
-            .parse::<u16>()
-            .unwrap_or(587);
+	pub fn new_message(&self, from: String, subject: String, body: String) -> MailgunMessage {
+		MailgunMessage { from, to: Vec::new(), cc: Vec::new(), bcc: Vec::new(), subject, body, attachments: Vec::new() }
+	}
 
-        Self {
-            host,
-            port,
-            username,
-            password: env::var("EMAIL_PASSWORD").unwrap_or_default(),
-            from,
-        }
-    }
+	pub async fn send_message(&self, message: MailgunMessage) -> AppResult<()> {
+		let url = format!("https://api.mailgun.net/v3/{}/messages", self.domain);
+		let mut form = reqwest::multipart::Form::new();
+
+		form = form.text("from", message.from);
+		form = form.text("subject", message.subject);
+		form = form.text("body", message.body);
+
+		for recipient in message.to {
+			form = form.text("to", recipient);
+		}
+
+		for recipient in message.cc {
+			form = form.text("cc", recipient);
+		}
+
+		for recipient in message.bcc {
+			form = form.text("bcc", recipient);
+		}
+
+		for attachment in message.attachments {
+			let filename = attachment.filename;
+
+			let part = reqwest::multipart::Part::file(&attachment.path)
+				.await
+				.map_err(|e| {
+					AppError::Email(format!("Failed to attach '{}': {}", filename, e))
+				})?
+				.file_name(filename.clone());
+
+			form = form.part("attachment", part);
+		}
+
+        let response = self
+            .client
+            .post(&url)
+            .header("Authorization", format!("Basic {}", base64::engine::general_purpose::STANDARD.encode(format!("api:{}", self.api_key))))
+			.multipart(form)
+			.send()
+			.await
+			.map_err(|e| AppError::Email(format!("Failed to send Mailgun message: {}", e)))?;
+
+		if !response.status().is_success() {
+			let status = response.status();
+
+			let body = response
+				.text()
+				.await
+				.map_err(|e| AppError::Email(format!("Failed to read Mailgun error response: {}", e)))?;
+
+			return Err(AppError::Email(format!(
+				"Mailgun request failed ({}): {}",
+				status,
+				body
+			)));
+		}
+		Ok(())
+	}
+}
+
+pub struct MailgunAttachment {
+	pub filename: String,
+	pub path: String
+}
+
+pub struct MailgunMessage {
+	pub from: String,
+	pub to: Vec<String>,
+	pub cc: Vec<String>,
+	pub bcc: Vec<String>,
+	pub subject: String,
+	pub body: String,
+	pub attachments: Vec<MailgunAttachment>,
+}
+
+impl MailgunMessage {
+	pub fn add_recipient(&mut self, to: String) {
+		self.to.push(to);
+	}
+
+	pub fn add_bcc(&mut self, bcc: String) {
+		self.bcc.push(bcc);
+	}
+
+	pub fn add_cc(&mut self, cc: String) {
+		self.cc.push(cc);
+	}
+
+	pub fn add_attachment(&mut self, attachment: MailgunAttachment) {
+		self.attachments.push(attachment);
+	}
+
+	pub fn set_subject(&mut self, subject: String) {
+		self.subject = subject;
+	}
+
+	pub fn set_html(&mut self, html: String) {
+		self.body = html;
+	}
+
+	pub fn set_text(&mut self, text: String) {
+		self.body = text;
+	}
 }
 
 #[derive(Serialize)]
@@ -100,137 +185,26 @@ pub struct ContactFormData {
     pub message: String,
 }
 
-pub struct EmailMessage {
-    pub to: Vec<String>,
-    pub cc: Vec<String>,
-    pub bcc: Vec<String>,
-    pub subject: String,
-    pub reply_to: Option<String>,
-    pub body_html: Option<String>,
-    pub body_text: Option<String>,
-}
-
-pub async fn send_email(msg: EmailMessage) -> AppResult<()> {
-    let config = EmailConfig::from_env();
-
-    if config.username.is_empty() || config.password.is_empty() {
-        return Err(AppError::Config(
-            "Missing email configuration (username/password)".into(),
-        ));
-    }
-
-    let from_address: Mailbox = config
-        .from
-        .parse()
-        .map_err(|_| AppError::Email("Invalid 'From' address".into()))?;
-
-    let mut builder = Message::builder()
-        .from(from_address)
-        .reply_to(msg.reply_to.unwrap_or_default().parse().unwrap())
-        .subject(msg.subject);
-
-    for to in msg.to {
-        let to_addr: Mailbox = to
-            .parse()
-            .map_err(|_| AppError::Email(format!("Invalid 'To' address: {}", to)))?;
-        builder = builder.to(to_addr);
-    }
-
-    for cc in msg.cc {
-        let cc_addr: Mailbox = cc
-            .parse()
-            .map_err(|_| AppError::Email(format!("Invalid 'Cc' address: {}", cc)))?;
-        builder = builder.cc(cc_addr);
-    }
-
-    let email_message = match (msg.body_html, msg.body_text) {
-        (Some(html), Some(text)) => {
-            builder.multipart(MultiPart::alternative_plain_html(text, html))
-        }
-        (Some(html), None) => builder.singlepart(
-            SinglePart::builder()
-                .header(ContentType::TEXT_HTML)
-                .body(html),
-        ),
-        (None, Some(text)) => builder.singlepart(
-            SinglePart::builder()
-                .header(ContentType::TEXT_PLAIN)
-                .body(text),
-        ),
-        (None, None) => return Err(AppError::Email("No email body provided".into())),
-    }
-    .map_err(|e| AppError::Email(format!("Failed to build email body: {}", e)))?;
-
-    let creds = Credentials::new(config.username, config.password);
-
-    // Build the TLS parameters using your host (smtp.gmail.com)
-    let tls_params = TlsParameters::builder(config.host.clone())
-        .build()
-        .map_err(|e| AppError::Email(format!("Failed to build TLS parameters: {}", e)))?;
-
-    // Determine the correct TLS mode based on the port
-    // 465 = Implicit TLS (Wrapper), 587 = Explicit TLS (Required/STARTTLS)
-    let tls_mode = if config.port == 465 {
-        Tls::Wrapper(tls_params)
-    } else {
-        Tls::Required(tls_params)
-    };
-
-    let mailer: AsyncSmtpTransport<Tokio1Executor> =
-        AsyncSmtpTransport::<Tokio1Executor>::builder_dangerous(&config.host)
-            .port(config.port)
-            .credentials(creds)
-            .tls(tls_mode)
-            .build();
-
-    mailer
-        .send(email_message)
-        .await
-        .map_err(|e| AppError::Email(format!("Failed to send email via SMTP: {}", e)))?;
-
-    Ok(())
-}
-
-pub async fn send_contact_form(data: ContactFormData) -> AppResult<()> {
-    let admin_email = env::var("ADMIN_EMAIL").unwrap_or_default();
+pub async fn send_contact_form(
+	mailgun: &MailgunClient,
+	data: ContactFormData
+) -> AppResult<()> {
+	let admin_email = env::var("ADMIN_EMAIL").unwrap_or_default();
 
     let body_html = TEMPLATES
         .render("contact-form", &data)
-        .map_err(|e| AppError::Email(format!("Failed to render contact form template: {}", e)))?;
+        .map_err(|e| AppError::Email(format!(
+            "Failed to render contact form template: {}",
+            e
+        )))?;
 
-    let msg = EmailMessage {
-        to: vec![admin_email],
-        cc: vec![],
-        bcc: vec![],
-        reply_to: Some(data.email.clone()),
-        subject: format!("Contact Form: {}", data.subject),
-        body_html: Some(body_html),
-        body_text: Some(format!(
-            "Name: {}\nEmail: {}\nMessage: {}",
-            data.name, data.email, data.message
-        )),
-    };
-
-    send_email(msg).await
-}
-
-pub async fn send_subscription_notification(subscriber_email: &str) -> AppResult<()> {
-    let admin_email = env::var("ADMIN_EMAIL").unwrap_or_default();
-
-    let html = format!(
-        "<h2>New Subscription</h2><p>A new user has subscribed:</p><p><strong>Email:</strong> {}</p>",
-        subscriber_email
+    let mut message = mailgun.new_message(
+        data.email.clone(),
+        format!("Contact Form: {}", data.subject),
+        body_html,
     );
 
-    let msg = EmailMessage {
-        to: vec![admin_email],
-        cc: vec![],
-        bcc: vec![],
-        reply_to: None,
-        subject: "New Subscription".to_string(),
-        body_html: Some(html),
-        body_text: Some(format!("New subscriber: {}", subscriber_email)),
-    };
+    message.add_recipient(admin_email);
 
-    send_email(msg).await
+    mailgun.send_message(message).await
 }

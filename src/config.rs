@@ -16,6 +16,8 @@ pub struct Config {
     pub rate_limit_max_requests: u32,
     pub rate_limit_window_secs: u64,
     pub github_access_token: String,
+    pub mailgun_api_key: String,
+    pub mailgun_domain: String,
 }
 
 impl Config {
@@ -53,6 +55,10 @@ impl Config {
                 .unwrap_or(60),
             github_access_token: std::env::var("GITHUB_ACCESS_TOKEN")
                 .expect("GITHUB_ACCESS_TOKEN must be set"),
+            mailgun_api_key: std::env::var("MAILGUN_API_KEY")
+                .expect("MAILGUN_API_KEY must be set"),
+            mailgun_domain: std::env::var("MAILGUN_DOMAIN")
+                .expect("MAILGUN_DOMAIN must be set"),
         })
     }
 }

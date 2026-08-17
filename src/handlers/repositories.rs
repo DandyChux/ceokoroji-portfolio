@@ -7,7 +7,7 @@ use tracing::error;
 use crate::{
     AppState,
     error::{AppError, AppResult},
-    schemas::repository::RepoResponse,
+    models::repository::RepoResponse,
 };
 
 #[utoipa::path(

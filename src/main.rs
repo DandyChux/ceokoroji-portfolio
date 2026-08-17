@@ -6,13 +6,14 @@ mod handlers;
 mod middleware;
 mod openapi;
 mod routes;
-mod schemas;
+mod models;
 mod services;
 
 use crate::config::Config;
 use crate::db::create_pool;
 use crate::error::{AppError, AppResult};
 use crate::openapi::ApiDoc;
+use crate::services::email::MailgunClient;
 use crate::services::rate_limiter::{RateLimiter, RateLimiterConfig};
 use actix_cors::Cors;
 use actix_session::SessionMiddleware;
@@ -35,6 +36,7 @@ pub struct AppState {
     db: PgPool,
     env: Config,
     rate_limiter: RateLimiter,
+    mailgun: MailgunClient
 }
 
 #[actix_web::main]
@@ -81,11 +83,17 @@ async fn main() -> AppResult<()> {
         window_secs: 60,
     });
 
+    let mailgun = MailgunClient::new(
+    	config.mailgun_api_key.clone(),
+     	config.mailgun_domain.clone(),
+    );
+
     // Create application state
     let app_state = AppState {
         db: pool,
         env: config.clone(),
         rate_limiter,
+        mailgun
     };
 
     // Run migrations
