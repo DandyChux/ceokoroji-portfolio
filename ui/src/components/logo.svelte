@@ -15,12 +15,17 @@
 		data-sveltekit-preload-data="tap"
 	>
 		<Picture
-			src={"/ceokoroji-logo.webp"}
+			src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/ceokoroji-logo.webp"}
 			alt="Logo"
 			width="100"
 			height="100"
 			sizes="175px"
-			srcset={generateSrcSet("/ceokoroji-logo.webp", [175], "webp", 85)}
+			srcset={generateSrcSet(
+				"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/logos/ceokoroji-logo.webp",
+				[175],
+				"webp",
+				85,
+			)}
 		/>
 	</Button>
 </div>
