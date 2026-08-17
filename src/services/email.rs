@@ -60,23 +60,36 @@ static TEMPLATES: LazyLock<Handlebars<'static>> = LazyLock::new(|| {
 pub struct MailgunClient {
 	api_key: String,
 	domain: String,
+	from: String,
 	client: reqwest::Client
 }
 
 impl MailgunClient {
-	pub fn new(api_key: String, domain: String) -> Self {
-		Self { api_key, domain, client: reqwest::Client::new() }
+	pub fn new(api_key: String, domain: String, from: String) -> Self {
+		Self { api_key, domain, from, client: reqwest::Client::new() }
 	}
 
-	pub fn new_message(&self, from: String, subject: String, body: String) -> MailgunMessage {
-		MailgunMessage { from, to: Vec::new(), cc: Vec::new(), bcc: Vec::new(), subject, body, attachments: Vec::new() }
+	pub fn new_message(
+		&self,
+		subject: String,
+		body: String,
+	) -> MailgunMessage {
+		MailgunMessage {
+			to: Vec::new(),
+			cc: Vec::new(),
+			bcc: Vec::new(),
+			subject,
+			body,
+			reply_to: None,
+			attachments: Vec::new(),
+		}
 	}
 
 	pub async fn send_message(&self, message: MailgunMessage) -> AppResult<()> {
 		let url = format!("https://api.mailgun.net/v3/{}/messages", self.domain);
 		let mut form = reqwest::multipart::Form::new();
 
-		form = form.text("from", message.from);
+		form = form.text("from", self.from.clone());
 		form = form.text("subject", message.subject);
 		form = form.text("html", message.body);
 
@@ -90,6 +103,10 @@ impl MailgunClient {
 
 		for recipient in message.bcc {
 			form = form.text("bcc", recipient);
+		}
+
+		if let Some(reply_to) = message.reply_to {
+			form = form.text("h:Reply-To", reply_to);
 		}
 
 		for attachment in message.attachments {
@@ -138,12 +155,12 @@ pub struct MailgunAttachment {
 }
 
 pub struct MailgunMessage {
-	pub from: String,
 	pub to: Vec<String>,
 	pub cc: Vec<String>,
 	pub bcc: Vec<String>,
 	pub subject: String,
 	pub body: String,
+	pub reply_to: Option<String>,
 	pub attachments: Vec<MailgunAttachment>,
 }
 
@@ -199,12 +216,12 @@ pub async fn send_contact_form(
         )))?;
 
     let mut message = mailgun.new_message(
-        data.email.clone(),
         format!("Contact Form: {}", data.subject),
         body_html,
     );
 
     message.add_recipient(admin_email);
+    message.reply_to = Some(data.email.clone());
 
     mailgun.send_message(message).await
 }

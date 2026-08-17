@@ -157,7 +157,7 @@
 			transparent
 		);
 		color: var(--color-foreground);
-		font-family: var(--font-science-gothic);
+		font-family: var(--font-montserrat);
 	}
 
 	.dark body {
@@ -171,7 +171,7 @@
 	h5,
 	h6 {
 		color: var(--color-primary);
-		font-family: var(--font-bitcount);
+		font-family: var(--font-science-gothic);
 		font-weight: bold;
 		letter-spacing: 0.1em;
 	}
@@ -239,7 +239,7 @@
 	.prose h5,
 	.prose h6 {
 		color: var(--color-primary);
-		font-family: var(--font-bitcount);
+		font-family: var(--font-science-gothic);
 		font-weight: 700;
 		margin-top: 2em;
 		margin-bottom: 1em;
