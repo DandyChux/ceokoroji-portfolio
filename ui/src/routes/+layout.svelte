@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "../app.css";
+	import "./layout.css";
 	import "highlight.js/styles/github-dark.css";
 	import { page } from "$app/state";
 	import Nav from "$components/navbar.svelte";
@@ -26,12 +26,12 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" type="image/svg+xml" href={"/favicon.ico"} />
+	<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 	<meta charset="utf-8" />
 	<meta property="og:title" content="Chukwuma Okoroji" />
 	<meta
 		property="og:description"
-		content="Chukwuma Okoroji is a software engineer and entrepreneur."
+		content="Chukwuma Okoroji is a software engineer and researcher."
 	/>
 	<meta property="og:image" content="/ceokoroji-logo.webp" />
 	<meta property="og:url" content="https://ceokoroji.dev" />
@@ -45,17 +45,14 @@
 	<Toaster richColors />
 
 	{#if isAdminRoute}
-		<!-- Admin routes: minimal wrapper, let admin layout handle everything -->
 		{@render children()}
 	{:else}
-		<!-- Public routes: full sidebar layout -->
 		<Sidebar.Provider>
-			<div class="flex flex-col xl:flex-row h-[100dvh] w-screen">
+			<div class="app-frame">
 				<Nav />
 				<AppSidebar />
-				<main
-					class="relative flex flex-col size-full overflow-y-auto p-4 lg:p-6 2xl:p-8"
-				>
+
+				<main class="app-main">
 					{@render children()}
 					<Logo />
 				</main>

@@ -14,7 +14,7 @@
 	font-display: swap;
 
 	--radius: 0.625rem;
-	--background: oklch(94.96% 0.0283 180.27);
+	--background: oklch(95% 0.028 180);
 	--foreground: oklch(23.82% 0.0334 178.72);
 	--card: oklch(96.7% 0.0206 181.88);
 	--card-foreground: oklch(32.11% 0 0);
@@ -153,7 +153,7 @@
 		/*background: var(--color-background);*/
 		background-color: color-mix(
 			in oklab,
-			var(--color-background) 30%,
+			var(--color-background) 40%,
 			transparent
 		);
 		color: var(--color-foreground);
@@ -465,5 +465,105 @@
 	.prose-invert h5,
 	.prose-invert h6 {
 		color: var(--color-primary);
+	}
+}
+
+@layer components {
+	.app-frame {
+		display: flex;
+		width: 100vw;
+		height: 100dvh;
+		flex-direction: column;
+
+		@media (min-width: 1280px) {
+			flex-direction: row;
+		}
+	}
+
+	.app-main {
+		position: relative;
+		display: flex;
+		width: 100%;
+		height: 100%;
+		flex-direction: column;
+		overflow-y: auto;
+		padding: 1rem;
+
+		@media (min-width: 768px) {
+			padding-inline: clamp(2rem, 10vw, 10rem);
+		}
+
+		@media (min-width: 1024px) {
+			padding: 1.5rem;
+		}
+
+		@media (min-width: 1536px) {
+			padding: 2rem;
+		}
+	}
+
+	.page-shell {
+		width: min(100%, 1200px);
+		margin-inline: auto;
+	}
+
+	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		color: var(--color-accent);
+		font: 0.72rem var(--font-science-gothic);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.section-heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.section-heading h2 {
+		margin-top: 0.5rem;
+	}
+
+	.social-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.35rem;
+		color: var(--color-accent);
+		border: 1px solid
+			color-mix(in oklab, var(--color-accent) 35%, transparent);
+		transition:
+			transform 0.2s ease,
+			background-color 0.2s ease,
+			color 0.2s ease;
+	}
+
+	.social-link:hover {
+		transform: translateY(-2px);
+		background-color: color-mix(
+			in oklab,
+			var(--color-accent) 12%,
+			transparent
+		);
+	}
+
+	.social-link:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	.post-list {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+
+		@media (min-width: 768px) {
+			padding-inline: clamp(2rem, 10vw, 10rem);
+		}
 	}
 }

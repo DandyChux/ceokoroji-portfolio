@@ -43,7 +43,7 @@ pub struct AppState {
 async fn main() -> AppResult<()> {
     // Load .env file if it exists (for local development)
     if dotenvy::from_filename(".env.local").is_err() {
-        info!("No .env.local file found, using environment variables");
+        info!("No .env file found, using environment variables");
     }
 
     // Set default RUST_LOG if not set
@@ -86,6 +86,7 @@ async fn main() -> AppResult<()> {
     let mailgun = MailgunClient::new(
     	config.mailgun_api_key.clone(),
      	config.mailgun_domain.clone(),
+      	config.mailgun_from.clone()
     );
 
     // Create application state

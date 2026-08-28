@@ -88,7 +88,7 @@
 	});
 </script>
 
-<div class="flex flex-col w-full md:px-40">
+<div class="post-list">
 	<div class="relative flex items-center mb-4">
 		<Search />
 

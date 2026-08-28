@@ -1,132 +1,325 @@
 <script lang="ts">
 	import ProjectCard from "$components/project-card.svelte";
 	import ResumeButton from "$components/resume-button.svelte";
-	import { Button, buttonVariants } from "$components/ui/button";
+	import { buttonVariants } from "$components/ui/button";
 	import { createQuery } from "@tanstack/svelte-query";
-	import { type ProjectResponse, type Project } from "./projects/schema";
+	import type { ProjectResponse } from "./projects/schema";
 	import apiClient from "$lib/api";
 	import Picture from "$components/picture.svelte";
 	import { generateSrcSet } from "$lib/utils";
-	import PricingPlans from "$components/pricing-plans.svelte";
-	import { ArrowRight } from "@lucide/svelte";
+	import { ArrowRight, Github, Linkedin, Sparkles } from "@lucide/svelte";
 
 	const featuredProjectsQuery = createQuery(() => ({
 		queryKey: ["featured-projects"],
-		queryFn: async () => {
-			return await apiClient.get<ProjectResponse[]>(
-				"/projects?featured=true",
-			);
-		},
+		queryFn: async () =>
+			await apiClient.get<ProjectResponse[]>("/projects?featured=true"),
 	}));
 </script>
 
 <svelte:head>
 	<title>Chukwuma Okoroji</title>
+	<meta
+		name="description"
+		content="Software engineer and researcher working across clinical informatics, predictive modeling, and secure systems."
+	/>
 </svelte:head>
 
-<section class="flex flex-col lg:flex-row w-full items-start py-12 2xl:py-32">
-	<div class="flex-1">
-		<h1 class="text-4xl mb-4 text-primary">
-			Software Engineer & Researcher
-		</h1>
-		<p
-			class="lg:w-[80%] text-lg lg:text-xl 2xl:text-2xl leading-relaxed font-normal text-foreground"
-		>
-			Documenting my graduate research in clinical informatics, predictive
-			modeling, and secure systems.
-		</p>
+<section class="page-shell home-page">
+	<div class="hero-shell">
+		<div class="hero-copy">
+			<p class="eyebrow">
+				<Sparkles class="size-4" />
+				Engineering at the edge of care
+			</p>
 
-		<div class="flex flex-col gap-4 w-max pt-16 2xl:pt-52">
-			<ResumeButton />
+			<h1>
+				Systems that make
+				<br />
+				<span>complexity useful.</span>
+			</h1>
 
-			<span class="inline-flex space-x-4">
-				<!-- LinkedIn Logo -->
-				<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+			<p class="hero-intro">
+				Software engineer and researcher documenting work across
+				clinical informatics, predictive modeling, and secure systems.
+			</p>
+
+			<div class="hero-actions">
+				<ResumeButton />
+
+				<a
+					href="/projects"
+					class={buttonVariants({
+						variant: "outline",
+						size: "lg",
+						class: "border-primary/40",
+					})}
+				>
+					Explore projects
+					<ArrowRight class="size-4" />
+				</a>
+			</div>
+
+			<div class="socials">
+				<span>Find me in the field</span>
+
 				<a
 					href="https://linkedin.com/in/chukwuma-okoroji/"
-					rel="noopener"
 					target="_blank"
-					class="cursor-pointer group"
+					rel="noopener noreferrer"
 					aria-label="LinkedIn"
+					class="social-link"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 448 512"
-						class="w-6 h-6 2xl:w-10 2xl:h-10 fill-accent group-hover:fill-accent/80"
-					>
-						<path
-							d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"
-						/>
-					</svg>
+					<Linkedin class="size-4" />
 				</a>
 
-				<!-- Github Logo -->
-				<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
 				<a
 					href="https://github.com/dandychux/"
-					rel="noopener"
 					target="_blank"
-					class="cursor-pointer group"
-					aria-label="Github"
+					rel="noopener noreferrer"
+					aria-label="GitHub"
+					class="social-link"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 496 512"
-						class="w-6 h-6 2xl:w-10 2xl:h-10 fill-accent group-hover:fill-accent/80"
-					>
-						<path
-							d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
-						/>
-					</svg>
+					<Github class="size-4" />
 				</a>
-			</span>
+			</div>
+		</div>
+
+		<div class="hero-visual">
+			<div class="visual-label">Research / build / repeat</div>
+
+			<Picture
+				src="https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg"
+				loading="eager"
+				srcset={generateSrcSet(
+					"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg",
+					[200, 400],
+					"webp",
+					85,
+				)}
+				sizes="(max-width: 768px) 200px, 468px"
+				alt="Abstract geometric cube"
+				class="cube"
+			/>
+
+			<div class="visual-note">
+				<strong>01</strong>
+				<span>
+					Turning reliable data
+					<br />
+					into better decisions.
+				</span>
+			</div>
 		</div>
 	</div>
 
-	<div class="flex-1 relative mt-12 lg:mt-0">
-		<Picture
-			src={"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg"}
-			loading="eager"
-			srcset={generateSrcSet(
-				"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg",
-				[200, 400],
-				"webp",
-				85,
-			)}
-			class="relative mx-auto lg:absolute lg:right-10 lg:top-8 2xl:right-32"
-			sizes="(max-width: 768px) 200px, 468px"
-			alt="Hero Code"
-		/>
-	</div>
+	<section class="projects-preview">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">Selected work</p>
+				<h2>Featured projects</h2>
+			</div>
+
+			<a href="/projects" class="section-link">
+				View all
+				<ArrowRight class="size-4" />
+			</a>
+		</div>
+
+		<div class="project-grid">
+			{#each featuredProjectsQuery.data ?? [] as project (project.id)}
+				<ProjectCard {...project} class="rounded-none" />
+			{/each}
+		</div>
+	</section>
 </section>
 
-<!-- Featured Projects -->
-<section class="my-4 flex flex-col w-full py-12">
-	<h2 class="text-3xl mb-2 text-center lg:m-0 leading-normal">
-		Featured Projects
-	</h2>
+<style>
+	.home-page {
+		padding-block: 0 5rem;
+	}
 
-	<div class="grid gap-3 pt-3 my-4 md:grid-cls-2 2xl:grid-cols-3">
-		{#each featuredProjectsQuery.data as project, index (index)}
-			<ProjectCard {...project} class="rounded-2xl" />
-		{/each}
-	</div>
+	.hero-shell {
+		display: grid;
+		grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+		gap: clamp(2rem, 8vw, 9rem);
+		align-items: center;
+		min-height: clamp(520px, 78vh, 780px);
+	}
 
-	<Button
-		size={"lg"}
-		variant={"link"}
-		href="/projects"
-		class={buttonVariants({
-			class: "self-end hover:text-accent group",
-			variant: "accent",
-		})}
-	>
-		See All Projects
-		<ArrowRight />
-	</Button>
-</section>
+	.hero-copy {
+		max-width: 680px;
+	}
 
-<!-- Pricing -->
-<!-- <section class="flex flex-col md:flex-row md:flex-wrap">
-	<PricingPlans />
-</section> -->
+	h1 {
+		margin-top: 1.5rem;
+		font-size: clamp(3rem, 7vw, 6.8rem);
+		line-height: 0.94;
+		letter-spacing: -0.06em;
+	}
+
+	h1 span {
+		color: var(--color-accent);
+	}
+
+	.hero-intro {
+		max-width: 34rem;
+		margin-top: 2rem;
+		font-size: clamp(1rem, 1.5vw, 1.3rem);
+		line-height: 1.7;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 2.5rem;
+	}
+
+	.hero-actions :global(a) {
+		width: auto;
+	}
+
+	.socials {
+		position: relative;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 2.25rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid
+			color-mix(in oklab, var(--color-primary) 28%, transparent);
+		color: var(--color-muted-foreground);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.socials span {
+		margin-right: 0.5rem;
+	}
+
+	.hero-visual {
+		position: relative;
+		display: grid;
+		place-items: center;
+		min-height: 420px;
+		border: 1px solid
+			color-mix(in oklab, var(--color-primary) 45%, transparent);
+		background: radial-gradient(
+			circle at center,
+			color-mix(in oklab, var(--color-primary) 20%, transparent),
+			transparent 63%
+		);
+		overflow: hidden;
+	}
+
+	.hero-visual::before,
+	.hero-visual::after {
+		content: "";
+		position: absolute;
+		inset: 1.5rem;
+		border: 1px solid
+			color-mix(in oklab, var(--color-accent) 55%, transparent);
+		border-radius: 50%;
+		transform: rotate(35deg) scaleX(0.62);
+	}
+
+	.hero-visual::after {
+		transform: rotate(-35deg) scaleX(0.62);
+	}
+
+	.cube {
+		position: relative;
+		z-index: 1;
+		width: min(68%, 360px);
+		animation: float 7s ease-in-out infinite;
+	}
+
+	.visual-label {
+		position: absolute;
+		top: 1rem;
+		left: 1rem;
+		z-index: 2;
+		color: var(--color-muted-foreground);
+		font: 0.68rem var(--font-science-gothic);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.visual-note {
+		position: absolute;
+		right: 1rem;
+		bottom: 1rem;
+		z-index: 2;
+		display: flex;
+		gap: 0.7rem;
+		align-items: flex-start;
+		font-size: 0.75rem;
+		line-height: 1.4;
+	}
+
+	.visual-note strong {
+		color: var(--color-accent);
+		font: 1.5rem var(--font-science-gothic);
+	}
+
+	.projects-preview {
+		padding-top: 5rem;
+		border-top: 1px solid
+			color-mix(in oklab, var(--color-primary) 35%, transparent);
+	}
+
+	.section-link {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-accent);
+		font-family: var(--font-science-gothic);
+		font-size: 0.8rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.project-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	:global(.project-grid > *) {
+		height: 100%;
+	}
+
+	@keyframes float {
+		50% {
+			transform: translateY(-10px) rotate(2deg);
+		}
+	}
+
+	@media (max-width: 800px) {
+		.hero-shell {
+			grid-template-columns: 1fr;
+			min-height: auto;
+			padding-block: 3rem 4rem;
+		}
+
+		.hero-visual {
+			min-height: 320px;
+		}
+
+		.project-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.section-heading {
+			align-items: start;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cube {
+			animation: none;
+		}
+	}
+</style>
