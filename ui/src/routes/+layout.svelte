@@ -28,10 +28,10 @@
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 	<meta charset="utf-8" />
-	<meta property="og:title" content="Chukwuma Okoroji" />
+	<meta property="og:title" content="Chukwuma Okoroji | Software Engineer" />
 	<meta
 		property="og:description"
-		content="Chukwuma Okoroji is a software engineer and researcher."
+		content="Chukwuma Okoroji is a software engineer and researcher specializing in secure enterprise systems, clinical informatics, data integrity, and FHIR-compatible healthcare applications."
 	/>
 	<meta property="og:image" content="/ceokoroji-logo.webp" />
 	<meta property="og:url" content="https://ceokoroji.dev" />
