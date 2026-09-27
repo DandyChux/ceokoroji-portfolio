@@ -1,4 +1,4 @@
-use crate::handlers::{auth, contact, posts, projects, repositories};
+use crate::handlers::{auth, contact, posts, projects, repositories, sitemap};
 use actix_web::{HttpResponse, http::header, web};
 
 pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
@@ -11,6 +11,8 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
                 .finish()
         }),
     );
+
+    cfg.service(sitemap::sitemap);
 
     cfg.service(
         web::scope(&format!("/api/v{}", api_version))

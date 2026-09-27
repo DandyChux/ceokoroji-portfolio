@@ -3,3 +3,4 @@ pub mod contact;
 pub mod posts;
 pub mod projects;
 pub mod repositories;
+pub mod sitemap;

@@ -34,7 +34,7 @@
 		content="Chukwuma Okoroji is a software engineer and researcher specializing in secure enterprise systems, clinical informatics, data integrity, and FHIR-compatible healthcare applications."
 	/>
 	<meta property="og:image" content="/ceokoroji-logo.webp" />
-	<meta property="og:url" content="https://ceokoroji.dev" />
+	<meta property="og:url" content="https://ceokoroji.com" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Chukwuma Okoroji" />
 	<title>Chukwuma Okoroji</title>
