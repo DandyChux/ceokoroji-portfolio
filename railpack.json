@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schema.railpack.com",
+	"provider": "rust",
+	"buildAptPackages": [
+		"libstdc++6",
+		"curl",
+		"wget",
+		"pkg-config",
+		"openssl",
+		"gcc",
+		"binutils"
+	],
+	"packages": {
+		"bun": "latest",
+		"node": "22",
+		"rust": "latest"
+	},
+	"steps": {
+		"install": {
+			"commands": [
+				"rm -f ui/bun.lock",
+				"cd ui && bun install",
+				"cd ui && npm install --os=linux --cpu=x64 sharp"
+			]
+		},
+		"build": {
+			"inputs": [
+				{
+					"step": "install"
+				}
+			],
+			"commands": ["cd ui && bun run build", "cargo build --release"],
+			"deployOutputs": [
+				{
+					"include": ["target/release/ceokoroji-api"]
+				}
+			]
+		}
+	},
+	"deploy": {
+		"aptPackages": ["libstdc++6"],
+		"inputs": [
+			{
+				"step": "build",
+				"include": ["target/release/ceokoroji-api"]
+			}
+		],
+		"startCommand": "/app/target/release/ceokoroji-api"
+	}
+}
