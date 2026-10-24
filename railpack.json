@@ -2,6 +2,7 @@
 	"$schema": "https://schema.railpack.com",
 	"provider": "rust",
 	"buildAptPackages": [
+		"...",
 		"libstdc++6",
 		"curl",
 		"wget",
@@ -17,6 +18,14 @@
 	},
 	"steps": {
 		"install": {
+			"inputs": [
+				{
+					"local": true
+				},
+				{
+					"step": "packages:mise"
+				}
+			],
 			"commands": [
 				"rm -f ui/bun.lock",
 				"cd ui && bun install",
@@ -38,7 +47,7 @@
 		}
 	},
 	"deploy": {
-		"aptPackages": ["libstdc++6"],
+		"aptPackages": ["...", "libstdc++6"],
 		"inputs": [
 			{
 				"step": "build",
