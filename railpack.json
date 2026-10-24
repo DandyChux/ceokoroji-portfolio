@@ -19,11 +19,10 @@
 	"steps": {
 		"install": {
 			"inputs": [
+				"...",
 				{
-					"local": true
-				},
-				{
-					"step": "packages:mise"
+					"local": true,
+					"include": ["."]
 				}
 			],
 			"commands": [
