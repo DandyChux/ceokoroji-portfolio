@@ -37,10 +37,14 @@
 					"step": "install"
 				}
 			],
-			"commands": ["cd ui && bun run build", "cargo build --release"],
+			"commands": [
+				"cd ui && bun run build",
+				"cargo build --release",
+				"cp target/release/ceokoroji-api /usr/local/bin/ceokoroji-api"
+			],
 			"deployOutputs": [
 				{
-					"include": ["target/release/ceokoroji-api"]
+					"include": ["/usr/local/bin/ceokoroji-api"]
 				}
 			]
 		}
@@ -50,9 +54,9 @@
 		"inputs": [
 			{
 				"step": "build",
-				"include": ["target/release/ceokoroji-api"]
+				"include": ["/usr/local/bin/ceokoroji-api"]
 			}
 		],
-		"startCommand": "/app/target/release/ceokoroji-api"
+		"startCommand": "/usr/local/bin/ceokoroji-api"
 	}
 }
