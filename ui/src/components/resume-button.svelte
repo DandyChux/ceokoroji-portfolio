@@ -26,11 +26,11 @@
 
 <Button
 	variant="link"
-	href="https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/files/CEOkoroji_Resume.pdf"
+	href="https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/files/CEOkoroji_SWE_Resume.pdf"
 	rel="noopener noreferrer"
 	target="_blank"
 	download
-	on:click={handleClick}
+	onclick={handleClick}
 	aria-label={btnText}
 	class={buttonVariants({
 		variant: "accent",
