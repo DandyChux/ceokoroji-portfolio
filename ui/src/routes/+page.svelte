@@ -33,16 +33,14 @@
 			</p>
 
 			<h1>
-				Curious about hard problems.
+				I make
 				<br />
-				<span>Serious about useful software.</span>
+				<span>things useful.</span>
 			</h1>
 
 			<p class="hero-intro">
-				I'm a software engineer and researcher who likes asking awkward
-				questions, untangling messy problems, and building tools people
-				can actually use—especially where healthcare and technology
-				meet.
+				I'm a software engineer and researcher buildling practical tools
+				for healthcare, data, and the messy problems in between
 			</p>
 
 			<div class="hero-actions">

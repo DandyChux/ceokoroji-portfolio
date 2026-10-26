@@ -46,8 +46,8 @@
 
 		<p class="intro">
 			I'm a software engineer and researcher who enjoys making sense of
-			messy problems, learning how things work, and building useful things
-			along the way.
+			convoluted issues, learning how things work, and building useful
+			things along the way.
 		</p>
 	</header>
 
