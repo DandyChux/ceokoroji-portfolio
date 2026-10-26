@@ -35,18 +35,19 @@
 	<header class="page-intro">
 		<p class="eyebrow">
 			<Sparkles class="size-4" />
-			The person behind the systems
+			A little about me
 		</p>
 
 		<h1>
-			Building with
+			I build with
 			<br />
-			<span>care and rigor.</span>
+			<span>curiosity and care.</span>
 		</h1>
 
 		<p class="intro">
-			A software engineer working where enterprise systems, clinical
-			research, and human outcomes overlap.
+			I'm a software engineer and researcher who enjoys making sense of
+			messy problems, learning how things work, and building useful things
+			along the way.
 		</p>
 	</header>
 
@@ -77,18 +78,18 @@
 
 		<article class="bio">
 			<p class="lead">
-				I am a Software Engineer with a background in enterprise
-				systems. By day, I build secure financial data pipelines at
-				Jabil. By night, I explore how similar data architectures can be
-				applied to healthcare.
+				I'm a software engineer with a background in enterprise
+				systemns. During the day, I build secure financial data
+				pipelines at Jabil. Outside of work, I'm usually thinking about
+				how the same concepts can help make healthcare data more useful.
 			</p>
 
 			<p>
-				Currently, I am pursuing my Master's at USF, where my research
-				focuses on clinical informatics and data integrity. Through my
-				graduate research, I am developing tools for predictive clinical
-				care and exploring how to build secure, FHIR-compatible
-				applications.
+				I'm also pursuing a MLIS degree at USF, where I research
+				clinical informatics and data integrity. My current work
+				explores predictive clinical care and secure, FHIR-compatible
+				applications—basically, figuring out how better data can help
+				people make better decisions.
 			</p>
 
 			<ResumeButton class="w-auto" />
@@ -99,31 +100,32 @@
 		<div class="principle">
 			<BriefcaseBusiness class="size-5 text-accent" />
 			<span>Practice</span>
-			<strong>Production-minded engineering</strong>
+			<strong>Make it work in the real world</strong>
 		</div>
 
 		<div class="principle">
 			<GraduationCap class="size-5 text-accent" />
 			<span>Research</span>
-			<strong>Evidence over assumption</strong>
+			<strong>Stay curious. Check the evidence</strong>
 		</div>
 
 		<div class="principle">
 			<ArrowRight class="size-5 text-accent" />
 			<span>Direction</span>
-			<strong>Better decisions through data</strong>
+			<strong>Turn better data into better decisions</strong>
 		</div>
 	</section>
 
 	<section class="skills-section">
 		<div class="section-heading">
 			<div>
-				<p class="eyebrow">The working toolkit</p>
+				<p class="eyebrow">The tools I reach for</p>
 				<h2>Skills &amp; expertise</h2>
 			</div>
 
 			<p>
-				Technologies I use to build efficient, dependable applications.
+				A pracitcal mix of technologies I use to turn ideas into
+				dependable applications.
 			</p>
 		</div>
 

@@ -20,17 +20,17 @@
 		{
 			icon: AppWindow,
 			title: "Web development",
-			text: "Interfaces that feel clear and considered.",
+			text: "Interfaces that natural and get out of the way.",
 		},
 		{
 			icon: Server,
 			title: "API development",
-			text: "Reliable boundaries for meaningful data.",
+			text: "Clean, dependable APIs that keep products talking.",
 		},
 		{
 			icon: SquareStack,
 			title: "Mobile development",
-			text: "Useful tools for people on the move.",
+			text: "Useful tools that earn a place in your pocket.",
 		},
 	];
 </script>
@@ -63,7 +63,7 @@
 	</header>
 
 	<section class="specializations">
-		<div class="section-label">Areas of practice</div>
+		<div class="section-label">What I like building</div>
 
 		<div class="specialization-grid">
 			{#each specializations as item (item.title)}
@@ -82,8 +82,8 @@
 	<section class="work">
 		<div class="work-heading">
 			<div>
-				<p class="eyebrow">The archive</p>
-				<h2>Recent work</h2>
+				<p class="eyebrow">The work</p>
+				<h2>A few things I've built</h2>
 			</div>
 
 			<span class="work-count">

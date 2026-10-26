@@ -29,18 +29,20 @@
 		<div class="hero-copy">
 			<p class="eyebrow">
 				<Sparkles class="size-4" />
-				Engineering at the edge of care
+				Hi, I'm Chukwuma
 			</p>
 
 			<h1>
-				Systems that make
+				Curious about hard problems.
 				<br />
-				<span>complexity useful.</span>
+				<span>Serious about useful software.</span>
 			</h1>
 
 			<p class="hero-intro">
-				Software engineer and researcher documenting work across
-				clinical informatics, predictive modeling, and secure systems.
+				I'm a software engineer and researcher who likes asking awkward
+				questions, untangling messy problems, and building tools people
+				can actually use—especially where healthcare and technology
+				meet.
 			</p>
 
 			<div class="hero-actions">
@@ -60,7 +62,7 @@
 			</div>
 
 			<div class="socials">
-				<span>Find me in the field</span>
+				<span>Say hello</span>
 
 				<a
 					href="https://linkedin.com/in/chukwuma-okoroji/"
