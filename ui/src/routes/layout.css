@@ -270,7 +270,6 @@
 	.prose p {
 		margin-top: 1.25em;
 		margin-bottom: 1.25em;
-		text-indent: 1em;
 	}
 
 	.prose p:first-child {
