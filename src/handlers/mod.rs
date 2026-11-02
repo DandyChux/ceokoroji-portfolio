@@ -4,3 +4,4 @@ pub mod posts;
 pub mod projects;
 pub mod repositories;
 pub mod sitemap;
+pub mod image;

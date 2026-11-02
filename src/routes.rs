@@ -1,4 +1,4 @@
-use crate::handlers::{auth, contact, posts, projects, repositories, sitemap};
+use crate::handlers::{auth, contact, image, posts, projects, repositories, sitemap};
 use actix_web::{HttpResponse, http::header, web};
 
 pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
@@ -48,6 +48,7 @@ pub fn init(cfg: &mut web::ServiceConfig, api_version: String) {
                     .service(projects::update_project)
                     .service(projects::delete_project)
                     .service(projects::get_project_skills),
-            ),
+            )
+            .service(web::scope("/images").service(image::redirect_image)),
     );
 }

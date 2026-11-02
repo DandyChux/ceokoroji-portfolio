@@ -1,43 +1,16 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import apiClient from "./api";
-import { generateImageUrl } from "@imgproxy/imgproxy-node";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-/**
- * Generate optimized image URL via Imgproxy
- */
-export function getOptimizedImageUrl(
-	src: string,
-	options?: {
-		width?: number | "auto";
-		format?: "webp" | "avif";
-		quality?: number;
-	},
-): string {
-	const width = options?.width === "auto" ? 0 : options?.width || 0;
-	const format = options?.format || "webp";
-	const quality = options?.quality || 85;
+function imageURL(src: string, width: number): string {
+	if (!src.startsWith("https://")) return src;
 
-	return generateImageUrl({
-		endpoint: "https://img.ceokoroji.dev",
-		url: {
-			value: src,
-			displayAs: "plain",
-		},
-		key: import.meta.env.VITE_IMGPROXY_KEY,
-		salt: import.meta.env.VITE_IMGPROXY_SALT,
-		options: {
-			resizing_type: "fill",
-			width: width,
-			height: 0,
-			quality: quality,
-			format: format,
-		},
-	});
+	const query = new URLSearchParams({ src });
+	return `/api/images/${width}?${query}`;
 }
 
 /**
@@ -45,18 +18,13 @@ export function getOptimizedImageUrl(
  */
 export function generateSrcSet(
 	src: string,
-	widths: number[] = [400, 800, 1200, 1600],
+	widths: number[] = [200, 400, 600, 800],
 	format: "webp" | "avif" = "webp",
 	quality: number = 85,
 ): string {
 	return widths
 		.map((width) => {
-			const url = getOptimizedImageUrl(src, {
-				width,
-				format,
-				quality,
-			});
-			return `${url} ${width}w`; // The 'w' tells the browser the true pixel width
+			return `${imageURL(src, width)} ${width}w`;
 		})
 		.join(", ");
 }

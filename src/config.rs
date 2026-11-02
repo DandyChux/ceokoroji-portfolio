@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::env;
+use std::{collections::HashSet, env, fmt};
 
 use crate::error::AppError;
 
@@ -19,6 +19,77 @@ pub struct Config {
     pub mailgun_api_key: String,
     pub mailgun_domain: String,
     pub mailgun_from: String,
+    #[serde(skip)]
+    pub imgproxy: ImageProxyConfig,
+}
+
+#[derive(Clone, Default)]
+pub struct ImageProxyConfig {
+	pub endpoint: String,
+	pub key: Vec<u8>,
+	pub salt: Vec<u8>,
+	pub allowed_hosts: HashSet<String>
+}
+
+// Avoid printing the signing secrets if this config is debug-logged.
+impl fmt::Debug for ImageProxyConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("ImageProxyConfig")
+            .field("endpoint", &self.endpoint)
+            .field("key", &"[REDACTED]")
+            .field("salt", &"[REDACTED]")
+            .field("allowed_hosts", &self.allowed_hosts)
+            .finish()
+    }
+}
+
+impl ImageProxyConfig {
+    fn from_env() -> Result<Self, AppError> {
+        let endpoint = env::var("IMGPROXY_URL")
+            .unwrap_or_default()
+            .trim_end_matches('/')
+            .to_string();
+
+        if endpoint.is_empty() {
+            return Err(AppError::Config("IMGPROXY_URL is required".into()));
+        }
+
+        let key_hex = env::var("IMGPROXY_KEY").unwrap_or_default();
+        let salt_hex = env::var("IMGPROXY_SALT").unwrap_or_default();
+        if key_hex.is_empty() || salt_hex.is_empty() {
+            return Err(AppError::Config(
+                "IMGPROXY_KEY and IMGPROXY_SALT are required".into(),
+            ));
+        }
+
+        let key = hex::decode(key_hex)
+            .map_err(|err| AppError::Config(format!("decode IMGPROXY_KEY: {err}")))?;
+        let salt = hex::decode(salt_hex)
+            .map_err(|err| AppError::Config(format!("decode IMGPROXY_SALT: {err}")))?;
+
+        let hosts = env::var("IMGPROXY_ALLOWED_HOSTS").unwrap_or_else(|_| {
+            "cdn.sanity.io,blue-nomad.nyc3.cdn.digitaloceanspaces.com".into()
+        });
+
+        let allowed_hosts: HashSet<String> = hosts
+            .split(',')
+            .map(|host| host.trim().to_ascii_lowercase())
+            .filter(|host| !host.is_empty())
+            .collect();
+
+        if allowed_hosts.is_empty() {
+            return Err(AppError::Config(
+                "IMGPROXY_ALLOWED_HOSTS must contain at least one host".into(),
+            ));
+        }
+
+        Ok(Self {
+            endpoint,
+            key,
+            salt,
+            allowed_hosts,
+        })
+    }
 }
 
 impl Config {
@@ -64,6 +135,7 @@ impl Config {
                 .map_err(|_| AppError::Config("MAILGUN_DOMAIN must be set".into()))?,
             mailgun_from: env::var("MAILGUN_FROM")
                 .map_err(|_| AppError::Config("MAILGUN_FROM must be set".into()))?,
+            imgproxy: ImageProxyConfig::from_env()?,
         })
     }
 }
