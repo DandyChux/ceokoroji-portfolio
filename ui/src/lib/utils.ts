@@ -1,16 +1,26 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import apiClient from "./api";
+import { API_BASE_URL } from "$lib";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-function imageURL(src: string, width: number): string {
+function imageURL(
+	src: string,
+	width: number,
+	format: "webp" | "avif",
+	quality: number,
+): string {
 	if (!src.startsWith("https://")) return src;
 
-	const query = new URLSearchParams({ src });
-	return `/api/images/${width}?${query}`;
+	const query = new URLSearchParams({
+		src,
+		format,
+		quality: String(quality),
+	});
+	return `${API_BASE_URL}/images/${width}?${query}`;
 }
 
 /**
@@ -24,7 +34,7 @@ export function generateSrcSet(
 ): string {
 	return widths
 		.map((width) => {
-			return `${imageURL(src, width)} ${width}w`;
+			return `${imageURL(src, width, format, quality)} ${width}w`;
 		})
 		.join(", ");
 }

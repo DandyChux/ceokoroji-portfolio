@@ -144,6 +144,10 @@
 										src={skill.icon_url}
 										alt=""
 										class="size-5"
+										srcset={generateSrcSet(
+											skill.icon_url,
+											[20],
+										)}
 									/>
 								{:else}
 									<span class="skill-dot"></span>

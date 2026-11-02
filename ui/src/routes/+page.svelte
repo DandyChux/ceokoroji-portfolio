@@ -93,8 +93,6 @@
 				srcset={generateSrcSet(
 					"https://ceokoroji-portfolio.nyc3.cdn.digitaloceanspaces.com/graphics/Cube.svg",
 					[200, 400],
-					"webp",
-					85,
 				)}
 				sizes="(max-width: 768px) 200px, 468px"
 				alt="Abstract geometric cube"
