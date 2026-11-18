@@ -1,0 +1,18 @@
+:80 {
+    root * /usr/share/nginx/html/build
+
+    # SPA fallback - routes all non-file/dir requests to /200.html
+    try_files {path} {path}/ /200.html
+
+    # Cache static assets
+    @static {
+        path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.webp *.woff *.woff2
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # Compression (Gzip and zstd enabled by default)
+    encode gzip zstd
+
+    # File server to handle static file delivery
+    file_server
+}

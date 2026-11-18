@@ -12,6 +12,7 @@
 	import { basePlan, addOns } from "$lib/config/pricing";
 	import { toast } from "svelte-sonner";
 	import { Mail, Sparkles } from "@lucide/svelte";
+	import { trackEvent } from "$lib/analytics.svelte.js";
 
 	let { data } = $props();
 
@@ -46,6 +47,7 @@
 			);
 
 			reset();
+			trackEvent("contact_submitted");
 			toast.success("Message sent — thanks for reaching out.");
 		},
 	}));
